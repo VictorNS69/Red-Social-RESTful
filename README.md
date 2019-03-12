@@ -33,5 +33,8 @@ debe permitir la opción de ser filtrada por la búsqueda de contenido de texto 
 
 Daniel Morgera Pérez
 
+## Enunciado
+Para ver el enunciado de la práctica pincha [aquí](/doc/Practica-RESTful-2019-enunciado.pdf).
+
 ## Licencia
 [Licencia](/LICENSE).
