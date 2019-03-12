@@ -30,7 +30,8 @@ debe permitir la opción de ser filtrada por la búsqueda de contenido de texto 
 
 ## Autores
 [Víctor Nieves Sánchez](https://twitter.com/VictorNS69)
-Daneil Morgera Pérez
+
+Daniel Morgera Pérez
 
 ## Licencia
 [Licencia](/LICENSE).
