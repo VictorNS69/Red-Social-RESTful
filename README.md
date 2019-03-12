@@ -20,11 +20,17 @@ contengan “Mar” en su nombre, “Mario”, “María”…etc).
 - Obtener una lista de todos los mensajes de un usuario en su página personal.Además, esta lista debe permitir la opción de ser filtrada por fecha o limitar la
 cantidad de información obtenida por número de mensajes (e.g. los 10 primeros elementos, los elementos entre el 11 y el 20, etc).
 - Añadir un nuevo amigo.
-- Eliminar un amigo
-- Obtener una lista de todos nuestros amigos. Además, esta lista debe permitir la opción de ser filtrada por el patrón de nombre o limitar la cantidad de
-información obtenida por número de amigos (e.g. los 10 primeros elementos, los elementos entre el 11 y el 20, etc).
+- Eliminar un amigo.
+- Obtener una lista de todos nuestros amigos. Además, esta lista debe permitir la opción de ser filtrada por el patrón de nombre o limitar la cantidad de información obtenida por número de amigos (e.g. los 10 primeros elementos, los elementos entre el 11 y el 20, etc).
 - Enviar un mensaje personal a otro usuario.
 - Borrar nuestro perfil de la red social.
 - Obtener una lista con los últimos mensajes de las páginas de nuestros amigos ordenados por fecha (similar a como lo muestra Facebook). Esta lista
 debe permitir la opción de ser filtrada por la búsqueda de contenido de texto (patrón) en el mensaje.
 - Consultar fácilmente la descripción necesaria para una aplicación móvil que queremos realizar, que muestre los datos básicos de un usuario, su último mensaje en la página, el número de amigos y los 10 últimos mensajes de las páginas de sus amigos que se han actualizado.
+
+## Autores
+[Víctor Nieves Sánchez](https://twitter.com/VictorNS69)
+Daneil Morgera Pérez
+
+## Licencia
+[Licencia](/LICENSE).
