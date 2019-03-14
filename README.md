@@ -36,5 +36,14 @@ Daniel Morgera Pérez
 ## Enunciado
 Para ver el enunciado de la práctica pincha [aquí](/doc/Practica-RESTful-2019-enunciado.pdf).
 
+## Requisitos
+Herramientas:
+- Tomcat 9
+- Eclipse
+- Postman
+- MySQL
+Librerias:
+- Jersey
+- Mysql
 ## Licencia
 [Licencia](/LICENSE).
