@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<usuarios>
+	<usuario "href=/usuarios/{id}">
+		<id></id>
+		<nombre></nombre>
+		<apellido1></apellido1>
+		<apellido2></apellido2>
+		<email></email>
+		<pais></pais>
+		<telefono></telefono>
+	</usuario>
+	<usuario "href=/usuarios/{id}">
+		<id></id>
+		<nombre></nombre>
+		<apellido1></apellido1>
+		<apellido2></apellido2>
+		<email></email>
+		<pais></pais>
+		<telefono></telefono>
+	</usuario>
+	<usuario "href=/usuarios/{id}">
+		<id></id>
+		<nombre></nombre>
+		<apellido1></apellido1>
+		<apellido2></apellido2>
+		<email></email>
+		<pais></pais>
+		<telefono></telefono>
+	</usuario>
+</usuarios>
