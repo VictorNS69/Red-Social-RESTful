@@ -45,5 +45,20 @@ Herramientas:
 Librerias:
 - Jersey
 - Mysql
+## Como importar y exportar la base de datos
+- Para exportar una base de datos, utilizar este comando en el terminal:
+```
+$ mysqldump -u nombreusuario -p upmsocial > db.sql
+```
+- Para importar una base de datos, seguir los siguientes pasos:
+
+Si es la primera vez que se importa esta base de datos, introducir en la consola de MySQL:
+```
+mysql> CREATE DATABASE upmsocial
+```
+Una vez creada la base de datos en MySQL, introducir el siguiente comando en el terminal:
+```
+$ mysql -u root -p upmsocial < upmsocial/db.sql
+```
 ## Licencia
 [Licencia](/LICENSE).
