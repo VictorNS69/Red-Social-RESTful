@@ -50,7 +50,7 @@ Para exportar una base de datos, utilizar este comando en el terminal:
 ```
 $ mysqldump -u nombreusuario -p nombrebasededatos > nombreficherosalida.sql
 ```
-Para importa una base de datos, utilizar este comando en el terminal:
+Para importar una base de datos, utilizar este comando en el terminal:
 ```
 $ mysql -u root -p nombrebasededatos < /pathcorrespondiente/archivobasedatos.sql
 ```
