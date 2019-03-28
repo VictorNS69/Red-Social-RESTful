@@ -1,3 +1,8 @@
 .project
 upmsocial/.classpath
 upmsocial/.settings/
+/.metadata/
+*/bin/
+*.~lock*
+Servers/
+

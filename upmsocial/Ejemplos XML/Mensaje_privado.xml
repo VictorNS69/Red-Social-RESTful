@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mensaje_privado "href=/usuarios/{id}/mensajes/{id}">
-	<id></id>
-	<cuerpo></cuerpo>
-	<id_origen></id_origen>
-	<id_destino></id_destino>
-	<fecha></fecha>
-</mensaje_privado>
