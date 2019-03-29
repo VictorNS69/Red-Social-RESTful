@@ -36,6 +36,7 @@ public class Conexion {
 		catch (SQLException e) {
 			System.err.println("No se ha podido establecer la conexion");
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 	
@@ -48,6 +49,7 @@ public class Conexion {
 			catch (SQLException e) {
 				System.err.println("No se ha podido cerrar la conexion");
 				e.printStackTrace();
+				System.exit(1);
 			}
 		} else System.out.println("No hay ninguna conexion abierta");
 	}
