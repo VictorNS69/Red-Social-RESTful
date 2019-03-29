@@ -30,4 +30,20 @@ public class MensajeMuro {
 	public Date getFecha() {
 		return fecha;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setIdUsuario(int id) {
+		this.idUsuario = id;
+	}
+
+	public void setCuerpo(String cuerpo) {
+		this.cuerpo = cuerpo;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
 }
