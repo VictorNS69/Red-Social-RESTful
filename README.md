@@ -68,3 +68,4 @@ $ mysql -u root -p upmsocial < upmsocial/db.sql
 #TODO:
 - mirar si los jar de MYSQL, el que no sea necesario se borra
 - Mejorar "Como importar y exportar la bd" ya que he movido la bd, además de que se tiene que indicar como crear el usuario que nosotros necesitamos con nuestra contraseña
+- como modificar y ESPECIFICAR que se necesita usuario root y pw root1234
