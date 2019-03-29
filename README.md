@@ -39,12 +39,13 @@ Para ver el enunciado de la práctica pincha [aquí](/doc/Practica-RESTful-2019-
 ## Requisitos
 Herramientas:
 - Tomcat 9
-- Eclipse
-- Postman
+- Eclipse JEE
 - MySQL
+- Postman (posiblemente innecesario)
+
 Librerias:
-- Jersey
-- Mysql
+- Jersey (no sé que es)
+- [Mysql](/upmsocial/lib/mysql-connector-java-5.1.47-bin.jar)
 ## Como importar y exportar la base de datos
 - Para exportar una base de datos, utilizar este comando en el terminal:
 ```
@@ -60,5 +61,10 @@ Una vez creada la base de datos en MySQL, introducir el siguiente comando en el 
 ```
 $ mysql -u root -p upmsocial < upmsocial/db.sql
 ```
+## Activar el servidor localhost de Tomcat
 ## Licencia
 [Licencia](/LICENSE).
+
+#TODO:
+- mirar si los jar de MYSQL, el que no sea necesario se borra
+- Mejorar "Como importar y exportar la bd" ya que he movido la bd, además de que se tiene que indicar como crear el usuario que nosotros necesitamos con nuestra contraseña
