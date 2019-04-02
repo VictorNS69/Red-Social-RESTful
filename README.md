@@ -41,10 +41,10 @@ Herramientas:
 - Tomcat 9
 - Eclipse JEE
 - MySQL
-- Postman (posiblemente innecesario)
+- Postman 
 
 Librerias:
-- Jersey (no sé que es)
+- Jersey 
 - [Mysql](/upmsocial/lib/mysql-connector-java-5.1.47-bin.jar)
 ## Como importar y exportar la base de datos
 En esta práctica, utilizaremos un usuario llamado usuarioSOS, con contraseña Sos-2019.
