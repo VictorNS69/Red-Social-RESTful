@@ -6,3 +6,4 @@ upmsocial/.settings/
 *.~lock*
 Servers/
 
+/build/

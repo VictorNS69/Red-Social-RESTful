@@ -13,8 +13,8 @@ public class Conexion {
 	 */
 	public Conexion() {
 		this.url = "jdbc:mysql://localhost:3306/upmsocial";
-		this.usuario = "root";
-		this.pass = "root1234";
+		this.usuario = "usuarioSOS";
+		this.pass = "Sos-2019";
 	}
 	
 	/** Constructor con argumentos, asigna los parametros de la llamada
