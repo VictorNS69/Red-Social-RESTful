@@ -47,11 +47,11 @@ Librerias:
 - Jersey 
 - [Mysql](/upmsocial/lib/mysql-connector-java-5.1.47-bin.jar)
 ## Como importar y exportar la base de datos
-En esta práctica, utilizaremos un usuario llamado usuarioSOS, con contraseña Sos-2019.
+En esta práctica, utilizaremos un usuario llamado **root**, con contraseña **root1234**.
 
 - Para exportar una base de datos, utilizar este comando en el terminal en el directorio donde se quiera guardar el db.sql:
 ```
-$ mysqldump -u usuarioSOS -pSos-2019 upmsocial > db.sql
+$ mysqldump -u root -p upmsocial > db.sql
 ```
 - Para importar una base de datos, seguir los siguientes pasos:
 
@@ -61,7 +61,7 @@ mysql> CREATE DATABASE upmsocial
 ```
 Una vez creada la base de datos en MySQL, introducir el siguiente comando en el terminal estando en el directorio de db.sql:
 ```
-$ mysql -u usuarioSOS -pSos-2019 upmsocial < db.sql
+$ mysql -u root -p upmsocial < db.sql
 ```
 ## Activar el servidor localhost de Tomcat
 ## Licencia
