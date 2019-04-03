@@ -45,7 +45,9 @@ Herramientas:
 
 Librerias:
 - Jersey 
-- [Mysql](/upmsocial/lib/mysql-connector-java-5.1.47-bin.jar)
+- Mysql
+
+Todas las librerías usadas en este proyecto se encuentran [aquí](/upmsocial/lib).
 ## Como importar y exportar la base de datos
 En esta práctica, utilizaremos un usuario llamado **root**, con contraseña **root1234**.
 
@@ -64,6 +66,9 @@ $ mysql -u root -p upmsocial < db.sql
 ```
 $ mysqldump -u root -p upmsocial > db.sql
 ```
+\#TODO
 ## Activar el servidor localhost de Tomcat
+
+
 ## Licencia
 [Licencia](/LICENSE).
