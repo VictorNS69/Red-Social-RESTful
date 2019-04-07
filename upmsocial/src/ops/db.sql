@@ -16,6 +16,36 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Usuarios`
+--
+
+DROP TABLE IF EXISTS `Usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Usuarios` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(20) NOT NULL,
+  `APELLIDO1` varchar(20) NOT NULL,
+  `APELLIDO2` varchar(20) NOT NULL,
+  `EMAIL` varchar(30) NOT NULL,
+  `PAIS` varchar(15) NOT NULL,
+  `TELEFONO` int(10) NOT NULL,
+  PRIMARY KEY (ID)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Usuarios`
+--
+
+LOCK TABLES `Usuarios` WRITE;
+/*!40000 ALTER TABLE `Usuarios` DISABLE KEYS */;
+INSERT INTO `Usuarios` VALUES (1234,'Danilo','Morgera','Perez','d.morgera@alumnos.upm.es','España',612345678);
+/*!40000 ALTER TABLE `Usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+--
 -- Table structure for table `Mensajes_muro`
 --
 
@@ -23,9 +53,11 @@ DROP TABLE IF EXISTS `Mensajes_muro`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Mensajes_muro` (
-  `ID` int(4) DEFAULT NULL,
-  `ID_USUARIO` int(4) DEFAULT NULL,
-  `CUERPO_MENSAJE` varchar(140) DEFAULT NULL
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `ID_USUARIO` int NOT NULL,
+  `CUERPO_MENSAJE` varchar(300) NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (ID_USUARIO) REFERENCES Usuarios (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -46,10 +78,13 @@ DROP TABLE IF EXISTS `Mensajes_privados`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Mensajes_privados` (
-  `ID` int(4) DEFAULT NULL,
-  `ID_ORIGEN` int(4) DEFAULT NULL,
-  `ID_DESTINO` int(4) DEFAULT NULL,
-  `CUERPO_MENSAJE` varchar(140) DEFAULT NULL
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `ID_ORIGEN` int NOT NULL,
+  `ID_DESTINO` int NOT NULL,
+  `CUERPO_MENSAJE` varchar(300) NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (ID_ORIGEN) REFERENCES Usuarios (ID),
+  FOREIGN KEY (ID_DESTINO) REFERENCES Usuarios (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -70,8 +105,10 @@ DROP TABLE IF EXISTS `Relaciones_amistad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Relaciones_amistad` (
-  `ID_AMIGO1` int(4) DEFAULT NULL,
-  `ID_AMIGO2` int(4) DEFAULT NULL
+  `ID_AMIGO1` int NOT NULL,
+  `ID_AMIGO2` int NOT NULL,
+  FOREIGN KEY (ID_AMIGO1) REFERENCES Usuarios (ID) ON DELETE CASCADE,
+  FOREIGN KEY (ID_AMIGO2) REFERENCES Usuarios (ID) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -83,35 +120,6 @@ LOCK TABLES `Relaciones_amistad` WRITE;
 /*!40000 ALTER TABLE `Relaciones_amistad` DISABLE KEYS */;
 /*!40000 ALTER TABLE `Relaciones_amistad` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `Usuarios`
---
-
-DROP TABLE IF EXISTS `Usuarios`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Usuarios` (
-  `ID` int(4) DEFAULT NULL,
-  `NOMBRE` varchar(15) DEFAULT NULL,
-  `APELLIDO1` varchar(15) DEFAULT NULL,
-  `APELLIDO2` varchar(15) DEFAULT NULL,
-  `EMAIL` varchar(30) DEFAULT NULL,
-  `PAIS` varchar(15) DEFAULT NULL,
-  `TELEFONO` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Usuarios`
---
-
-LOCK TABLES `Usuarios` WRITE;
-/*!40000 ALTER TABLE `Usuarios` DISABLE KEYS */;
-INSERT INTO `Usuarios` VALUES (1234,'Danilo','Morgera','Perez','d.morgera@alumnos.upm.es','España',612345678);
-/*!40000 ALTER TABLE `Usuarios` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
