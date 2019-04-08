@@ -46,4 +46,7 @@ public class MensajeMuro {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
+	public String toString() {
+		return this.id + " " + this.idUsuario + " " + this.cuerpo + " " + this.fecha;
+	}
 }
