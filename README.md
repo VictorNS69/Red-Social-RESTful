@@ -47,7 +47,7 @@ Librerias:
 - Jersey 
 - Mysql
 
-Todas las librerías usadas en este proyecto se encuentran [aquí](/upmsocial/lib).
+Todas las librerías usadas en este proyecto se encuentran [aquí](/upmsocial/WebContent/WEB-INF/lib).
 ## Como importar y exportar la base de datos
 En esta práctica, utilizaremos un usuario llamado **root**, con contraseña **root1234**.
 
