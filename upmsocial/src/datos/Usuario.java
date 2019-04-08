@@ -10,9 +10,7 @@ public class Usuario {
 	private long telefono;
 	private String pais;
 	private String email;
-	private List<MensajeMuro> mensajesMuro; //supongo que se sacara de la bd
-	private List<MensajePrivado> mensajesPrivados; //lo mismo
-
+	
 	public Usuario(int id, String nombre, String apellido1, String apellido2, 
 			long telefono, String email, String pais) {
 		this.id = id;
