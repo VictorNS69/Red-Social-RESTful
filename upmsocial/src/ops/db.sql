@@ -27,9 +27,9 @@ CREATE TABLE `Usuarios` (
   `NOMBRE` varchar(20) NOT NULL,
   `APELLIDO1` varchar(20) NOT NULL,
   `APELLIDO2` varchar(20) NOT NULL,
-  `EMAIL` varchar(30) NOT NULL,
-  `PAIS` varchar(15) NOT NULL,
-  `TELEFONO` int(10) NOT NULL,
+  `EMAIL` varchar(50) NOT NULL,
+  `PAIS` varchar(15),
+  `TELEFONO` int(10),
   PRIMARY KEY (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,7 +40,8 @@ CREATE TABLE `Usuarios` (
 
 LOCK TABLES `Usuarios` WRITE;
 /*!40000 ALTER TABLE `Usuarios` DISABLE KEYS */;
-INSERT INTO `Usuarios` VALUES (1234,'Danilo','Morgera','Perez','d.morgera@alumnos.upm.es','España',612345678);
+INSERT INTO `Usuarios` VALUES (1,'Danilo','Morgera','Pérez','d.morgera@alumnos.upm.es','España',612345678),
+(2,'Víctor','Nieves','Sánchez','victor.nieves.sanchez@alumnos.upm.es','España',612456358);
 /*!40000 ALTER TABLE `Usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,6 +68,10 @@ CREATE TABLE `Mensajes_muro` (
 
 LOCK TABLES `Mensajes_muro` WRITE;
 /*!40000 ALTER TABLE `Mensajes_muro` DISABLE KEYS */;
+INSERT INTO `Mensajes_muro` VALUES
+(1,2,'Este será el primer mensaje de Victor'),
+(2,2,'Este será el segundo mensaje de Victor'),
+(3,1,'Este será el primer mensaje de Danilo');
 /*!40000 ALTER TABLE `Mensajes_muro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,6 +99,9 @@ CREATE TABLE `Mensajes_privados` (
 
 LOCK TABLES `Mensajes_privados` WRITE;
 /*!40000 ALTER TABLE `Mensajes_privados` DISABLE KEYS */;
+INSERT INTO `Mensajes_privados` VALUES
+(1,2,1,'Este será el primer mensaje privado de Victor a Danilo'),
+(2,1,2,'Este será el primer mensaje privado de Danilo a Victor');
 /*!40000 ALTER TABLE `Mensajes_privados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,9 +115,13 @@ DROP TABLE IF EXISTS `Relaciones_amistad`;
 CREATE TABLE `Relaciones_amistad` (
   `ID_AMIGO1` int NOT NULL,
   `ID_AMIGO2` int NOT NULL,
-  FOREIGN KEY (ID_AMIGO1) REFERENCES Usuarios (ID) ON DELETE CASCADE,
-  FOREIGN KEY (ID_AMIGO2) REFERENCES Usuarios (ID) ON DELETE CASCADE
+  PRIMARY KEY (ID_AMIGO1, ID_AMIGO2),
+  CONSTRAINT FOREIGN KEY (ID_AMIGO1) REFERENCES Usuarios (ID) ON DELETE CASCADE,
+  CONSTRAINT FOREIGN KEY (ID_AMIGO2) REFERENCES Usuarios (ID) ON DELETE CASCADE,
+  UNIQUE KEY (ID_AMIGO1, ID_AMIGO2),
+  UNIQUE KEY (ID_AMIGO2, ID_AMIGO1)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,6 +130,8 @@ CREATE TABLE `Relaciones_amistad` (
 
 LOCK TABLES `Relaciones_amistad` WRITE;
 /*!40000 ALTER TABLE `Relaciones_amistad` DISABLE KEYS */;
+INSERT INTO `Relaciones_amistad` VALUES
+(1,2);
 /*!40000 ALTER TABLE `Relaciones_amistad` ENABLE KEYS */;
 UNLOCK TABLES;
 
