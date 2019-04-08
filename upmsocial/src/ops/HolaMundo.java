@@ -19,9 +19,15 @@ public class HolaMundo {
   
   // Este método se invoca si se solicita TEXT_PLAIN
   @GET
-  @Produces(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.APPLICATION_JSON)
   public Response saludoPlainText() {
-    String respuesta = "Hola JAX-RS";
+    String respuesta = "{\n" + 
+    		"    \"tutorials\": {\n" + 
+    		"        \"id\": \"Crunchify\",\n" + 
+    		"        \"topic\": \"REST Service\",\n" + 
+    		"        \"description\": \"This is REST Service Example by Crunchify.\"\n" + 
+    		"    }\n" + 
+    		"}";
     return Response.status(Response.Status.ACCEPTED).entity(respuesta).header("Location", 
         uriInfo.getAbsolutePath().toString()+"/otra").build();
   }
