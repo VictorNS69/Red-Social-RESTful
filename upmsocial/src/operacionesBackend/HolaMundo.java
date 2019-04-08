@@ -1,4 +1,4 @@
-package ops;
+package operacionesBackend;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.PathParam;

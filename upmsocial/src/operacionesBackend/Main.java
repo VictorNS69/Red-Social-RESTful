@@ -1,23 +1,21 @@
-package ops;
+package operacionesBackend;
 import java.io.File;
 import java.sql.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.catalina.LifecycleException;
-import org.apache.catalina.WebResourceRoot;
-import org.apache.catalina.core.*;
-import org.apache.catalina.startup.Tomcat;
-import org.apache.catalina.webresources.DirResourceSet;
-import org.apache.catalina.webresources.StandardRoot;
-import org.apache.*;
+import bd.Conexion;
+import operacionesBackend.*;
 
-import db.Conexion;
+import org.apache.*;
 public class Main {
 
 	@Path("/")
-	public static void main(String[] args) throws SQLException, LifecycleException {
+	public static void main(String[] args) throws SQLException {
+		OperacionesB op = new OperacionesB();
+		op.getUsuarios();
+		/*
 		Conexion con = new Conexion();
 		con.crearConexion();
 		String query = "SELECT * FROM upmsocial.Usuarios;";
@@ -37,5 +35,6 @@ public class Main {
 	  @Produces(MediaType.TEXT_PLAIN)
 	  public String sayPlainTextHello() {
 	    return "Hello Jersey";
-	  }
+	  }*/
+	}
 }

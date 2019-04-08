@@ -7,18 +7,19 @@ public class Usuario {
 	private String nombre;
 	private String apellido1;
 	private String apellido2;
-	private long telefono;
+	private int telefono;
 	private String pais;
 	private String email;
 	
 	public Usuario(int id, String nombre, String apellido1, String apellido2, 
-			long telefono, String email, String pais) {
+			int telefono, String email, String pais) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido1 = apellido1;
 		this.apellido2 = apellido2;
 		this.email = email;
 		this.pais = pais;
+		this.telefono = telefono;
 	}
 	
 	public int getId(){
@@ -37,7 +38,7 @@ public class Usuario {
 		return this.apellido2;
 	}
 	
-	public long getTelefono(){
+	public int getTelefono(){
 		return this.telefono;
 	}
 	
@@ -48,7 +49,7 @@ public class Usuario {
 	public String getPais(){
 		return this.pais;
 	}
-	
+		
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -65,7 +66,7 @@ public class Usuario {
 		this.apellido2 = apellido;
 	}
 	
-	public void setTelefono(long telefono) {
+	public void setTelefono(int telefono) {
 		this.telefono = telefono;
 	}
 	
@@ -75,6 +76,10 @@ public class Usuario {
 	
 	public void setPais(String pais) {
 		this.pais = pais;
+	}
+	
+	public String toString() {
+		return this.id + " "+ this.nombre + " " + this.apellido1;
 	}
 }
 
