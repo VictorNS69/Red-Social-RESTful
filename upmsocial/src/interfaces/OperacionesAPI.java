@@ -3,7 +3,8 @@ package interfaces;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.ws.rs.core.*; 
+import javax.ws.rs.core.*;
+import javax.naming.NamingException;
 import javax.ws.rs.GET;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -19,7 +20,7 @@ import datos.Usuario;
 
 
 public interface OperacionesAPI {
-	public Response responseGetUsuarios();
+	public Response responseGetUsuarios() throws SQLException, NamingException;
 	public Response responseCrearUsuario(Usuario usuario);
 	public Response responseInfoUsuario(Usuario usuario); 
 	public Response borrarUsuario(Usuario usuario);

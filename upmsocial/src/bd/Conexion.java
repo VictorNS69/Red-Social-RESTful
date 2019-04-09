@@ -2,59 +2,36 @@ package bd;
 
 import java.sql.*;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+import org.apache.naming.NamingContext;
+
 public class Conexion {
-	
-	private Connection con;
-	private String url;
-	private String usuario;
-	private String pass;
-	
-	/** Constructor sin argumentos, se usa por defecto nuestros argumentos
-	 */
+	    
+    private DataSource ds;
+    private Connection conn;
+
 	public Conexion() {
-		this.url = "jdbc:mysql://localhost:3306/upmsocial";
-		this.usuario = "root";
-		this.pass = "root1234";
-	}
-	
-	/** Constructor con argumentos, asigna los parametros de la llamada
-	 * @param url: url del servidor
-	 * @param usuario: usuario de la base de datos
-	 * @param pass: contraseña del usuario
-	 */
-	public Conexion(String url, String usuario, String pass) {
-		this.url = url;
-		this.usuario = usuario;
-		this.pass = pass;
-	}
-	
-	public void crearConexion() {
-		try {
-			this.con = DriverManager.getConnection(url, usuario, pass);
-			System.out.println("Conexion establecida");
-		} 
-		catch (SQLException e) {
-			System.err.println("No se ha podido establecer la conexion");
-			e.printStackTrace();
-			System.exit(1);
-		}
-	}
-	
-	public void cerrarConexion() throws SQLException {
-		if (!con.isClosed()) {
-			try {
-				this.con.close();
-				System.out.println("Conexion cerrada con exito");
-			} 
-			catch (SQLException e) {
-				System.err.println("No se ha podido cerrar la conexion");
-				e.printStackTrace();
-				System.exit(1);
-			}
-		} else System.out.println("No hay ninguna conexion abierta");
+	      InitialContext ctx;
+	        try {
+	            ctx = new InitialContext();
+	            NamingContext envCtx = (NamingContext) ctx.lookup("java:comp/env");
+	            ds = (DataSource) envCtx.lookup("jdbc/upmsocial");
+	            conn = ds.getConnection();
+	        } catch (NamingException e) {
+	            e.printStackTrace();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
 	}
 			
-	public Connection getCon() {
-		return this.con;
+	public Connection getConn() {
+		return this.conn;
+	}
+	
+	public DataSource getDS() {
+		return this.ds;
 	}
 }

@@ -23,9 +23,8 @@ public class OperacionesB implements OperacionesUsuario{
 	@Override
 	public List<Usuario> getUsuarios() throws SQLException {
 		Conexion conn = new Conexion();
-		conn.crearConexion();
 		String query = "SELECT * FROM Usuarios;";
-		Statement st = conn.getCon().createStatement();
+		Statement st = conn.getConn().createStatement();
 		ResultSet rs = st.executeQuery(query);
 		List <Usuario> lista = new ArrayList();
 		while(rs.next()) {
@@ -33,10 +32,6 @@ public class OperacionesB implements OperacionesUsuario{
 					rs.getInt("TELEFONO"), rs.getString("EMAIL"), rs.getString("PAIS"));
 			lista.add(usuario);
 		}
-		for (int i=0; i< lista.size();i++) {
-			System.out.print(lista.get(i).toString() + "\n");
-		}
-		conn.cerrarConexion();
 		return lista;
 	}
 

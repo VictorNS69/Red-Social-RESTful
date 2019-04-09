@@ -1,8 +1,16 @@
 package operacionesAPI;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -17,8 +25,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+//import org.omg.CosNaming.NamingContext;
+import javax.naming.InitialContext;
+import org.apache.naming.NamingContext;
 import com.google.gson.Gson;
 
+import bd.Conexion;
 import datos.MensajeMuro;
 import datos.MensajePrivado;
 import datos.Usuario;
@@ -26,22 +38,23 @@ import datos.Usuario;
 import interfaces.OperacionesAPI;
 import operacionesBackend.OperacionesB;
 
+@Path("/usuarios")
 public class Operaciones implements OperacionesAPI{
-	
-	@Path("/usuarios")
+	@Context
+	  private UriInfo uriInfo;
+	//@Path("/usuarios") // este de aqui no funciona
+
+    public Operaciones() {
+    }
+    
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response responseGetUsuarios() {
+	public Response responseGetUsuarios() throws NamingException, SQLException {
 		String json = null;
-		OperacionesB op = new OperacionesB();
-		try {
-			List <Usuario> list = op.getUsuarios();
-			json = new Gson().toJson(list);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+		OperacionesB ops = new OperacionesB();
+		List <Usuario> lista = ops.getUsuarios();
+		json = new Gson().toJson(lista);
 		return Response.status(Response.Status.OK).entity(json).build();
 	}
 
