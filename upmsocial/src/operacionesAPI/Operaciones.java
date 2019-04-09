@@ -25,10 +25,13 @@ import datos.Usuario;
 
 import interfaces.OperacionesAPI;
 import operacionesBackend.OperacionesB;
-
+@Path("/usuarios")
 public class Operaciones implements OperacionesAPI{
 	
-	@Path("/usuarios")
+	 @Context
+	  private UriInfo uriInfo;
+	
+	
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -42,7 +45,8 @@ public class Operaciones implements OperacionesAPI{
 			e.printStackTrace();
 		}
 		
-		return Response.status(Response.Status.OK).entity(json).build();
+		return Response.status(Response.Status.OK).entity(json).header("Location", 
+		        uriInfo.getAbsolutePath().toString()+"/otra").build();
 	}
 
 
