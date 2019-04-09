@@ -1,0 +1,8 @@
+<Context path="">
+  <Resource name="jdbc/upmsocial" auth="Container"
+    type="javax.sql.DataSource"
+    username="root" password="root1234"
+    driverClassName="com.mysql.jdbc.Driver"
+    url="jdbc:mysql://localhost:3306/upmsocial?useSSL=false"
+    maxActive="6" maxIdle="3"/>
+</Context>
