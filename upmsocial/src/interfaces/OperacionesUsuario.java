@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -9,12 +10,12 @@ import datos.Usuario;
 
 public interface OperacionesUsuario {
 	public List<Usuario> getUsuarios() throws SQLException;
-	public void crearUsuario(int id, String nombre, String apellido1, String apellido2, 
-			long telefono, String email, String pais);
-	public void infoUsuario(Usuario usuario); 
-	public void borrarUsuario(Usuario usuario);
-	public List<Usuario> getAmigos(Usuario usuario);
-	public void nuevoAmigo(Usuario usuario, Usuario amigo);
+	public void crearUsuario(String nombre, String apellido1, String apellido2, 
+			long telefono, String email, String pais) throws SQLException;
+	public ResultSet infoUsuario(int id) throws SQLException; 
+	public void borrarUsuario(int id) throws SQLException;
+	public List<Usuario> getAmigos(int id) throws SQLException;
+	public void nuevoAmigo(int idU, int idA) throws SQLException;
 	public void borrarAmigo(Usuario usuario,Usuario amigo);
 	public List<MensajeMuro> getMensajesMuro(Usuario usuario);
 	public void publicarMensajeMuro(Usuario usuario, MensajeMuro msj);

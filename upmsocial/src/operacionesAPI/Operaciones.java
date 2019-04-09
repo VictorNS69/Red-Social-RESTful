@@ -44,9 +44,8 @@ public class Operaciones implements OperacionesAPI{
 	  private UriInfo uriInfo;
 	//@Path("/usuarios") // este de aqui no funciona
 
-    public Operaciones() {
-    }
-    
+    public Operaciones() {}
+
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

@@ -1,15 +1,11 @@
 package operacionesBackend;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import datos.MensajeMuro;
 import datos.MensajePrivado;
@@ -26,7 +22,7 @@ public class OperacionesB implements OperacionesUsuario{
 		String query = "SELECT * FROM Usuarios;";
 		Statement st = conn.getConn().createStatement();
 		ResultSet rs = st.executeQuery(query);
-		List <Usuario> lista = new ArrayList();
+		List <Usuario> lista = new ArrayList <Usuario>();
 		while(rs.next()) {
 			Usuario usuario = new Usuario(rs.getInt("ID"), rs.getString("NOMBRE"), rs.getString("APELLIDO1"), rs.getString("APELLIDO2"),
 					rs.getInt("TELEFONO"), rs.getString("EMAIL"), rs.getString("PAIS"));
@@ -36,34 +32,71 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public void crearUsuario(int id, String nombre, String apellido1, String apellido2, long telefono, String email,
-			String pais) {
-		// TODO Auto-generated method stub
+	public void crearUsuario(String nombre, String apellido1, String apellido2, long telefono, String email,
+			String pais) throws SQLException {
+		Conexion conn = new Conexion();
 		
+		String query = " INSERT INTO Usuarios (NOMBRE, APELLIDO1, APELLIDO2, EMAIL, PAIS, TELEFONO)"
+		        + " VALUES (?, ?, ?, ?, ?, ?)";
+		      PreparedStatement preparedStmt;
+			  preparedStmt = conn.getConn().prepareStatement(query);
+		      preparedStmt.setString (1, nombre);
+		      preparedStmt.setString (2, apellido1);
+		      preparedStmt.setString (3, apellido2);
+		      preparedStmt.setString (4, email);
+		      preparedStmt.setString (5, pais);
+		      preparedStmt.setLong (6, telefono);
 	}
 
 	@Override
-	public void infoUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		
+	public ResultSet infoUsuario(int id) throws SQLException {
+		Conexion conn = new Conexion();
+		String query = "SELECT NOMBRE, APELLIDO1, APELLIDO2, EMAIL, PAIS, TELEFONO FROM Usuarios "
+					 + "WHERE ID='" + id + "';"; 
+		Statement st = conn.getConn().createStatement();
+		ResultSet rs = st.executeQuery(query);
+		return rs;
 	}
 
 	@Override
-	public void borrarUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		
+	public void borrarUsuario(int id) throws SQLException {
+		Conexion conn = new Conexion();
+		String query = "DELETE FROM Usuarios"
+					 + "WHERE ID='" + id + "';";
+		Statement st = conn.getConn().createStatement();
+		st.executeQuery(query);
 	}
 
 	@Override
-	public List<Usuario> getAmigos(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Usuario> getAmigos(int id) throws SQLException {
+		Conexion conn = new Conexion();
+		String query = "SELECT ID_AMIGO2 FROM Relaciones_amistad"
+					 + "WHERE ID_AMIGO1='" + id + "';";
+		Statement st = conn.getConn().createStatement();
+		ResultSet rs = st.executeQuery(query);
+		List <Usuario> amigos = new ArrayList <Usuario>();
+		while(rs.next()) {
+			Usuario usuario = new Usuario(rs.getInt("ID"), rs.getString("NOMBRE"), rs.getString("APELLIDO1"), rs.getString("APELLIDO2"),
+					rs.getInt("TELEFONO"), rs.getString("EMAIL"), rs.getString("PAIS"));
+			amigos.add(usuario);
+		}
+		for (int i=0; i< amigos.size();i++) {
+			System.out.print(amigos.get(i).toString() + "\n");
+		}
+		return amigos;
 	}
 
 	@Override
-	public void nuevoAmigo(Usuario usuario, Usuario amigo) {
-		// TODO Auto-generated method stub
-		
+	public void nuevoAmigo(int idU, int idA) throws SQLException {
+		Conexion conn = new Conexion();
+		String idUsuario = Integer.toString(idU);
+		String idAmigo = Integer.toString(idA);
+		String query = "INSERT INTO Relaciones_amistad (ID_AMIGO1, ID_AMIGO2)"
+					 + "VALUES (?, ?)";
+		PreparedStatement preparedStmt;
+		  preparedStmt = conn.getConn().prepareStatement(query);
+	      preparedStmt.setString (1, idUsuario);
+	      preparedStmt.setString (2, idAmigo);
 	}
 
 	@Override
