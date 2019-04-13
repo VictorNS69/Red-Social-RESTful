@@ -57,6 +57,7 @@ CREATE TABLE `Mensajes_muro` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `ID_USUARIO` int NOT NULL,
   `CUERPO_MENSAJE` varchar(300) NOT NULL,
+  `FECHA` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ID),
   FOREIGN KEY (ID_USUARIO) REFERENCES Usuarios (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -69,9 +70,9 @@ CREATE TABLE `Mensajes_muro` (
 LOCK TABLES `Mensajes_muro` WRITE;
 /*!40000 ALTER TABLE `Mensajes_muro` DISABLE KEYS */;
 INSERT INTO `Mensajes_muro` VALUES
-(1,2,'Este será el primer mensaje de Victor'),
-(2,2,'Este será el segundo mensaje de Victor'),
-(3,1,'Este será el primer mensaje de Danilo');
+(1,2,'Este será el primer mensaje de Victor',CURRENT_TIMESTAMP),
+(2,2,'Este será el segundo mensaje de Victor',CURRENT_TIMESTAMP),
+(3,1,'Este será el primer mensaje de Danilo',CURRENT_TIMESTAMP);
 /*!40000 ALTER TABLE `Mensajes_muro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,6 +88,7 @@ CREATE TABLE `Mensajes_privados` (
   `ID_ORIGEN` int NOT NULL,
   `ID_DESTINO` int NOT NULL,
   `CUERPO_MENSAJE` varchar(300) NOT NULL,
+  `FECHA` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ID),
   FOREIGN KEY (ID_ORIGEN) REFERENCES Usuarios (ID),
   FOREIGN KEY (ID_DESTINO) REFERENCES Usuarios (ID)
@@ -100,8 +102,8 @@ CREATE TABLE `Mensajes_privados` (
 LOCK TABLES `Mensajes_privados` WRITE;
 /*!40000 ALTER TABLE `Mensajes_privados` DISABLE KEYS */;
 INSERT INTO `Mensajes_privados` VALUES
-(1,2,1,'Este será el primer mensaje privado de Victor a Danilo'),
-(2,1,2,'Este será el primer mensaje privado de Danilo a Victor');
+(1,2,1,'Este será el primer mensaje privado de Victor a Danilo',CURRENT_TIMESTAMP),
+(2,1,2,'Este será el primer mensaje privado de Danilo a Victor',CURRENT_TIMESTAMP);
 /*!40000 ALTER TABLE `Mensajes_privados` ENABLE KEYS */;
 UNLOCK TABLES;
 
