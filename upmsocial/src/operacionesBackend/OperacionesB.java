@@ -1,5 +1,6 @@
 package operacionesBackend;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +36,6 @@ public class OperacionesB implements OperacionesUsuario{
 	public void crearUsuario(String nombre, String apellido1, String apellido2, long telefono, String email,
 			String pais) throws SQLException {
 		Conexion conn = new Conexion();
-		
 		String query = " INSERT INTO Usuarios (NOMBRE, APELLIDO1, APELLIDO2, EMAIL, PAIS, TELEFONO)"
 		        + " VALUES (?, ?, ?, ?, ?, ?)";
 		      PreparedStatement preparedStmt;
@@ -100,21 +100,42 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public void borrarAmigo(Usuario usuario, Usuario amigo) {
-		// TODO Auto-generated method stub
-		
+	public void borrarAmigo(int idU, int idA) throws SQLException {
+		Conexion conn = new Conexion();		
+		String idUsuario = Integer.toString(idU);
+		String idAmigo = Integer.toString(idA);
+		String query = "DELETE FROM Relaciones_amistad"
+					 + "WHERE ID_AMIGO1 ='" + idUsuario
+					 + "AND ID_AMIGO2 ='" + idAmigo + "';";
+		Statement st = conn.getConn().createStatement();
+		st.executeQuery(query);
 	}
 
 	@Override
-	public List<MensajeMuro> getMensajesMuro(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MensajeMuro> getMensajesMuro(int id) throws SQLException {
+		Conexion conn = new Conexion();	
+		String query = "SELECT * FROM Mensajes_muro WHERE ID_USUARIO='" + id + "';";
+		Statement st = conn.getConn().createStatement();
+		ResultSet rs = st.executeQuery(query);
+		List <MensajeMuro> mensajes = new ArrayList <MensajeMuro>();
+		while(rs.next()) {
+			MensajeMuro mensaje = new MensajeMuro(rs.getInt("ID"), rs.getInt("ID_USUARIO"), rs.getString("CUERPO"), rs.getDate("FECHA"));
+			mensajes.add(mensaje);
+		}
+		return mensajes;
 	}
 
 	@Override
-	public void publicarMensajeMuro(Usuario usuario, MensajeMuro msj) {
-		// TODO Auto-generated method stub
-		
+	public void publicarMensajeMuro(int idMsj, int idU, String cuerpo, Date fecha) throws SQLException {
+		Conexion conn = new Conexion();
+		String query = "INSERT INTO Mensajes_muro (ID, ID_USUARIO, CUERPO, FECHA)"
+					 + "VALUES (?, ?, ?, ?)";	
+		PreparedStatement preparedStmt;
+		  preparedStmt = conn.getConn().prepareStatement(query);
+	      preparedStmt.setInt (1, idMsj);
+	      preparedStmt.setInt (2, idU);
+	      preparedStmt.setString (3, cuerpo);
+	      preparedStmt.setDate (4, fecha);
 	}
 
 	@Override
