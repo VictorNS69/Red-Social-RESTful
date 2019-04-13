@@ -1,40 +1,24 @@
 package operacionesAPI;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+
 import java.util.List;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.GET;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
-//import org.omg.CosNaming.NamingContext;
-import javax.naming.InitialContext;
-import org.apache.naming.NamingContext;
 import com.google.gson.Gson;
 
-import bd.Conexion;
 import datos.MensajeMuro;
 import datos.MensajePrivado;
 import datos.Usuario;
-
 import interfaces.OperacionesAPI;
 import operacionesBackend.OperacionesB;
 

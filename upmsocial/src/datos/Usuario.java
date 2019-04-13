@@ -1,6 +1,5 @@
 package datos;
 
-import java.util.List;
 
 public class Usuario {
 	private int id;

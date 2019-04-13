@@ -1,8 +1,8 @@
 package interfaces;
 
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.List;
 
 import datos.MensajeMuro;

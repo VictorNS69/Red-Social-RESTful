@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,6 @@ import datos.MensajePrivado;
 import datos.Usuario;
 import interfaces.OperacionesUsuario;
 import bd.Conexion;
-import datos.Usuario;
 
 public class OperacionesB implements OperacionesUsuario{
 
