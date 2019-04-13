@@ -22,8 +22,11 @@ public interface OperacionesAPI {
 	public void editarMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public void borrarMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public List<MensajePrivado> getMensajesPrivados(Usuario usuario);
-	public void enviarMensajePrivado(Usuario origen, Usuario destino, MensajePrivado msj);
-	public MensajePrivado getMensajePrivado(Usuario usuario, MensajePrivado msj);
-	public void borrarMensajePrivado(Usuario usuario, MensajePrivado msj);
+	public void enviarMensajePrivado(Usuario origen, Usuario destino, 
+			MensajePrivado msj);
+	public MensajePrivado getMensajePrivado(Usuario usuario, 
+			MensajePrivado msj);
+	public void borrarMensajePrivado(Usuario usuario, 
+			MensajePrivado msj);
 	public Response responseInfoUsuario(String id);
 }

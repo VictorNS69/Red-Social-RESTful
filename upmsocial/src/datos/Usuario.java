@@ -10,8 +10,11 @@ public class Usuario {
 	private String pais;
 	private String email;
 	
-	public Usuario(int id, String nombre, String apellido1, String apellido2, 
-			int telefono, String email, String pais) {
+	public Usuario() {}
+	
+	public Usuario(int id, String nombre, String apellido1,
+			String apellido2, int telefono, String email, 
+			String pais) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido1 = apellido1;
@@ -21,6 +24,16 @@ public class Usuario {
 		this.telefono = telefono;
 	}
 	
+	public Usuario(String nombre, String apellido1, String apellido2, 
+			int telefono, String email, String pais) {
+		super();
+		this.nombre = nombre;
+		this.apellido1 = apellido1;
+		this.apellido2 = apellido2;
+		this.email = email;
+		this.pais = pais;
+		this.telefono = telefono;
+	}
 	public int getId(){
 		return this.id;
 	}

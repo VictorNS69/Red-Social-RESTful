@@ -8,7 +8,8 @@ public class MensajeMuro {
 	private String cuerpo;
 	private Date fecha;
 	
-	public MensajeMuro(int id, int idUsuario, String cuerpo, Date fecha) {
+	public MensajeMuro(int id, int idUsuario, 
+			String cuerpo, Date fecha) {
 		this.id = id;
 		this.idUsuario = idUsuario;
 		this.cuerpo = cuerpo;
@@ -47,6 +48,7 @@ public class MensajeMuro {
 		this.fecha = fecha;
 	}
 	public String toString() {
-		return this.id + " " + this.idUsuario + " " + this.cuerpo + " " + this.fecha;
+		return this.id + " " + this.idUsuario +
+				" " + this.cuerpo + " " + this.fecha;
 	}
 }

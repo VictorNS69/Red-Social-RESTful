@@ -12,6 +12,7 @@ import java.util.List;
 import datos.MensajeMuro;
 import datos.MensajePrivado;
 import datos.Usuario;
+import excepciones.InformacionInvalida;
 import interfaces.OperacionesUsuario;
 import bd.Conexion;
 
@@ -25,27 +26,59 @@ public class OperacionesB implements OperacionesUsuario{
 		ResultSet rs = st.executeQuery(query);
 		List <Usuario> lista = new ArrayList <Usuario>();
 		while(rs.next()) {
-			Usuario usuario = new Usuario(rs.getInt("ID"), rs.getString("NOMBRE"), rs.getString("APELLIDO1"), rs.getString("APELLIDO2"),
-					rs.getInt("TELEFONO"), rs.getString("EMAIL"), rs.getString("PAIS"));
+			Usuario usuario = new Usuario(rs.getInt("ID"), 
+					rs.getString("NOMBRE"), rs.getString("APELLIDO1"), 
+					rs.getString("APELLIDO2"),
+					rs.getInt("TELEFONO"), rs.getString("EMAIL"), 
+					rs.getString("PAIS"));
 			lista.add(usuario);
 		}
 		return lista;
 	}
 
 	@Override
-	public void crearUsuario(String nombre, String apellido1, String apellido2, long telefono, String email,
-			String pais) throws SQLException {
+	public Usuario crearUsuario(String nombre, String apellido1, 
+			String apellido2, int telefono, String email,
+			String pais) throws SQLException, InformacionInvalida {
 		Conexion conn = new Conexion();
-		String query = " INSERT INTO Usuarios (NOMBRE, APELLIDO1, APELLIDO2, EMAIL, PAIS, TELEFONO)"
+		// Check if the input arguments are valid
+		if (nombre == null || apellido1 == null || 
+				apellido2 == null || email == null
+				|| nombre.isEmpty() || apellido1.isEmpty() || 
+				apellido2.isEmpty() || email.isEmpty())
+			throw new InformacionInvalida();
+		
+		// Check if the User is already in the DB
+		String query = "SELECT ID FROM Usuarios WHERE NOMBRE='" + 
+		nombre + "' AND APELLIDO1='"+ apellido1 + "' AND APELLIDO2='" 
+				+ apellido2 + "' AND TELEFONO="+ telefono + 
+				" AND EMAIL='" + email +"';";
+		Statement st = conn.getConn().createStatement();
+		ResultSet rs = st.executeQuery(query);
+		if (rs.next())
+			throw new InformacionInvalida();
+		
+		// Insert the new User into the DB
+		query = " INSERT INTO Usuarios (NOMBRE, APELLIDO1, "
+				+ "APELLIDO2, EMAIL, PAIS, TELEFONO)"
 		        + " VALUES (?, ?, ?, ?, ?, ?)";
-		      PreparedStatement ps;
-			  ps = conn.getConn().prepareStatement(query);
-		      ps.setString (1, nombre);
-		      ps.setString (2, apellido1);
-		      ps.setString (3, apellido2);
-		      ps.setString (4, email);
-		      ps.setString (5, pais);
-		      ps.setLong (6, telefono);
+		PreparedStatement ps;
+		ps = conn.getConn().prepareStatement(query, 
+				Statement.RETURN_GENERATED_KEYS);
+		ps.setString (1, nombre);
+		ps.setString (2, apellido1);
+		ps.setString (3, apellido2);
+		ps.setString (4, email);
+		ps.setString (5, pais);
+		ps.setInt (6, telefono);
+		ps.executeUpdate();
+		ResultSet thisId = ps.getGeneratedKeys();
+		Usuario usuario = null;
+		if (thisId.next()) {
+			usuario = new Usuario(thisId.getInt(1), nombre, apellido1, 
+					apellido2, telefono, email, pais);
+		}
+		return usuario;
 	}
 
 	@Override
@@ -57,8 +90,10 @@ public class OperacionesB implements OperacionesUsuario{
 		ResultSet rs = st.executeQuery(query);
 		Usuario usuario = null;
 		if (rs.next()) {
-			usuario = new Usuario(rs.getInt("ID"), rs.getString("NOMBRE"), rs.getString("APELLIDO1"), rs.getString("APELLIDO2"),
-				rs.getInt("TELEFONO"), rs.getString("EMAIL"), rs.getString("PAIS"));
+			usuario = new Usuario(rs.getInt("ID"), rs.getString("NOMBRE"), 
+					rs.getString("APELLIDO1"), rs.getString("APELLIDO2"),
+				rs.getInt("TELEFONO"), rs.getString("EMAIL"),
+				rs.getString("PAIS"));
 		}
 		return usuario;
 	}
@@ -81,8 +116,10 @@ public class OperacionesB implements OperacionesUsuario{
 		ResultSet rs = st.executeQuery(query);
 		List <Usuario> amigos = new ArrayList <Usuario>();
 		while(rs.next()) {
-			Usuario usuario = new Usuario(rs.getInt("ID"), rs.getString("NOMBRE"), rs.getString("APELLIDO1"), rs.getString("APELLIDO2"),
-					rs.getInt("TELEFONO"), rs.getString("EMAIL"), rs.getString("PAIS"));
+			Usuario usuario = new Usuario(rs.getInt("ID"), 
+					rs.getString("NOMBRE"), rs.getString("APELLIDO1"), 
+					rs.getString("APELLIDO2"), rs.getInt("TELEFONO"), 
+					rs.getString("EMAIL"), rs.getString("PAIS"));
 			amigos.add(usuario);
 		}
 		for (int i=0; i< amigos.size();i++) {
@@ -125,7 +162,9 @@ public class OperacionesB implements OperacionesUsuario{
 		ResultSet rs = st.executeQuery(query);
 		List <MensajeMuro> mensajes = new ArrayList <MensajeMuro>();
 		while(rs.next()) {
-			MensajeMuro mensaje = new MensajeMuro(rs.getInt("ID"), rs.getInt("ID_USUARIO"), rs.getString("CUERPO"), rs.getDate("FECHA"));
+			MensajeMuro mensaje = new MensajeMuro(rs.getInt("ID"), 
+					rs.getInt("ID_USUARIO"), rs.getString("CUERPO"), 
+					rs.getDate("FECHA"));
 			mensajes.add(mensaje);
 		}
 		return mensajes;
@@ -133,16 +172,17 @@ public class OperacionesB implements OperacionesUsuario{
 
 	//TODO: La fecha tiene que transformarse en formato SQL
 	@Override
-	public void publicarMensajeMuro(int idMsj, int idU, String cuerpo, Date fecha) throws SQLException {
+	public void publicarMensajeMuro(int idMsj, int idU, String cuerpo, 
+			Date fecha) throws SQLException {
 		Conexion conn = new Conexion();
 		String query = "INSERT INTO Mensajes_muro (ID, ID_USUARIO, CUERPO, FECHA)"
 					 + "VALUES (?, ?, ?, ?)";	
-		PreparedStatement preparedStmt;
-		  preparedStmt = conn.getConn().prepareStatement(query);
-	      preparedStmt.setInt (1, idMsj);
-	      preparedStmt.setInt (2, idU);
-	      preparedStmt.setString (3, cuerpo);
-	      preparedStmt.setDate (4, fecha);
+		PreparedStatement ps;
+		  ps = conn.getConn().prepareStatement(query);
+	      ps.setInt (1, idMsj);
+	      ps.setInt (2, idU);
+	      ps.setString (3, cuerpo);
+	      ps.setDate (4, fecha);
 	}
 
 	@Override
@@ -170,19 +210,22 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public void enviarMensajePrivado(Usuario origen, Usuario destino, MensajePrivado msj) {
+	public void enviarMensajePrivado(Usuario origen, Usuario destino, 
+			MensajePrivado msj) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public MensajePrivado getMensajePrivado(Usuario usuario, MensajePrivado msj) {
+	public MensajePrivado getMensajePrivado(Usuario usuario, 
+			MensajePrivado msj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void borrarMensajePrivado(Usuario usuario, MensajePrivado msj) {
+	public void borrarMensajePrivado(Usuario usuario, 
+			MensajePrivado msj) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -5,7 +5,9 @@ import java.sql.SQLException;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -19,11 +21,15 @@ import com.google.gson.Gson;
 import datos.MensajeMuro;
 import datos.MensajePrivado;
 import datos.Usuario;
+import excepciones.InformacionInvalida;
 import interfaces.OperacionesAPI;
 import operacionesBackend.OperacionesB;
 
 @Path("/")
 public class Operaciones implements OperacionesAPI{
+	private static final String INTERNAL_SERVER_ERROR = "500 Internal Server Error";
+	private static final String NOT_FOUND_ERROR = "404 Not Found";
+	private static final String NOT_ACCEPTABLE_ERROR = "406 Not Acceptable";
 	
 	@Context
 	private UriInfo uriInfo;
@@ -40,12 +46,13 @@ public class Operaciones implements OperacionesAPI{
 		OperacionesB ops = new OperacionesB();
 		try {
 			lista = ops.getUsuarios();
-		} catch (Exception e) {
-			json = new Gson().toJson(e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("500 Internal Server Error").build();
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
 		}
 		if (lista.isEmpty()) 
-			return Response.status(Response.Status.NOT_FOUND).entity("404 Not Found").build();
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
 		else {
 			json = new Gson().toJson(lista);
 			return Response.status(Response.Status.OK).entity(json).build();
@@ -84,7 +91,8 @@ public class Operaciones implements OperacionesAPI{
 	}
 
 	@Override
-	public void enviarMensajePrivado(Usuario origen, Usuario destino, MensajePrivado msj) {
+	public void enviarMensajePrivado(Usuario origen, Usuario destino,
+			MensajePrivado msj) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -101,12 +109,29 @@ public class Operaciones implements OperacionesAPI{
 		
 	}
 
+	@POST
+	@Path("/usuarios")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
 	public Response responseCrearUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+		OperacionesB ops = new OperacionesB();
+		Usuario thisUsuario = null;
+		try {
+			thisUsuario = ops.crearUsuario(usuario.getNombre(), usuario.getApellido1(),
+					usuario.getApellido2(), usuario.getTelefono(), usuario.getEmail(), 
+					usuario.getPais());
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		} catch (InformacionInvalida e) {
+			return Response.status(Response.Status.NOT_ACCEPTABLE).
+					entity(NOT_ACCEPTABLE_ERROR).build();
+		}
+		String location = uriInfo.getAbsolutePath() + "/" + thisUsuario.getId();
+		return Response.status(Response.Status.CREATED).entity(location).
+				header("Location", location).
+				header("Content-Location", location).build();
 	}
-	
 	
 	@GET
 	@Path("/usuarios/{id}")
@@ -120,11 +145,12 @@ public class Operaciones implements OperacionesAPI{
 		try {
 			thisUsuario = ops.infoUsuario(thisId);
 		} catch (SQLException e) {
-			json = new Gson().toJson(e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("500 Internal Server Error").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
 		}
 		if (thisUsuario == null)
-			return Response.status(Response.Status.NOT_FOUND).entity("404 Not Found").build();
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
 		else
 			json = new Gson().toJson(thisUsuario);
 			return Response.status(Response.Status.OK).entity(json).build();

@@ -9,7 +9,8 @@ public class MensajePrivado {
 	private String cuerpo;
 	private Date fecha;
 	
-	public MensajePrivado(int id, int idDestino, int idOrigen, String cuerpo,
+	public MensajePrivado(int id, int idDestino, 
+			int idOrigen, String cuerpo,
 			Date fecha) {
 		this.id = id;
 		this.idDestino = idDestino;
