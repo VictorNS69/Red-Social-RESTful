@@ -38,14 +38,14 @@ public class OperacionesB implements OperacionesUsuario{
 		Conexion conn = new Conexion();
 		String query = " INSERT INTO Usuarios (NOMBRE, APELLIDO1, APELLIDO2, EMAIL, PAIS, TELEFONO)"
 		        + " VALUES (?, ?, ?, ?, ?, ?)";
-		      PreparedStatement preparedStmt;
-			  preparedStmt = conn.getConn().prepareStatement(query);
-		      preparedStmt.setString (1, nombre);
-		      preparedStmt.setString (2, apellido1);
-		      preparedStmt.setString (3, apellido2);
-		      preparedStmt.setString (4, email);
-		      preparedStmt.setString (5, pais);
-		      preparedStmt.setLong (6, telefono);
+		      PreparedStatement ps;
+			  ps = conn.getConn().prepareStatement(query);
+		      ps.setString (1, nombre);
+		      ps.setString (2, apellido1);
+		      ps.setString (3, apellido2);
+		      ps.setString (4, email);
+		      ps.setString (5, pais);
+		      ps.setLong (6, telefono);
 	}
 
 	@Override
@@ -93,10 +93,10 @@ public class OperacionesB implements OperacionesUsuario{
 		String idAmigo = Integer.toString(idA);
 		String query = "INSERT INTO Relaciones_amistad (ID_AMIGO1, ID_AMIGO2)"
 					 + "VALUES (?, ?)";
-		PreparedStatement preparedStmt;
-		  preparedStmt = conn.getConn().prepareStatement(query);
-	      preparedStmt.setString (1, idUsuario);
-	      preparedStmt.setString (2, idAmigo);
+		PreparedStatement ps;
+		  ps = conn.getConn().prepareStatement(query);
+	      ps.setString (1, idUsuario);
+	      ps.setString (2, idAmigo);
 	}
 
 	@Override

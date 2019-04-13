@@ -45,7 +45,7 @@ Herramientas:
 
 Librerias:
 - Jersey 
-- Mysql
+- MySQL
 
 Todas las librerías usadas en este proyecto se encuentran [aquí](/upmsocial/WebContent/WEB-INF/lib).
 ## Como importar y exportar la base de datos
@@ -67,8 +67,12 @@ $ mysql -u root -p upmsocial < db.sql
 $ mysqldump -u root -p upmsocial > db.sql
 ```
 \#TODO
+## Importar proyecto
+Crear .war y explicar como importarlo
+
 ## Activar el servidor localhost de Tomcat
 
+## Ejemplos de uris y operaciones
 
 ## Licencia
 [Licencia](/LICENSE).
