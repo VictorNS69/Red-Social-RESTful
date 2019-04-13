@@ -60,7 +60,7 @@ public class Operaciones implements OperacionesAPI{
 			json = new Gson().toJson(e);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("500 Internal Server Error").build();
 		}
-		if (lista == null) 
+		if (lista.isEmpty()) 
 			return Response.status(Response.Status.NOT_FOUND).entity("404 Not Found").build();
 		else {
 			json = new Gson().toJson(lista);
