@@ -38,23 +38,34 @@ import datos.Usuario;
 import interfaces.OperacionesAPI;
 import operacionesBackend.OperacionesB;
 
-@Path("/usuarios")
+@Path("/")
 public class Operaciones implements OperacionesAPI{
+	
 	@Context
-	  private UriInfo uriInfo;
-	//@Path("/usuarios") // este de aqui no funciona
-
+	private UriInfo uriInfo;
+	
     public Operaciones() {}
-
+    
+    @Path("/usuarios")
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response responseGetUsuarios() throws NamingException, SQLException {
+	public Response responseGetUsuarios() {
 		String json = null;
+		List <Usuario> lista;
 		OperacionesB ops = new OperacionesB();
-		List <Usuario> lista = ops.getUsuarios();
-		json = new Gson().toJson(lista);
-		return Response.status(Response.Status.OK).entity(json).build();
+		try {
+			lista = ops.getUsuarios();
+		} catch (Exception e) {
+			json = new Gson().toJson(e);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("500 Internal Server Error").build();
+		}
+		if (lista == null) 
+			return Response.status(Response.Status.NOT_FOUND).entity("404 Not Found").build();
+		else {
+			json = new Gson().toJson(lista);
+			return Response.status(Response.Status.OK).entity(json).build();
+		}
 	}
 
 
@@ -111,11 +122,28 @@ public class Operaciones implements OperacionesAPI{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	
+	@GET
+	@Path("/usuarios/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response responseInfoUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response responseInfoUsuario(@PathParam("id") String id) {
+		String json = null;
+		Usuario thisUsuario;
+		OperacionesB ops = new OperacionesB();
+		int thisId = Integer.parseInt(id);
+		try {
+			thisUsuario = ops.infoUsuario(thisId);
+		} catch (SQLException e) {
+			json = new Gson().toJson(e);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("500 Internal Server Error").build();
+		}
+		if (thisUsuario == null)
+			return Response.status(Response.Status.NOT_FOUND).entity("404 Not Found").build();
+		else
+			json = new Gson().toJson(thisUsuario);
+			return Response.status(Response.Status.OK).entity(json).build();
 	}
 
 	@Override

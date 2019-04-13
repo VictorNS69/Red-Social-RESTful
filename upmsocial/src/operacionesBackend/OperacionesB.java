@@ -49,13 +49,18 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public ResultSet infoUsuario(int id) throws SQLException {
+	public Usuario infoUsuario(int id) throws SQLException {
 		Conexion conn = new Conexion();
-		String query = "SELECT NOMBRE, APELLIDO1, APELLIDO2, EMAIL, PAIS, TELEFONO FROM Usuarios "
+		String query = "SELECT * FROM Usuarios "
 					 + "WHERE ID='" + id + "';"; 
 		Statement st = conn.getConn().createStatement();
 		ResultSet rs = st.executeQuery(query);
-		return rs;
+		Usuario usuario = null;
+		if (rs.next()) {
+			usuario = new Usuario(rs.getInt("ID"), rs.getString("NOMBRE"), rs.getString("APELLIDO1"), rs.getString("APELLIDO2"),
+				rs.getInt("TELEFONO"), rs.getString("EMAIL"), rs.getString("PAIS"));
+		}
+		return usuario;
 	}
 
 	@Override
@@ -111,6 +116,7 @@ public class OperacionesB implements OperacionesUsuario{
 		st.executeQuery(query);
 	}
 
+	//TODO: La fecha tiene que transformarse en formato legible para la APP
 	@Override
 	public List<MensajeMuro> getMensajesMuro(int id) throws SQLException {
 		Conexion conn = new Conexion();	
@@ -125,6 +131,7 @@ public class OperacionesB implements OperacionesUsuario{
 		return mensajes;
 	}
 
+	//TODO: La fecha tiene que transformarse en formato SQL
 	@Override
 	public void publicarMensajeMuro(int idMsj, int idU, String cuerpo, Date fecha) throws SQLException {
 		Conexion conn = new Conexion();

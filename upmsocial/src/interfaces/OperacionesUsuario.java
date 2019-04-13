@@ -13,7 +13,7 @@ public interface OperacionesUsuario {
 	public List<Usuario> getUsuarios() throws SQLException;
 	public void crearUsuario(String nombre, String apellido1, String apellido2, 
 			long telefono, String email, String pais) throws SQLException;
-	public ResultSet infoUsuario(int id) throws SQLException; 
+	public Usuario infoUsuario(int id) throws SQLException; 
 	public void borrarUsuario(int id) throws SQLException;
 	public List<Usuario> getAmigos(int id) throws SQLException;
 	public void nuevoAmigo(int idU, int idA) throws SQLException;
