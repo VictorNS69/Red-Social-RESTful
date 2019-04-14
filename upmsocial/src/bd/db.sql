@@ -41,7 +41,17 @@ CREATE TABLE `Usuarios` (
 LOCK TABLES `Usuarios` WRITE;
 /*!40000 ALTER TABLE `Usuarios` DISABLE KEYS */;
 INSERT INTO `Usuarios` VALUES (1,'Danilo','Morgera','Pérez','d.morgera@alumnos.upm.es','España',612345678),
-(2,'Víctor','Nieves','Sánchez','victor.nieves.sanchez@alumnos.upm.es','España',612456358);
+(2,'Víctor','Nieves','Sánchez','victor.nieves.sanchez@alumnos.upm.es','España',612456358),
+(3,'Raul','Prieto','Acedo','raulete@alumnos.upm.es','España',611232678),
+(4,'Alejandro','Carmo','Hombre','carmoman@alumnos.upm.es','España',654345678),
+(5,'Jorge','Dos','Gondor','inmortal@alumnos.upm.es','España',612123478),
+(6,'Jorge','Uno','Diaz-Cano','habersi@alumnos.upm.es','España',616789678),
+(7,'Bruno','Morgera','Pérez','brungie@alumnos.upm.es','España',618574978),
+(8,'Chico','Morgera','Pérez','perrete@alumnos.upm.es','Perronia',617895678),
+(9,'Adrian','Villar','Lopez','jajaj@alumnos.upm.es','España',617123458),
+(10,'Juan','Sanchez','De La Cruz','taquito@alumnos.upm.es','Mexico',623455678),
+(11,'Oscar','Mezar','Brisket','guacaguaca@alumnos.upm.es','Mexico',617856788),
+(12,'Chris','Evans','Yeehaw','capiusa@alumnos.upm.es','Estados Unidos',617895678);
 /*!40000 ALTER TABLE `Usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,7 +82,28 @@ LOCK TABLES `Mensajes_muro` WRITE;
 INSERT INTO `Mensajes_muro` VALUES
 (1,2,'Este será el primer mensaje de Victor',CURRENT_TIMESTAMP),
 (2,2,'Este será el segundo mensaje de Victor',CURRENT_TIMESTAMP),
-(3,1,'Este será el primer mensaje de Danilo',CURRENT_TIMESTAMP);
+(3,1,'Este será el primer mensaje de Danilo',CURRENT_TIMESTAMP),
+(4,1,'Este será el segundo mensaje de Danilo',CURRENT_TIMESTAMP),
+(5,3,'Este será el primer mensaje de Raul',CURRENT_TIMESTAMP),
+(6,3,'Este será el segundo mensaje de Raul',CURRENT_TIMESTAMP),
+(7,4,'Este será el primer mensaje de Alejandro',CURRENT_TIMESTAMP),
+(8,4,'Este será el segundo mensaje de Alejandro',CURRENT_TIMESTAMP),
+(9,5,'Este será el primer mensaje de Jorge2',CURRENT_TIMESTAMP),
+(10,5,'Este será el segundo mensaje de Jorge2',CURRENT_TIMESTAMP),
+(11,6,'Este será el primer mensaje de Jorge1',CURRENT_TIMESTAMP),
+(12,6,'Este será el segundo mensaje de Jorge1',CURRENT_TIMESTAMP),
+(13,7,'Este será el primer mensaje de Bruno',CURRENT_TIMESTAMP),
+(14,7,'Este será el segundo mensaje de Bruno',CURRENT_TIMESTAMP),
+(15,8,'Este será el primer guau de Chico',CURRENT_TIMESTAMP),
+(16,8,'Este será el segundo guau de Chico',CURRENT_TIMESTAMP),
+(17,9,'Este será el primer mensaje de Adrian',CURRENT_TIMESTAMP),
+(18,9,'Este será el segundo mensaje de Adrian',CURRENT_TIMESTAMP),
+(19,10,'Este será el primer mensaje de Juan',CURRENT_TIMESTAMP),
+(20,10,'Este será el segundo mensaje de Juan',CURRENT_TIMESTAMP),
+(21,11,'Este será el primer mensaje de Oscar',CURRENT_TIMESTAMP),
+(22,11,'Este será el segundo mensaje de Oscar',CURRENT_TIMESTAMP),
+(23,12,'Este será el primer mensaje de Chris',CURRENT_TIMESTAMP),
+(24,12,'Este será el segundo mensaje de Chris',CURRENT_TIMESTAMP);
 /*!40000 ALTER TABLE `Mensajes_muro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +134,13 @@ LOCK TABLES `Mensajes_privados` WRITE;
 /*!40000 ALTER TABLE `Mensajes_privados` DISABLE KEYS */;
 INSERT INTO `Mensajes_privados` VALUES
 (1,2,1,'Este será el primer mensaje privado de Victor a Danilo',CURRENT_TIMESTAMP),
-(2,1,2,'Este será el primer mensaje privado de Danilo a Victor',CURRENT_TIMESTAMP);
+(2,1,2,'Este será el primer mensaje privado de Danilo a Victor',CURRENT_TIMESTAMP),
+(3,2,3,'Este será el primer mensaje privado de Victor a Raul',CURRENT_TIMESTAMP),
+(4,4,7,'Este será el primer mensaje privado de Alejandro a Bruno',CURRENT_TIMESTAMP),
+(5,1,5,'Este será el primer mensaje privado de Danilo a Jorge2',CURRENT_TIMESTAMP),
+(6,8,2,'Este será el primer guau privado de Chico a Victor',CURRENT_TIMESTAMP),
+(7,5,1,'Este será el primer mensaje privado de Jorge2 a Danilo',CURRENT_TIMESTAMP),
+(8,3,2,'Este será el primer mensaje privado de Raul a Victor',CURRENT_TIMESTAMP);
 /*!40000 ALTER TABLE `Mensajes_privados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,7 +170,24 @@ CREATE TABLE `Relaciones_amistad` (
 LOCK TABLES `Relaciones_amistad` WRITE;
 /*!40000 ALTER TABLE `Relaciones_amistad` DISABLE KEYS */;
 INSERT INTO `Relaciones_amistad` VALUES
-(1,2);
+(1,2),
+(4,2),
+(1,3),
+(6,8),
+(7,5),
+(4,1),
+(3,4),
+(5,9),
+(10,1),
+(12,3),
+(12,11),
+(7,8),
+(7,9),
+(3,4),
+(4,9),
+(1,12),
+(5,6),
+(6,8);
 /*!40000 ALTER TABLE `Relaciones_amistad` ENABLE KEYS */;
 UNLOCK TABLES;
 
