@@ -9,7 +9,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.JsonObject;
 import javax.ws.rs.NotFoundException;
+
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
+
+import com.google.gson.Gson;
 
 import datos.MensajeMuro;
 import datos.MensajePrivado;
@@ -221,16 +227,36 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 	
 	@Override
-	public void nuevoAmigo(int idU, int idA) throws SQLException {
+	public void nuevoAmigo(String idU, String idA) throws SQLException, InformacionInvalida {
 		Conexion conn = new Conexion();
-		String idUsuario = Integer.toString(idU);
-		String idAmigo = Integer.toString(idA);
-		String query = "INSERT INTO Relaciones_amistad (ID_AMIGO1, ID_AMIGO2)"
-					 + "VALUES (?, ?)";
-		PreparedStatement ps;
+		JSONParser parser = new JSONParser(idA);
+		try {
+			idA = parser.string();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Check if the two users are not the same
+		if (idU == idA) 
+			throw new InformacionInvalida();
+		
+		//Check if user is not in the db
+		System.out.println(idU + idA);
+		String query = "SELECT * FROM Usuarios WHERE ID='" + idU +"';";
+		String query2 = "SELECT * FROM Usuarios WHERE ID='" + idA +"';";
+		PreparedStatement ps = conn.getConn().prepareStatement(query);
+		PreparedStatement ps2 = conn.getConn().prepareStatement(query2);
+		ResultSet rs = ps.executeQuery();
+		ResultSet rs2 = ps2.executeQuery();
+		System.out.println(rs.getString("NOMBRE")+rs2.getString("NOMBRE"));
+		if (!rs.next() || !rs2.next())
+			throw new NotFoundException();
+		
+		query = "INSERT INTO Relaciones_amistad (ID_AMIGO1, ID_AMIGO2)"
+					 + "VALUES (?, ?);";
 		  ps = conn.getConn().prepareStatement(query);
-	      ps.setString (1, idUsuario);
-	      ps.setString (2, idAmigo);
+	      ps.setString (1, idU);
+	      ps.setString (2, idA);
 	}
 
 	@Override
@@ -265,10 +291,10 @@ public class OperacionesB implements OperacionesUsuario{
 	//TODO: La fecha tiene que transformarse en formato SQL
 	@Override
 	public void publicarMensajeMuro(int idMsj, int idU, String cuerpo, 
-			Date fecha) throws SQLException {
+			Date fecha) throws SQLException, InformacionInvalida {
 		Conexion conn = new Conexion();
 		String query = "INSERT INTO Mensajes_muro (ID, ID_USUARIO, CUERPO, FECHA)"
-					 + "VALUES (?, ?, ?, ?)";	
+					 + "VALUES (?, ?, ?, ?);";	
 		PreparedStatement ps;
 		  ps = conn.getConn().prepareStatement(query);
 	      ps.setInt (1, idMsj);

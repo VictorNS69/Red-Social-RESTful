@@ -21,11 +21,11 @@ public interface OperacionesUsuario {
 	public Usuario editarUsuario(String id, Usuario usuario) throws SQLException, InformacionInvalida;
 	public List<Usuario> getAmigos(String id, String filterBy, 
 			String start, String end) throws SQLException;
-	public void nuevoAmigo(int idU, int idA) throws SQLException;
+	public void nuevoAmigo(String idU, String idA) throws SQLException, InformacionInvalida;
 	public void borrarAmigo(int idU, int idA) throws SQLException;
 	public List<MensajeMuro> getMensajesMuro(int id) throws SQLException;
 	public void publicarMensajeMuro(int idU, int idMsj, String cuerpo, 
-			Date fecha) throws SQLException;
+			Date fecha) throws SQLException, InformacionInvalida;
 	public MensajeMuro getMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public void editarMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public void borrarMensajeMuro(Usuario usuario, MensajeMuro msj);
