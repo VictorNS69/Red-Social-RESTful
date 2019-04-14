@@ -96,12 +96,12 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public void borrarUsuario(int id) throws SQLException {
+	public boolean borrarUsuario(String id) throws SQLException {
 		Conexion conn = new Conexion();
 		String query = "DELETE FROM Usuarios"
-					 + "WHERE ID='" + id + "';";
-		Statement st = conn.getConn().createStatement();
-		st.executeQuery(query);
+					 + " WHERE ID=" + id + ";";
+		PreparedStatement ps = conn.getConn().prepareStatement(query);
+		return ps.executeUpdate() == 1;
 	}
 
 	@Override

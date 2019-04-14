@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface OperacionesUsuario {
 			int telefono, String email, String pais) throws 
 	SQLException, InformacionInvalida;
 	public Usuario infoUsuario(int id) throws SQLException; 
-	public void borrarUsuario(int id) throws SQLException;
+	public boolean borrarUsuario(String id) throws SQLException;
 	public List<Usuario> getAmigos(int id) throws SQLException;
 	public void nuevoAmigo(int idU, int idA) throws SQLException;
 	public void borrarAmigo(int idU, int idA) throws SQLException;
