@@ -7,10 +7,12 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.PathParam;
@@ -56,15 +58,15 @@ public class Operaciones implements OperacionesAPI{
 					entity(NOT_FOUND_ERROR).build();
 		else {
 			String aux = "";
-			List <String> finalJson = new ArrayList <String>();
+			List <String> json = new ArrayList <String>();
 			for (Usuario usuario : lista) {
 				String location = uriInfo.getAbsolutePath() + "" + usuario.getId();
 				aux = (new Gson().toJson(usuario).replace("}",
 						", \"location\": \"" + location + "\"}"));
-				finalJson.add(aux);
+				json.add(aux);
 			}
 			return Response.status(Response.Status.OK).
-					entity(finalJson.toString()).build();
+					entity(json.toString()).build();
 		}
 	}
 
@@ -133,12 +135,40 @@ public class Operaciones implements OperacionesAPI{
 		return Response.status(Response.Status.OK).entity(OK_MESSAGE).build();
 	}
 
+	@GET
+	@Path("/usuarios/{id}/amigos")
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response getAmigos(List<Usuario> usuarios) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response getAmigos(@PathParam("id") String id, 
+			@QueryParam("filterBy") @DefaultValue("") String filterBy,
+			@QueryParam("start") @DefaultValue("0")String start,
+			@QueryParam("end") @DefaultValue("100") String end) {
+		OperacionesB ops = new OperacionesB();
+		List <Usuario> lista;
+		try {
+			lista = ops.getAmigos(id, filterBy, start, end);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		}
+		if (lista.isEmpty()) 
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		else {
+			String aux = "";
+			List <String> json = new ArrayList <String>();
+			for (Usuario usuario : lista) {
+				String location = uriInfo.getBaseUri() + "usuarios/" + usuario.getId();
+				aux = (new Gson().toJson(usuario).replace("}",
+						", \"location\": \"" + location + "\"}"));
+				json.add(aux);
+			}
+			return Response.status(Response.Status.OK).
+					entity(json.toString()).build();
+		}
 	}
-
+	
 	@Override
 	public Response nuevoAmigo(Usuario usuario, Usuario amigo) {
 		// TODO Auto-generated method stub

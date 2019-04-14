@@ -103,12 +103,14 @@ public class OperacionesB implements OperacionesUsuario{
 		PreparedStatement ps = conn.getConn().prepareStatement(query);
 		return ps.executeUpdate() == 1;
 	}
-
+	
 	@Override
-	public List<Usuario> getAmigos(int id) throws SQLException {
+	public List<Usuario> getAmigos(String id, String filterBy, 
+			String start, String end) throws SQLException {
 		Conexion conn = new Conexion();
-		String query = "SELECT ID_AMIGO2 FROM Relaciones_amistad"
-					 + "WHERE ID_AMIGO1='" + id + "';";
+		// Column 1 friend of Column 2
+		String query = getQueryC1(id, filterBy, 
+				start, end);
 		Statement st = conn.getConn().createStatement();
 		ResultSet rs = st.executeQuery(query);
 		List <Usuario> amigos = new ArrayList <Usuario>();
@@ -119,12 +121,71 @@ public class OperacionesB implements OperacionesUsuario{
 					rs.getString("EMAIL"), rs.getString("PAIS"));
 			amigos.add(usuario);
 		}
-		for (int i=0; i< amigos.size();i++) {
-			System.out.print(amigos.get(i).toString() + "\n");
+		// Column 2 friend of Column 1
+		query = getQueryC2(id, filterBy, 
+				start, end);
+		st = conn.getConn().createStatement();
+		rs = st.executeQuery(query);
+		while(rs.next()) {
+			Usuario usuario = new Usuario(rs.getInt("ID"), 
+					rs.getString("NOMBRE"), rs.getString("APELLIDO1"), 
+					rs.getString("APELLIDO2"), rs.getInt("TELEFONO"), 
+					rs.getString("EMAIL"), rs.getString("PAIS"));
+			boolean encontrado = false;
+			for (Usuario u : amigos) {
+				if (u.equals(usuario)) {
+					encontrado = true;
+					break;
+				}
+			}
+			if (!encontrado)
+				amigos.add(usuario);
 		}
 		return amigos;
 	}
-
+	
+	private String getQueryC1(String id, String filterBy, 
+			String start, String end) {
+		// No parameters -> use only id
+		if (filterBy.isEmpty() && start.isEmpty()
+				&& end.isEmpty()) {
+			return "SELECT * FROM Usuarios join Relaciones_amistad"
+					+ " ON (Usuarios.ID = Relaciones_amistad.ID_AMIGO2) "
+					+ " WHERE Relaciones_amistad.ID_AMIGO1='" + id + "';";
+		}
+		else {
+			if (start.isEmpty())
+				start = "0";
+			if (end.isEmpty())
+				end = "100";
+			return "SELECT * FROM Usuarios join Relaciones_amistad"
+					+ " ON (Usuarios.ID = Relaciones_amistad.ID_AMIGO2) "
+					+ " WHERE Relaciones_amistad.ID_AMIGO1='" + id + "' AND NOMBRE LIKE '%"
+					+ filterBy +"%' ORDER BY ID LIMIT " + start + "," + end +";";
+		}
+	}
+	
+	private String getQueryC2(String id, String filterBy, 
+			String start, String end) {
+		// No parameters -> use id
+		if (filterBy.isEmpty() && start.isEmpty()
+				&& end.isEmpty()) {
+			return "SELECT * FROM Usuarios join Relaciones_amistad"
+					+ " ON (Usuarios.ID = Relaciones_amistad.ID_AMIGO1) "
+					+ " WHERE Relaciones_amistad.ID_AMIGO2='" + id + "';";
+		}
+		else {
+			if (start.isEmpty())
+				start = "0";
+			if (end.isEmpty())
+				end = "100";
+			return "SELECT * FROM Usuarios join Relaciones_amistad"
+					+ " ON (Usuarios.ID = Relaciones_amistad.ID_AMIGO1) "
+					+ " WHERE Relaciones_amistad.ID_AMIGO2='" + id + "' AND NOMBRE LIKE '%"
+					+ filterBy +"%' ORDER BY ID LIMIT " + start + "," + end +";";
+		}
+	}
+	
 	@Override
 	public void nuevoAmigo(int idU, int idA) throws SQLException {
 		Conexion conn = new Conexion();

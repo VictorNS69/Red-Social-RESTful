@@ -93,6 +93,13 @@ public class Usuario {
 	public String toString() {
 		return this.id + " "+ this.nombre + " " + this.apellido1;
 	}
+	
+	public boolean equals(Usuario usuario2) {
+		return this.id == usuario2.getId() && this.nombre.equals(usuario2.getNombre()) 
+				&& this.apellido1.equals(usuario2.getApellido1()) && this.apellido2.equals(usuario2.getApellido2())
+				&& this.telefono == usuario2.getTelefono() && this.email.equals(usuario2.getEmail())
+				&& this.pais.equals(usuario2.getPais());
+	}
 }
 
 
