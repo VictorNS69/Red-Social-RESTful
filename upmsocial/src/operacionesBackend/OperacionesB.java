@@ -49,10 +49,7 @@ public class OperacionesB implements OperacionesUsuario{
 			throw new InformacionInvalida();
 		
 		// Check if the User is already in the DB
-		String query = "SELECT ID FROM Usuarios WHERE NOMBRE='" + 
-		nombre + "' AND APELLIDO1='"+ apellido1 + "' AND APELLIDO2='" 
-				+ apellido2 + "' AND TELEFONO="+ telefono + 
-				" AND EMAIL='" + email +"';";
+		String query = "SELECT ID FROM Usuarios WHERE EMAIL='" + email +"';";
 		Statement st = conn.getConn().createStatement();
 		ResultSet rs = st.executeQuery(query);
 		if (rs.next())
