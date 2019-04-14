@@ -200,11 +200,33 @@ public class Operaciones implements OperacionesAPI{
 		}
 	}
 	
+	@POST
+	@Path("/usuarios/{id}/amigos")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
-	public Response nuevoAmigo(Usuario usuario, Usuario amigo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Response nuevoAmigo(@PathParam("id") String idU, String idA) {
+		OperacionesB ops = new OperacionesB();
+		try {
+			ops.nuevoAmigo(idU, idA);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		} catch (InformacionInvalida e) {
+			e.printStackTrace();
+			return Response.status(Response.Status.NOT_ACCEPTABLE).
+					entity(NOT_ACCEPTABLE_ERROR).build();
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		}
+		String location = uriInfo.getAbsolutePath() + "/" + idA;
+		return Response.status(Response.Status.CREATED).entity(location).
+				header("Location", location).
+				header("Content-Location", location).build();
+		
+		}
 
 	@Override
 	public Response borrarAmigo(Usuario usuario, Usuario amigo) {

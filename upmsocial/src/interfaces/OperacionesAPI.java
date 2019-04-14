@@ -16,7 +16,7 @@ public interface OperacionesAPI {
 	public Response editarUsuario(String id, Usuario usuario);
 	public Response getAmigos(String id, 
 			String filterBy, String start, String end);
-	public Response nuevoAmigo(Usuario usuario, Usuario amigo);
+	public Response nuevoAmigo(String idU, String idA);
 	public Response borrarAmigo(Usuario usuario,Usuario amigo);
 	public Response getMensajesMuro(List<MensajeMuro>  mensajes);
 	public void publicarMensajeMuro(Usuario usuario, MensajeMuro msj);
