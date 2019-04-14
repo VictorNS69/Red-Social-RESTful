@@ -2,6 +2,7 @@ package operacionesAPI;
 
 
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,6 @@ public class Operaciones implements OperacionesAPI{
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
 		} catch (InformacionInvalida e) {
-			System.out.println(e);
 			return Response.status(Response.Status.NOT_ACCEPTABLE).
 					entity(NOT_ACCEPTABLE_ERROR).build();
 		}
@@ -132,7 +132,6 @@ public class Operaciones implements OperacionesAPI{
 				return Response.status(Response.Status.NOT_FOUND).
 						entity(NOT_FOUND_ERROR).build();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
 		}
@@ -179,7 +178,6 @@ public class Operaciones implements OperacionesAPI{
 		try {
 			lista = ops.getAmigos(id, filterBy, start, end);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
 		}
@@ -206,18 +204,16 @@ public class Operaciones implements OperacionesAPI{
 	@Override
 	public Response nuevoAmigo(@PathParam("id") String idU, String idA) {
 		OperacionesB ops = new OperacionesB();
+		idA = idA.replaceAll("\\D+","");
 		try {
 			ops.nuevoAmigo(idU, idA);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
 		} catch (InformacionInvalida e) {
-			e.printStackTrace();
 			return Response.status(Response.Status.NOT_ACCEPTABLE).
 					entity(NOT_ACCEPTABLE_ERROR).build();
 		} catch (NotFoundException e) {
-			e.printStackTrace();
 			return Response.status(Response.Status.NOT_FOUND).
 					entity(NOT_FOUND_ERROR).build();
 		}
