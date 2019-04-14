@@ -103,7 +103,23 @@ public class OperacionesB implements OperacionesUsuario{
 		PreparedStatement ps = conn.getConn().prepareStatement(query);
 		return ps.executeUpdate() == 1;
 	}
-	
+	@Override
+	public Usuario editarUsuario(String id, Usuario u) throws SQLException, InformacionInvalida{
+		Conexion conn = new Conexion();
+		String query = "SELECT * FROM Usuarios WHERE ID='" + id +"';";
+		PreparedStatement ps = conn.getConn().prepareStatement(query);
+		ResultSet rs = ps.executeQuery();
+		if (!rs.next())
+			throw new InformacionInvalida();
+		query = "UPDATE Usuarios SET NOMBRE='"+ u.getNombre() + "', APELLIDO1='" + 
+			u.getApellido1() + "', APELLIDO2='" + u.getApellido2() + 
+			"', TELEFONO='" + u.getTelefono() + "', EMAIL='" + u.getEmail() 
+			+ "', PAIS='" + u.getPais() + "' WHERE ID='" + u.getId() + "';";
+		ps = conn.getConn().prepareStatement(query);
+		ps.executeUpdate();
+		return u;
+	}
+
 	@Override
 	public List<Usuario> getAmigos(String id, String filterBy, 
 			String start, String end) throws SQLException {

@@ -13,6 +13,7 @@ public interface OperacionesAPI {
 	public Response responseGetUsuarios(String filtro);
 	public Response responseCrearUsuario(Usuario usuario);
 	public Response borrarUsuario(String id);
+	public Response editarUsuario(String id, Usuario usuario);
 	public Response getAmigos(String id, 
 			String filterBy, String start, String end);
 	public Response nuevoAmigo(Usuario usuario, Usuario amigo);

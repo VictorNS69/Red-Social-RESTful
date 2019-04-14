@@ -18,6 +18,7 @@ public interface OperacionesUsuario {
 	SQLException, InformacionInvalida;
 	public Usuario infoUsuario(int id) throws SQLException; 
 	public boolean borrarUsuario(String id) throws SQLException;
+	public Usuario editarUsuario(String id, Usuario usuario) throws SQLException, InformacionInvalida;
 	public List<Usuario> getAmigos(String id, String filterBy, 
 			String start, String end) throws SQLException;
 	public void nuevoAmigo(int idU, int idA) throws SQLException;

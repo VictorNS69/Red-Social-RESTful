@@ -10,6 +10,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -60,7 +61,7 @@ public class Operaciones implements OperacionesAPI{
 			String aux = "";
 			List <String> json = new ArrayList <String>();
 			for (Usuario usuario : lista) {
-				String location = uriInfo.getAbsolutePath() + "" + usuario.getId();
+				String location = uriInfo.getAbsolutePath() + "/" + usuario.getId();
 				aux = (new Gson().toJson(usuario).replace("}",
 						", \"location\": \"" + location + "\"}"));
 				json.add(aux);
@@ -73,6 +74,7 @@ public class Operaciones implements OperacionesAPI{
 	@POST
 	@Path("/usuarios")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response responseCrearUsuario(Usuario usuario) {
 		OperacionesB ops = new OperacionesB();
@@ -85,6 +87,7 @@ public class Operaciones implements OperacionesAPI{
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
 		} catch (InformacionInvalida e) {
+			System.out.println(e);
 			return Response.status(Response.Status.NOT_ACCEPTABLE).
 					entity(NOT_ACCEPTABLE_ERROR).build();
 		}
@@ -135,6 +138,31 @@ public class Operaciones implements OperacionesAPI{
 		return Response.status(Response.Status.OK).entity(OK_MESSAGE).build();
 	}
 
+	@PUT
+	@Path("/usuarios/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Override
+	public Response editarUsuario(@PathParam("id") String id, Usuario usuario) {
+		OperacionesB ops = new OperacionesB();
+		Usuario thisUsuario = null;
+		try {
+			thisUsuario = ops.editarUsuario(id, usuario);
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		} catch (InformacionInvalida e) {
+			System.out.println(e);
+			return Response.status(Response.Status.NOT_ACCEPTABLE).
+					entity(NOT_ACCEPTABLE_ERROR).build();
+		}
+		String location = uriInfo.getAbsolutePath().toString();
+		thisUsuario.setId(Integer.valueOf(id));
+		String json = (new Gson().toJson(thisUsuario));
+		json = json.replace("}", ", \"location\": \"" + location + "\"}");
+		return Response.status(Response.Status.OK).entity(json).build();
+	}
+	
 	@GET
 	@Path("/usuarios/{id}/amigos")
 	@Produces(MediaType.APPLICATION_JSON)
