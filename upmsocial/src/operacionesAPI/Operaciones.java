@@ -44,11 +44,11 @@ public class Operaciones implements OperacionesAPI{
 	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response responseGetUsuarios() {
+	public Response responseGetUsuarios(@QueryParam("filterBy") @DefaultValue("") String filterBy) {
 		List <Usuario> lista;
 		OperacionesB ops = new OperacionesB();
 		try {
-			lista = ops.getUsuarios();
+			lista = ops.getUsuarios(filterBy);
 		} catch (SQLException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();

@@ -11,7 +11,7 @@ import datos.Usuario;
 import excepciones.InformacionInvalida;
 
 public interface OperacionesUsuario {
-	public List<Usuario> getUsuarios() throws SQLException;
+	public List<Usuario> getUsuarios(String filter) throws SQLException;
 	public Usuario crearUsuario(String nombre, String apellido1, 
 			String apellido2, 
 			int telefono, String email, String pais) throws 

@@ -10,7 +10,7 @@ import datos.Usuario;
 
 
 public interface OperacionesAPI {
-	public Response responseGetUsuarios();
+	public Response responseGetUsuarios(String filtro);
 	public Response responseCrearUsuario(Usuario usuario);
 	public Response borrarUsuario(String id);
 	public Response getAmigos(String id, 

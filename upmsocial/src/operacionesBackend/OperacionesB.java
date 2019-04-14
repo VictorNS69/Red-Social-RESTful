@@ -19,9 +19,9 @@ import bd.Conexion;
 public class OperacionesB implements OperacionesUsuario{
 
 	@Override
-	public List<Usuario> getUsuarios() throws SQLException {
+	public List<Usuario> getUsuarios(String filter) throws SQLException {
 		Conexion conn = new Conexion();
-		String query = "SELECT * FROM Usuarios;";
+		String query = "SELECT * FROM Usuarios WHERE NOMBRE LIKE '%" + filter + "%';";
 		Statement st = conn.getConn().createStatement();
 		ResultSet rs = st.executeQuery(query);
 		List <Usuario> lista = new ArrayList <Usuario>();
