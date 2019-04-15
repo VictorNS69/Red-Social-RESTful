@@ -44,9 +44,9 @@ public class Operaciones implements OperacionesAPI{
     public Operaciones() {}
     
     @Path("/usuarios")
-	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response responseGetUsuarios(@QueryParam("filterBy") @DefaultValue("") String filterBy) {
 		List <Usuario> lista;
 		OperacionesB ops = new OperacionesB();
@@ -218,7 +218,7 @@ public class Operaciones implements OperacionesAPI{
 			return Response.status(Response.Status.NOT_FOUND).
 					entity(NOT_FOUND_ERROR).build();
 		}
-		String location = uriInfo.getAbsolutePath() + "/" + idA;
+		String location = "http://localhost:8080/upmsocial/usuarios/" + idA;
 		return Response.status(Response.Status.CREATED).entity(location).
 				header("Location", location).
 				header("Content-Location", location).build();
@@ -243,10 +243,34 @@ public class Operaciones implements OperacionesAPI{
 		return Response.status(Response.Status.OK).entity(OK_MESSAGE).build();
 	}
 	
+	@Path("/usuarios/{id}/muro_personal")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response getMensajesMuro(List<MensajeMuro> mensajes) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response getMensajesMuro(@QueryParam("filterBy") @DefaultValue("") String filterBy, @PathParam("id") String id) {
+		List <MensajeMuro> lista;
+		OperacionesB ops = new OperacionesB();
+		try {
+			lista = ops.getMensajesMuro(id, filterBy);
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		}
+		if (lista.isEmpty()) 
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		else {
+			String aux = "";
+			List <String> json = new ArrayList <String>();
+			for (MensajeMuro msj : lista) {
+				String location = uriInfo.getAbsolutePath() + "/" + msj.getId();
+				aux = (new Gson().toJson(msj).replace("}",
+						", \"location\": \"" + location + "\"}"));
+				json.add(aux);
+			}
+			return Response.status(Response.Status.OK).
+					entity(json.toString()).build();
+		}
 	}
 	
 	@Override

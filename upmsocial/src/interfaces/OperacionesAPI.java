@@ -18,7 +18,7 @@ public interface OperacionesAPI {
 			String filterBy, String start, String end);
 	public Response nuevoAmigo(String idU, String idA);
 	public Response borrarAmigo(String idU, String idA);
-	public Response getMensajesMuro(List<MensajeMuro>  mensajes);
+	public Response getMensajesMuro(String filterBy, String id);
 	public void publicarMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public MensajeMuro getMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public void editarMensajeMuro(Usuario usuario, MensajeMuro msj);

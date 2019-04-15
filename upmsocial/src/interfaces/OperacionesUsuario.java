@@ -23,7 +23,7 @@ public interface OperacionesUsuario {
 			String start, String end) throws SQLException;
 	public void nuevoAmigo(String idU, String idA) throws SQLException, InformacionInvalida;
 	public boolean borrarAmigo(String idU, String idA) throws SQLException;
-	public List<MensajeMuro> getMensajesMuro(int id) throws SQLException;
+	public List<MensajeMuro> getMensajesMuro(String id, String filter) throws SQLException;
 	public void publicarMensajeMuro(int idU, int idMsj, String cuerpo, 
 			Date fecha) throws SQLException, InformacionInvalida;
 	public MensajeMuro getMensajeMuro(Usuario usuario, MensajeMuro msj);

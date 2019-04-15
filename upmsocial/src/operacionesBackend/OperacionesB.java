@@ -267,7 +267,7 @@ public class OperacionesB implements OperacionesUsuario{
 	    ps.setString (2, idA);
 	    ps.executeUpdate();
 	}
-
+	
 	@Override
 	public boolean borrarAmigo(String idU, String idA) throws SQLException {
 		Conexion conn = new Conexion();		
@@ -278,19 +278,19 @@ public class OperacionesB implements OperacionesUsuario{
 
 	//TODO: La fecha tiene que transformarse en formato legible para la APP
 	@Override
-	public List<MensajeMuro> getMensajesMuro(int id) throws SQLException {
-		Conexion conn = new Conexion();	
-		String query = "SELECT * FROM Mensajes_muro WHERE ID_USUARIO='" + id + "';";
+	public List<MensajeMuro> getMensajesMuro(String id, String filter) throws SQLException {
+		Conexion conn = new Conexion();
+		String query = "SELECT * FROM Mensajes_muro WHERE ID_USUARIO = '"+id+"' AND CUERPO_MENSAJE LIKE '%" + filter + "%';";
 		Statement st = conn.getConn().createStatement();
 		ResultSet rs = st.executeQuery(query);
-		List <MensajeMuro> mensajes = new ArrayList <MensajeMuro>();
+		List <MensajeMuro> lista = new ArrayList <MensajeMuro>();
 		while(rs.next()) {
-			MensajeMuro mensaje = new MensajeMuro(rs.getInt("ID"), 
-					rs.getInt("ID_USUARIO"), rs.getString("CUERPO"), 
+			MensajeMuro msj = new MensajeMuro(rs.getInt("ID"), 
+					rs.getInt("ID_USUARIO"), rs.getString("CUERPO_MENSAJE"), 
 					rs.getDate("FECHA"));
-			mensajes.add(mensaje);
+			lista.add(msj);
 		}
-		return mensajes;
+		return lista;
 	}
 
 	//TODO: La fecha tiene que transformarse en formato SQL
