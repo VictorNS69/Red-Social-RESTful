@@ -270,10 +270,20 @@ public class OperacionesB implements OperacionesUsuario{
 	
 	@Override
 	public boolean borrarAmigo(String idU, String idA) throws SQLException {
-		Conexion conn = new Conexion();		
+		Conexion conn = new Conexion();	
+		boolean enc = false;
 		String query = "DELETE FROM Relaciones_amistad WHERE ID_AMIGO1 = '"+idU+"' AND ID_AMIGO2 = '"+idA+"';";
 		PreparedStatement ps = conn.getConn().prepareStatement(query);
-		return ps.executeUpdate(query) == 1;
+		if (ps.executeUpdate(query) == 1) {
+			enc = true;
+		} else {
+			query = "DELETE FROM Relaciones_amistad WHERE ID_AMIGO2 = '"+idU+"' AND ID_AMIGO1 = '"+idA+"';";
+			ps = conn.getConn().prepareStatement(query);
+			if (ps.executeUpdate(query) == 1) {
+				enc = true;
+			}
+		}
+		return enc;
 	}
 
 	//TODO: La fecha tiene que transformarse en formato legible para la APP
