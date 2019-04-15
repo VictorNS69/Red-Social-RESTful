@@ -224,11 +224,23 @@ public class Operaciones implements OperacionesAPI{
 				header("Content-Location", location).build();
 		
 		}
-
+	
+	@DELETE
+	@Path("/usuarios/{idU}/amigos/{idA}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
-	public Response borrarAmigo(Usuario usuario, Usuario amigo) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response borrarAmigo(@PathParam("idU") String idU, @PathParam("idA") String idA) {
+		OperacionesB ops = new OperacionesB();
+		try {
+			if (!ops.borrarAmigo(idU, idA))
+				return Response.status(Response.Status.NOT_FOUND).
+						entity(NOT_FOUND_ERROR).build();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		}
+		return Response.status(Response.Status.OK).entity(OK_MESSAGE).build();
 	}
 	
 	@Override

@@ -213,7 +213,7 @@ public class OperacionesB implements OperacionesUsuario{
 					+ " WHERE Relaciones_amistad.ID_AMIGO2='" + id + "';";
 		}
 		else {
-			if (start.isEmpty())
+			if (start.equals("0"))
 				start = "0";
 			else {
 				int realStart = 0;
@@ -225,7 +225,7 @@ public class OperacionesB implements OperacionesUsuario{
 			return "SELECT * FROM Usuarios join Relaciones_amistad"
 					+ " ON (Usuarios.ID = Relaciones_amistad.ID_AMIGO1) "
 					+ " WHERE Relaciones_amistad.ID_AMIGO2='" + id + "' AND NOMBRE LIKE '%"
-					+ filterBy +"%' ORDER BY ID LIMIT " + start + "," + end +";";
+					+ filterBy +"%' LIMIT " + start + "," + end +";";
 		}
 	}
 	
@@ -269,15 +269,11 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public void borrarAmigo(int idU, int idA) throws SQLException {
+	public boolean borrarAmigo(String idU, String idA) throws SQLException {
 		Conexion conn = new Conexion();		
-		String idUsuario = Integer.toString(idU);
-		String idAmigo = Integer.toString(idA);
-		String query = "DELETE FROM Relaciones_amistad"
-					 + "WHERE ID_AMIGO1 ='" + idUsuario
-					 + "AND ID_AMIGO2 ='" + idAmigo + "';";
-		Statement st = conn.getConn().createStatement();
-		st.executeQuery(query);
+		String query = "DELETE FROM Relaciones_amistad WHERE ID_AMIGO1 = '"+idU+"' AND ID_AMIGO2 = '"+idA+"';";
+		PreparedStatement ps = conn.getConn().prepareStatement(query);
+		return ps.executeUpdate(query) == 1;
 	}
 
 	//TODO: La fecha tiene que transformarse en formato legible para la APP
