@@ -12,6 +12,7 @@ import org.glassfish.jersey.client.ClientConfig;
 
 import datos.Usuario;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -30,9 +31,8 @@ public class Main {
 	        Client client = ClientBuilder.newClient(config);
 	        target = client.target(getBaseURI());
 		} catch (Exception e) {
-			System.out.println("No se ha podido conectar al servidor.\n Saliendo.");
-			e.printStackTrace();
-			System.exit(0);
+			System.err.println("No se ha podido conectar al servidor.\n Saliendo.");
+			System.exit(1);
 		}
 		OperacionesC ops = new Operaciones(target);
 		int option = -1;
@@ -46,6 +46,8 @@ public class Main {
 			System.out.println("\t5- Eliminar a un usuario concreto.");
 			System.out.println("\t6- Obtener los amigos de un usuario concreto.");
 			System.out.println("\t7- Añadir un amigo a un usuario concreto.");
+			System.out.println("\t8- Eliminar un amigo a un usuario concreto.");
+			System.out.println("\t9- Listar los mensajes en el muro de un usuario concreto.");
 			// TODO: Añadir los que falten
 			System.out.println("\t69- Salir.");
 			try {
@@ -149,16 +151,45 @@ public class Main {
 				        System.out.println("Entidad: " + valor);
 				        r.close();
 						break;
+					case 8:
+						Scanner in8 = new Scanner(System.in);
+						System.out.println("Escribe el id del usuario.");
+						idU = in8.nextInt();
+						System.out.println("Escribe el id del amigo.");
+						idA = in8.nextInt();
+						r = ops.borrarAmigoUsuario(idU, idA);
+						System.out.println("Estado: " + r.getStatus());
+				        valor = r.readEntity(String.class);
+				        System.out.println("Entidad: " + valor);
+						r.close();
+						break;
+					case 9:
+						System.out.println("Escribe un id.");
+						Scanner in9 = new Scanner(System.in);
+						id = in9.nextInt();
+						r = ops.mensajesMuroUsuario(id);
+						System.out.println("Estado: " + r.getStatus());
+				        valor = r.readEntity(String.class);
+				        System.out.println("Entidad: " + valor);
+				        r.close();
+				        break;
 					// TODO: Continuar
 					case 69:
 						System.out.println("Saliendo.");
 						System.exit(0);
 					default:
-						System.err.println("Opción introducida no válida!\n");
+						System.err.println("Opción introducida no válida");
 						continue;
 				}
-			} catch (Exception e) {
-				System.err.println("Opción introducida no válida!\n");
+			} 
+			catch (InputMismatchException e) {
+				System.err.println("Opción introducida no válida.");
+			}
+			catch (Exception e) {
+				System.err.println("No se ha podido conectar al servidor."
+						+ "\nCompruebe el estado del servidor.");
+				System.out.println("Saliendo.");
+				System.exit(1);
 			}		
 		}
 	}

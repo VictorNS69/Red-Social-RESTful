@@ -15,6 +15,7 @@ public class Operaciones implements OperacionesC{
 	private static String POST = "Metodo: POST";
 	private static String PUT = "Metodo: PUT";
 	private static String DELETE = "Metodo: DELETE";
+	
 	private WebTarget target = null;
 	
 	public Operaciones(WebTarget target) {
@@ -68,6 +69,7 @@ public class Operaciones implements OperacionesC{
 				.delete(Response.class);
 	}
 
+	// TODO: Añadir los posibles filtros
 	@Override
 	public Response amigosUsuario(int id) {
 		System.out.println(target.path("usuarios/" + id + "/amigos"));
@@ -85,6 +87,26 @@ public class Operaciones implements OperacionesC{
 		return target.path("usuarios/" + idU + "/amigos")
 				.request().accept(MediaType.APPLICATION_JSON)
 				.post(Entity.json(json));
+	}
+
+	// TODO: testear bien. Que se pueda borrar 1-2 y 2-1
+	@Override
+	public Response borrarAmigoUsuario(int idU, int idA) {
+		System.out.println(target.path("usuarios/" + idU + "/amigos/" + idA));
+		System.out.println(DELETE);
+		return target.path("usuarios/" + idU + "/amigos/" + idA)
+				.request().accept(MediaType.APPLICATION_JSON)
+				.delete(Response.class);
+	}
+
+	// TODO: Añadir los posibles filtros
+	@Override
+	public Response mensajesMuroUsuario(int id) {
+		System.out.println(target.path("usuarios/" + id + "/muro_personal"));
+		System.out.println(GET);
+		return target.path("usuarios/" + id + "/muro_personal")
+				.request().accept(MediaType.APPLICATION_JSON)
+				.get(Response.class);
 	}
 
 }
