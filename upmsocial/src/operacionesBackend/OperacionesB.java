@@ -187,14 +187,19 @@ public class OperacionesB implements OperacionesUsuario{
 					+ " WHERE Relaciones_amistad.ID_AMIGO1='" + id + "';";
 		}
 		else {
-			if (start.isEmpty())
+			if (start.equals("0"))
 				start = "0";
+			else {
+				int realStart = 0;
+				realStart = Integer.valueOf(start) - 1;
+				start = String.valueOf(realStart);
+			}
 			if (end.isEmpty())
 				end = "100";
 			return "SELECT * FROM Usuarios join Relaciones_amistad"
 					+ " ON (Usuarios.ID = Relaciones_amistad.ID_AMIGO2) "
 					+ " WHERE Relaciones_amistad.ID_AMIGO1='" + id + "' AND NOMBRE LIKE '%"
-					+ filterBy +"%' ORDER BY ID LIMIT " + start + "," + end +";";
+					+ filterBy +"%' LIMIT " + start + "," + end +";";
 		}
 	}
 	
@@ -210,6 +215,11 @@ public class OperacionesB implements OperacionesUsuario{
 		else {
 			if (start.isEmpty())
 				start = "0";
+			else {
+				int realStart = 0;
+				realStart = Integer.valueOf(start) - 1;
+				start = String.valueOf(realStart);
+			}
 			if (end.isEmpty())
 				end = "100";
 			return "SELECT * FROM Usuarios join Relaciones_amistad"
