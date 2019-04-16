@@ -34,7 +34,7 @@ public class Main {
 			System.err.println("No se ha podido conectar al servidor.\n Saliendo.");
 			System.exit(1);
 		}
-		OperacionesC ops = new Operaciones(target);
+		InterfazOperacionesC ops = new Operaciones(target);
 		int option = -1;
 		while (true) {
 			System.out.print("\n");

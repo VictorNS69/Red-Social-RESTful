@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 
 import datos.*;
 
-public class Operaciones implements OperacionesC{
+public class Operaciones implements InterfazOperacionesC{
 
 	private static String GET = "Metodo: GET";
 	private static String POST = "Metodo: POST";
