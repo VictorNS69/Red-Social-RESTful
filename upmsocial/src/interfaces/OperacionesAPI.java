@@ -82,5 +82,13 @@ public interface OperacionesAPI {
 			MensajePrivado msj);
 	public void borrarMensajePrivado(Usuario usuario, 
 			MensajePrivado msj);
+	
+	/** Devuelve la información de un usuario
+	 * @param id: id del usuario
+	 * @return Response
+	 */
 	public Response responseInfoUsuario(String id);
+	
+	public Response getMensajesMuroAmigos(String filterBy, String id);
+
 }

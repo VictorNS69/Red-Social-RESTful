@@ -110,4 +110,7 @@ public interface OperacionesUsuario {
 			MensajePrivado msj);
 	public void borrarMensajePrivado(Usuario usuario, 
 			MensajePrivado msj);
+	
+	public List<MensajeMuro> getMensajesMuroAmigos(String id, String filter) 
+			throws SQLException;
 }

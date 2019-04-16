@@ -321,4 +321,10 @@ public class Operaciones implements OperacionesAPI{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Response getMensajesMuroAmigos(String filterBy, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

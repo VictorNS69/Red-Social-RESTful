@@ -363,4 +363,10 @@ public class OperacionesB implements OperacionesUsuario{
 		
 	}
 
+	@Override
+	public List<MensajeMuro> getMensajesMuroAmigos(String id, String filter) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
