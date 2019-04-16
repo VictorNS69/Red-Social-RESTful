@@ -5,18 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.NotFoundException;
 
+import bd.Conexion;
 import datos.MensajeMuro;
 import datos.MensajePrivado;
 import datos.Usuario;
 import excepciones.InformacionInvalida;
 import interfaces.OperacionesUsuario;
-import bd.Conexion;
 
 public class OperacionesB implements OperacionesUsuario{
 
@@ -305,17 +304,25 @@ public class OperacionesB implements OperacionesUsuario{
 
 	//TODO: La fecha tiene que transformarse en formato SQL
 	@Override
-	public void publicarMensajeMuro(int idMsj, int idU, String cuerpo, 
-			Date fecha) throws SQLException, InformacionInvalida {
+	public MensajeMuro publicarMensajeMuro(String idU, String cuerpo) throws SQLException {
 		Conexion conn = new Conexion();
-		String query = "INSERT INTO Mensajes_muro (ID, ID_USUARIO, CUERPO, FECHA)"
-					 + "VALUES (?, ?, ?, ?);";	
-		PreparedStatement ps;
-		  ps = conn.getConn().prepareStatement(query);
-	      ps.setInt (1, idMsj);
-	      ps.setInt (2, idU);
-	      ps.setString (3, cuerpo);
-	      ps.setDate (4, fecha);
+		
+		String query = "SELECT * FROM Usuarios WHERE ID='" + idU +"';";
+		PreparedStatement ps = conn.getConn().prepareStatement(query);
+		ResultSet rs = ps.executeQuery();
+		if (!rs.next())
+			throw new NotFoundException();
+		
+		query = "INSERT INTO Mensajes_muro (ID_USUARIO, CUERPO_MENSAJE, FECHA) VALUES (?, ?, CURRENT_TIMESTAMP);";	
+		  ps = conn.getConn().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+		  ps.setInt(1, (int)Integer.valueOf(idU));
+		  ps.setString(2, cuerpo);
+	      ps.executeUpdate();
+	      rs = ps.getGeneratedKeys();
+			MensajeMuro msj = null;
+			if (rs.next()) 
+				msj = new MensajeMuro((int)Integer.valueOf(rs.getString(1)), (int)Integer.valueOf(idU), cuerpo);
+			return msj;
 	}
 
 	@Override

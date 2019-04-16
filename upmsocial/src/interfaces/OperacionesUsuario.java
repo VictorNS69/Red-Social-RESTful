@@ -98,8 +98,7 @@ public interface OperacionesUsuario {
 	public List<MensajeMuro> getMensajesMuro(String id, String filter) 
 			throws SQLException;
 	
-	public void publicarMensajeMuro(int idU, int idMsj, String cuerpo, 
-			Date fecha) throws SQLException, InformacionInvalida;
+	public MensajeMuro publicarMensajeMuro(String idU, String cuerpo) throws SQLException, InformacionInvalida;
 	public MensajeMuro getMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public void editarMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public void borrarMensajeMuro(Usuario usuario, MensajeMuro msj);

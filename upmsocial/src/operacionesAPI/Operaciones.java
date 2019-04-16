@@ -125,7 +125,7 @@ public class Operaciones implements OperacionesAPI{
 	@Path("/usuarios/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
-	public Response borrarUsuario(@PathParam("id") String id) {
+	public Response responseBorrarUsuario(@PathParam("id") String id) {
 		OperacionesB ops = new OperacionesB();
 		try {
 			if (!ops.borrarUsuario(id))
@@ -143,7 +143,7 @@ public class Operaciones implements OperacionesAPI{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response editarUsuario(@PathParam("id") String id, Usuario usuario) {
+	public Response responseEditarUsuario(@PathParam("id") String id, Usuario usuario) {
 		OperacionesB ops = new OperacionesB();
 		Usuario thisUsuario = null;
 		try {
@@ -169,7 +169,7 @@ public class Operaciones implements OperacionesAPI{
 	@Path("/usuarios/{id}/amigos")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response getAmigos(@PathParam("id") String id, 
+	public Response responseGetAmigos(@PathParam("id") String id, 
 			@QueryParam("filterBy") @DefaultValue("") String filterBy,
 			@QueryParam("start") @DefaultValue("0")String start,
 			@QueryParam("end") @DefaultValue("100") String end) {
@@ -203,7 +203,7 @@ public class Operaciones implements OperacionesAPI{
 	@Path("/usuarios/{id}/amigos")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
-	public Response nuevoAmigo(@PathParam("id") String idU, String idA) {
+	public Response responseNuevoAmigo(@PathParam("id") String idU, String idA) {
 		OperacionesB ops = new OperacionesB();
 		idA = idA.replaceAll("\\D+","");
 		try {
@@ -229,7 +229,7 @@ public class Operaciones implements OperacionesAPI{
 	@Path("/usuarios/{idU}/amigos/{idA}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
-	public Response borrarAmigo(@PathParam("idU") String idU, @PathParam("idA") String idA) {
+	public Response responseBorrarAmigo(@PathParam("idU") String idU, @PathParam("idA") String idA) {
 		OperacionesB ops = new OperacionesB();
 		try {
 			if (!ops.borrarAmigo(idU, idA))
@@ -247,7 +247,7 @@ public class Operaciones implements OperacionesAPI{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response getMensajesMuro(@QueryParam("filterBy") @DefaultValue("") String filterBy, @PathParam("id") String id) {
+	public Response responseGetMensajesMuro(@QueryParam("filterBy") @DefaultValue("") String filterBy, @PathParam("id") String id) {
 		List <MensajeMuro> lista;
 		OperacionesB ops = new OperacionesB();
 		try {
@@ -273,57 +273,77 @@ public class Operaciones implements OperacionesAPI{
 		}
 	}
 	
+	@POST
+	@Path("/usuarios/{id}/muro_personal")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public void publicarMensajeMuro(Usuario usuario, MensajeMuro msj) {
-		// TODO Auto-generated method stub
+	public Response responsePublicarMensajeMuro(@PathParam("id") String id, String cuerpo) {
+		OperacionesB ops = new OperacionesB();
+		cuerpo = cuerpo.replaceAll("\\W+","");
+		MensajeMuro thisMsj = null;
+		try {
+			thisMsj = ops.publicarMensajeMuro(id, cuerpo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		} catch (NotFoundException e) {
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		}
+		String location = uriInfo.getAbsolutePath() + "/" + thisMsj.getId();
+		return Response.status(Response.Status.CREATED).entity(location).
+				header("Location", location).
+				header("Content-Location", location).build();
 		
 	}
 
 	@Override
-	public MensajeMuro getMensajeMuro(Usuario usuario, MensajeMuro msj) {
+	public MensajeMuro responseGetMensajeMuro(Usuario usuario, MensajeMuro msj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void editarMensajeMuro(Usuario usuario, MensajeMuro msj) {
+	public void responseEditarMensajeMuro(Usuario usuario, MensajeMuro msj) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void borrarMensajeMuro(Usuario usuario, MensajeMuro msj) {
+	public void responseBorrarMensajeMuro(Usuario usuario, MensajeMuro msj) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<MensajePrivado> getMensajesPrivados(Usuario usuario) {
+	public List<MensajePrivado> responseGetMensajesPrivados(Usuario usuario) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void enviarMensajePrivado(Usuario origen, Usuario destino,
+	public void responseEnviarMensajePrivado(Usuario origen, Usuario destino,
 			MensajePrivado msj) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public MensajePrivado getMensajePrivado(Usuario usuario, MensajePrivado msj) {
+	public MensajePrivado responseGetMensajePrivado(Usuario usuario, MensajePrivado msj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void borrarMensajePrivado(Usuario usuario, MensajePrivado msj) {
+	public void responseBorrarMensajePrivado(Usuario usuario, MensajePrivado msj) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Response getMensajesMuroAmigos(String filterBy, String id) {
+	public Response responseGetMensajesMuroAmigos(String filterBy, String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

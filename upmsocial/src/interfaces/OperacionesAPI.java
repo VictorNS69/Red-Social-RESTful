@@ -2,6 +2,7 @@ package interfaces;
 
 import java.util.List;
 
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.*;
 
 import datos.MensajeMuro;
@@ -27,14 +28,14 @@ public interface OperacionesAPI {
 	 * @param id: id del usuario
 	 * @return Response
 	 */
-	public Response borrarUsuario(String id);
+	public Response responseBorrarUsuario(String id);
 	
 	/** Edita a un usuario
 	 * @param id: id del usuario
 	 * @param usuario: usuario modificado
 	 * @return Response
 	 */
-	public Response editarUsuario(String id, Usuario usuario);
+	public Response responseEditarUsuario(String id, Usuario usuario);
 	
 	/** Lista los amigos de un usuario
 	 * @param id: id del usuario
@@ -45,7 +46,7 @@ public interface OperacionesAPI {
 	 * 'end'
 	 * @return Response
 	 */
-	public Response getAmigos(String id, String filterBy, 
+	public Response responseGetAmigos(String id, String filterBy, 
 			String start, String end);
 	
 	/** Añade un nuevo amigo a un usuario concreto
@@ -53,14 +54,14 @@ public interface OperacionesAPI {
 	 * @param idA: id del amigo
 	 * @return Response
 	 */
-	public Response nuevoAmigo(String idU, String idA);
+	public Response responseNuevoAmigo(String idU, String idA);
 	
 	/** Borra a un amigo de un usuario
 	 * @param idU: id del usuario
 	 * @param idA: id del amigo
 	 * @return Response
 	 */
-	public Response borrarAmigo(String idU, String idA);
+	public Response responseBorrarAmigo(String idU, String idA);
 	
 	/** Lista los mensajes en el muro de un usuario
 	 * @param filterBy: filtro opcional para filtrar por
@@ -68,19 +69,19 @@ public interface OperacionesAPI {
 	 * @param id: id del usuario
 	 * @return
 	 */
-	public Response getMensajesMuro(String filterBy, String id);
+	public Response responseGetMensajesMuro(String filterBy, String id);
 	
 	
-	public void publicarMensajeMuro(Usuario usuario, MensajeMuro msj);
-	public MensajeMuro getMensajeMuro(Usuario usuario, MensajeMuro msj);
-	public void editarMensajeMuro(Usuario usuario, MensajeMuro msj);
-	public void borrarMensajeMuro(Usuario usuario, MensajeMuro msj);
-	public List<MensajePrivado> getMensajesPrivados(Usuario usuario);
-	public void enviarMensajePrivado(Usuario origen, Usuario destino, 
+	public Response responsePublicarMensajeMuro(String id, String cuerpo);
+	public MensajeMuro responseGetMensajeMuro(Usuario usuario, MensajeMuro msj);
+	public void responseEditarMensajeMuro(Usuario usuario, MensajeMuro msj);
+	public void responseBorrarMensajeMuro(Usuario usuario, MensajeMuro msj);
+	public List<MensajePrivado> responseGetMensajesPrivados(Usuario usuario);
+	public void responseEnviarMensajePrivado(Usuario origen, Usuario destino, 
 			MensajePrivado msj);
-	public MensajePrivado getMensajePrivado(Usuario usuario, 
+	public MensajePrivado responseGetMensajePrivado(Usuario usuario, 
 			MensajePrivado msj);
-	public void borrarMensajePrivado(Usuario usuario, 
+	public void responseBorrarMensajePrivado(Usuario usuario, 
 			MensajePrivado msj);
 	
 	/** Devuelve la información de un usuario
@@ -89,6 +90,6 @@ public interface OperacionesAPI {
 	 */
 	public Response responseInfoUsuario(String id);
 	
-	public Response getMensajesMuroAmigos(String filterBy, String id);
+	public Response responseGetMensajesMuroAmigos(String filterBy, String id);
 
 }

@@ -15,6 +15,13 @@ public class MensajeMuro {
 		this.cuerpo = cuerpo;
 		this.fecha = fecha;
 	}
+	
+	public MensajeMuro(int id, int idUsuario, 
+			String cuerpo) {
+		this.id = id;
+		this.idUsuario = idUsuario;
+		this.cuerpo = cuerpo;
+	}
 
 	public int getId() {
 		return id;
