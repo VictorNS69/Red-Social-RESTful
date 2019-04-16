@@ -24,7 +24,8 @@ public class Main {
         return UriBuilder.fromUri("http://localhost:8080/upmsocial/").build();
     }
 
-	@SuppressWarnings("resource")
+	/** Prepare the data to call Operaciones.listaUsuarios
+	 */
 	private static void listaUsuarios() {
 		Response r;
 		String valor = "";
@@ -35,7 +36,9 @@ public class Main {
         System.out.println("Entidad: " + valor);
         r.close();
 	}
-
+	
+	/** Prepare the data to call Operaciones.anadirUsuario
+	 */
 	@SuppressWarnings("resource")
 	private static void anadirUsuario() {		
 		Response r;
@@ -63,6 +66,8 @@ public class Main {
         r.close();
 	}
 
+	/** Prepare the data to call Operaciones.infoUsuario
+	 */
 	@SuppressWarnings("resource")
 	private static void infoUsuario() {
 		Response r;
@@ -78,6 +83,8 @@ public class Main {
 		r.close();
 	}
 
+	/** Prepare the data to call Operaciones.modificaUsuario
+	 */
 	@SuppressWarnings("resource")
 	private static void modificaUsuario() {
 		Response r;
@@ -108,6 +115,8 @@ public class Main {
 		r.close();
 	}
 
+	/** Prepare the data to call Operaciones.eliminaUsuario
+	 */
 	@SuppressWarnings("resource")
 	private static void eliminaUsuario() {
 		Response r;
@@ -123,6 +132,8 @@ public class Main {
 		r.close();
 	}
 
+	/** Prepare the data to call Operaciones.amigosUsuario
+	 */
 	@SuppressWarnings("resource")
 	private static void amigosUsuario() {
 		Response r;
@@ -141,7 +152,9 @@ public class Main {
 			System.err.println("Opción introducida no válida.");
 		}
 	}
-
+	
+	/** Prepare the data to call Operaciones.anadirAmigoUsuario
+	 */
 	@SuppressWarnings("resource")
 	private static void anadirAmigoUsuario() {
 		Response r;
@@ -159,6 +172,8 @@ public class Main {
         r.close();
 	}
 
+	/** Prepare the data to call Operaciones.borrarAmigoUsuario
+	 */
 	@SuppressWarnings("resource")
 	private static void borrarAmigoUsuario() {
 		Response r;
@@ -176,6 +191,8 @@ public class Main {
 		r.close();
 	}
 
+	/** Prepare the data to call Operaciones.mensajesMuroUsuario
+	 */
 	@SuppressWarnings("resource")
 	private static void mensajesMuroUsuario() {
 		Response r;
@@ -191,6 +208,10 @@ public class Main {
         r.close();
 	}
 	
+	/** Main program (executable).
+	 * The program depends on the option you chose. 
+	 * It can test all the functionalities from our API REST
+	 */
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		System.out.println("Bienvenido al cliente.");
