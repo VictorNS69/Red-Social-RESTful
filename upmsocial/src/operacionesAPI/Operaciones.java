@@ -178,7 +178,6 @@ public class Operaciones implements OperacionesAPI{
 		try {
 			lista = ops.getAmigos(id, filterBy, start, end);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
 		}
@@ -236,7 +235,6 @@ public class Operaciones implements OperacionesAPI{
 				return Response.status(Response.Status.NOT_FOUND).
 						entity(NOT_FOUND_ERROR).build();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
 		}
@@ -280,12 +278,16 @@ public class Operaciones implements OperacionesAPI{
 	@Override
 	public Response responsePublicarMensajeMuro(@PathParam("id") String id, String cuerpo) {
 		OperacionesB ops = new OperacionesB();
-		cuerpo = cuerpo.replaceAll("\\W+","");
+		// Removed all JSON stuff we don't want
+		cuerpo = cuerpo.replace("{","").replace("}", "").
+				replace("\"cuerpo\":", "").replaceAll("\t", "")
+				.replaceAll("\b", "");
+		// Remove the first 2 blanks and the double quote (")
+		cuerpo = cuerpo.substring(3, cuerpo.length()-2);
 		MensajeMuro thisMsj = null;
 		try {
 			thisMsj = ops.publicarMensajeMuro(id, cuerpo);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
 		} catch (NotFoundException e) {

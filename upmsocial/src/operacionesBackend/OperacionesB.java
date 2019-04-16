@@ -285,7 +285,6 @@ public class OperacionesB implements OperacionesUsuario{
 		return enc;
 	}
 
-	//TODO: La fecha tiene que transformarse en formato legible para la APP
 	@Override
 	public List<MensajeMuro> getMensajesMuro(String id, String filter) throws SQLException {
 		Conexion conn = new Conexion();
@@ -302,27 +301,25 @@ public class OperacionesB implements OperacionesUsuario{
 		return lista;
 	}
 
-	//TODO: La fecha tiene que transformarse en formato SQL
 	@Override
 	public MensajeMuro publicarMensajeMuro(String idU, String cuerpo) throws SQLException {
 		Conexion conn = new Conexion();
-		
 		String query = "SELECT * FROM Usuarios WHERE ID='" + idU +"';";
 		PreparedStatement ps = conn.getConn().prepareStatement(query);
 		ResultSet rs = ps.executeQuery();
 		if (!rs.next())
 			throw new NotFoundException();
-		
+
 		query = "INSERT INTO Mensajes_muro (ID_USUARIO, CUERPO_MENSAJE, FECHA) VALUES (?, ?, CURRENT_TIMESTAMP);";	
-		  ps = conn.getConn().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-		  ps.setInt(1, (int)Integer.valueOf(idU));
-		  ps.setString(2, cuerpo);
-	      ps.executeUpdate();
-	      rs = ps.getGeneratedKeys();
-			MensajeMuro msj = null;
-			if (rs.next()) 
-				msj = new MensajeMuro((int)Integer.valueOf(rs.getString(1)), (int)Integer.valueOf(idU), cuerpo);
-			return msj;
+		ps = conn.getConn().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+		ps.setInt(1, (int)Integer.valueOf(idU));
+		ps.setString(2, cuerpo);
+		ps.executeUpdate();
+		rs = ps.getGeneratedKeys();
+		MensajeMuro msj = null;
+		if (rs.next()) 
+			msj = new MensajeMuro((int)Integer.valueOf(rs.getString(1)), (int)Integer.valueOf(idU), cuerpo);
+		return msj;
 	}
 
 	@Override
