@@ -2,7 +2,6 @@ package interfaces;
 
 import java.util.List;
 
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.*;
 
 import datos.MensajeMuro;
@@ -73,7 +72,13 @@ public interface OperacionesAPI {
 	
 	
 	public Response responsePublicarMensajeMuro(String id, String cuerpo);
-	public MensajeMuro responseGetMensajeMuro(Usuario usuario, MensajeMuro msj);
+	
+	/** Devuelve un mensaje de muro concreto
+	 * @param idU: id del usuario
+	 * @param idM: id del mensaje
+	 * @return Response
+	 */
+	public Response responseGetMensajeMuro(String idU, String idM);
 	public void responseEditarMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public void responseBorrarMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public List<MensajePrivado> responseGetMensajesPrivados(Usuario usuario);
@@ -85,11 +90,17 @@ public interface OperacionesAPI {
 			MensajePrivado msj);
 	
 	/** Devuelve la información de un usuario
-	 * @param id: id del usuario
+	 * @param idU: id del usuario
 	 * @return Response
 	 */
-	public Response responseInfoUsuario(String id);
+	public Response responseInfoUsuario(String idU);
 	
-	public Response responseGetMensajesMuroAmigos(String filterBy, String id);
+	/** Obtiene una lista de mensajes de los amigos de un usuario
+	 * @param id: id del usuario
+	 * @param filterBy: filtro opcional para filtrar el cuerpo del
+	 * mensjae
+	 * @return Response
+	 */
+	public Response responseGetMensajesMuroAmigos(String id, String filterBy);
 
 }

@@ -300,11 +300,25 @@ public class Operaciones implements OperacionesAPI{
 				header("Content-Location", location).build();
 		
 	}
-
+	@Path("/usuarios/{idU}/muro_personal/{idM}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public MensajeMuro responseGetMensajeMuro(Usuario usuario, MensajeMuro msj) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response responseGetMensajeMuro(@PathParam("idU") String idU, @PathParam("idM") String idM) {
+		MensajeMuro msj;
+		OperacionesB ops = new OperacionesB();
+		try {
+			msj = ops.getMensajeMuro(idU, idM);
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		}catch (NotFoundException e) {
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		}
+		String json = new Gson().toJson(msj);
+		return Response.status(Response.Status.OK).
+				entity(json.toString()).build();
 	}
 
 	@Override
@@ -343,10 +357,36 @@ public class Operaciones implements OperacionesAPI{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	@Path("/usuarios/{id}/muro_amigos")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response responseGetMensajesMuroAmigos(String filterBy, String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response responseGetMensajesMuroAmigos(@PathParam("id") String id,
+			@QueryParam("filterBy") @DefaultValue("") String filterBy) {
+		List <MensajeMuro> lista;
+		OperacionesB ops = new OperacionesB();
+		try {
+			lista = ops.getMensajesMuroAmigos(id, filterBy);
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		}
+		if (lista.isEmpty()) 
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		else {
+			String aux = "";
+			List <String> json = new ArrayList <String>();
+			for (MensajeMuro msj : lista) {
+				String location = uriInfo.getBaseUri() + "usuarios/"+ msj.getIdUsuario() + 
+						"/muro_personal/" + msj.getId();
+				aux = (new Gson().toJson(msj).replace("}",
+						", \"location\": \"" + location + "\"}"));
+				json.add(aux);
+			}
+			return Response.status(Response.Status.OK).
+					entity(json.toString()).build();
+		}
 	}
 }

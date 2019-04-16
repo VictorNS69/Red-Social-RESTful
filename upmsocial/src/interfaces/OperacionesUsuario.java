@@ -1,6 +1,5 @@
 package interfaces;
 
-import java.sql.Date;
 import java.sql.SQLException;
 
 import java.util.List;
@@ -99,8 +98,16 @@ public interface OperacionesUsuario {
 			throws SQLException;
 	
 	public MensajeMuro publicarMensajeMuro(String idU, String cuerpo) throws SQLException, InformacionInvalida;
-	public MensajeMuro getMensajeMuro(Usuario usuario, MensajeMuro msj);
-	public void editarMensajeMuro(Usuario usuario, MensajeMuro msj);
+	
+	/** Obtiene un mensaje de muro concreto
+	 * @param idU: id del usuario
+	 * @param idM: id del mensaje
+	 * @return MensajeMuro
+	 */
+	public MensajeMuro getMensajeMuro(String idU, String idM) throws SQLException;
+	
+	
+	public void editarMensajeMuro(Usuario usuario, MensajeMuro msj) throws SQLException;
 	public void borrarMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public List<MensajePrivado> getMensajesPrivados(Usuario usuario);
 	public void enviarMensajePrivado(Usuario origen, Usuario destino, 
@@ -110,6 +117,13 @@ public interface OperacionesUsuario {
 	public void borrarMensajePrivado(Usuario usuario, 
 			MensajePrivado msj);
 	
+	/** Obtiene una lista de mensajes de los amigos de un usuario
+	 * @param id: id del usuario
+	 * @param filter: filtro opcional para filtrar el cuerpo del
+	 * mensjae
+	 * @return List: lista de mensajes de los amigos
+	 * @throws SQLException
+	 */
 	public List<MensajeMuro> getMensajesMuroAmigos(String id, String filter) 
 			throws SQLException;
 }

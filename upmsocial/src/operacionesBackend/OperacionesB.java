@@ -1,6 +1,5 @@
 package operacionesBackend;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -323,9 +322,17 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public MensajeMuro getMensajeMuro(Usuario usuario, MensajeMuro msj) {
-		// TODO Auto-generated method stub
-		return null;
+	public MensajeMuro getMensajeMuro(String idU, String idM) throws SQLException {
+		Conexion conn = new Conexion();
+		String query = "SELECT * FROM Mensajes_muro WHERE ID='" + idM + "' AND ID_USUARIO='" + idU + "';";
+		Statement st = conn.getConn().createStatement();
+		ResultSet rs = st.executeQuery(query);
+		if (!rs.next())
+			throw new NotFoundException();
+		
+		return new MensajeMuro(rs.getInt("ID"), 
+					rs.getInt("ID_USUARIO"), rs.getString("CUERPO_MENSAJE"), 
+					rs.getDate("FECHA"));
 	}
 
 	@Override
@@ -369,8 +376,23 @@ public class OperacionesB implements OperacionesUsuario{
 
 	@Override
 	public List<MensajeMuro> getMensajesMuroAmigos(String id, String filter) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Conexion conn = new Conexion();
+		String query = "SELECT * FROM Mensajes_muro JOIN Relaciones_amistad " + 
+				"ON ((Mensajes_muro.ID_USUARIO=Relaciones_amistad.ID_AMIGO1 " + 
+				"OR Mensajes_muro.ID_USUARIO=Relaciones_amistad.ID_AMIGO2) " + 
+				"AND Mensajes_muro.ID_USUARIO!=" + id + ") " + 
+				"WHERE ID_AMIGO1=" + id + " OR ID_AMIGO2="+ id + " AND CUERPO_MENSAJE LIKE '%" + filter + "%' " + 
+				"ORDER BY FECHA DESC;";
+		Statement st = conn.getConn().createStatement();
+		ResultSet rs = st.executeQuery(query);
+		List <MensajeMuro> lista = new ArrayList <MensajeMuro>();
+		while(rs.next()) {
+			MensajeMuro msj = new MensajeMuro(rs.getInt("ID"), 
+					rs.getInt("ID_USUARIO"), rs.getString("CUERPO_MENSAJE"), 
+					rs.getDate("FECHA"));
+			lista.add(msj);
+		}
+		return lista;
 	}
 
 }
