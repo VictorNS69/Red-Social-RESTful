@@ -1,5 +1,7 @@
 package cliente;
 
+import java.util.Scanner;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -22,12 +24,15 @@ public class Operaciones implements OperacionesC{
 		this.target = target;
 	}
 	
-	// TODO: hacer el filtro
 	@Override
 	public Response listaUsuarios() {
+		System.out.println("Elige un filtro para el nombre. \n(Si quieres omitir pulsa <enter>)");
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		String filter = in.nextLine();
 		System.out.println(target.path("usuarios"));
 		System.out.println(GET);
-		return target.path("usuarios")
+		return target.path("usuarios").queryParam("filterBy", filter)
 				.request().accept(MediaType.APPLICATION_JSON)
 				.get(Response.class);
 	}
@@ -69,12 +74,28 @@ public class Operaciones implements OperacionesC{
 				.delete(Response.class);
 	}
 
-	// TODO: Añadir los posibles filtros
 	@Override
 	public Response amigosUsuario(int id) {
+		System.out.println("Elige un filtro para el nombre. \n(Si quieres omitir pulsa <enter>)");
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		String filter = in.nextLine();
+		System.out.println("Elige inicio. \n(Si quieres omitir pulsa <enter>)");
+		String start = in.nextLine();
+		System.out.println("Elige final. \n(Si quieres omitir pulsa <enter>)");
+		String end = in.nextLine();
+		try {
+			if (!start.isEmpty())
+				Integer.valueOf(start);
+			if (!end.isEmpty())
+				Integer.valueOf(end);
+		} catch (NumberFormatException e) {
+			throw new NumberFormatException();
+		}
 		System.out.println(target.path("usuarios/" + id + "/amigos"));
 		System.out.println(GET);
-		return target.path("usuarios/" + id + "/amigos")
+		return target.path("usuarios/" + id + "/amigos").queryParam("filterBy", filter)
+				.queryParam("start", start).queryParam("end", end)
 				.request().accept(MediaType.APPLICATION_JSON)
 				.get(Response.class);
 	}
@@ -89,7 +110,6 @@ public class Operaciones implements OperacionesC{
 				.post(Entity.json(json));
 	}
 
-	// TODO: testear bien. Que se pueda borrar 1-2 y 2-1
 	@Override
 	public Response borrarAmigoUsuario(int idU, int idA) {
 		System.out.println(target.path("usuarios/" + idU + "/amigos/" + idA));
@@ -99,12 +119,16 @@ public class Operaciones implements OperacionesC{
 				.delete(Response.class);
 	}
 
-	// TODO: Añadir los posibles filtros
 	@Override
 	public Response mensajesMuroUsuario(int id) {
+		System.out.println("Elige un filtro para el cuerpo del mensaje. \n(Si quieres omitir pulsa <enter>)");
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		String filter = in.nextLine();
 		System.out.println(target.path("usuarios/" + id + "/muro_personal"));
 		System.out.println(GET);
 		return target.path("usuarios/" + id + "/muro_personal")
+				.queryParam("filterBy", filter)
 				.request().accept(MediaType.APPLICATION_JSON)
 				.get(Response.class);
 	}

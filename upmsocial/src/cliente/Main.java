@@ -133,11 +133,15 @@ public class Main {
 						System.out.println("Escribe un id.");
 						Scanner in6 = new Scanner(System.in);
 						id = in6.nextInt();
-						r = ops.amigosUsuario(id);
-						System.out.println("Estado: " + r.getStatus());
-				        valor = r.readEntity(String.class);
-				        System.out.println("Entidad: " + valor);
-				        r.close();
+						try {
+							r = ops.amigosUsuario(id);
+							System.out.println("Estado: " + r.getStatus());
+					        valor = r.readEntity(String.class);
+					        System.out.println("Entidad: " + valor);
+					        r.close();
+						} catch (NumberFormatException e) {
+							System.err.println("Opción introducida no válida.");
+						}
 						break;
 					case 7:
 						Scanner in7 = new Scanner(System.in);
