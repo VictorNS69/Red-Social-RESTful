@@ -133,4 +133,22 @@ public class Operaciones implements InterfazOperacionesC{
 				.get(Response.class);
 	}
 
+	@Override
+	public Response mensajeMuroUsuario(int idU, int idM) {
+		System.out.println(target.path("usuarios/" + idU + "/muro_personal/" + idM));
+		System.out.println(GET);
+		return target.path("usuarios/" + idU + "/muro_personal/" + idM)
+				.request().accept(MediaType.APPLICATION_JSON)
+				.get(Response.class);
+	}
+
+	@Override
+	public Response publicarMensajeMuro(int id, String msg) {
+		System.out.println(target.path("usuarios/" + id + "/amigos"));
+		System.out.println(POST);
+		String format = "{\"cuerpo\":  \""+ msg + "\" }";
+		return target.path("usuarios/" + id + "/muro_personal")
+				.request().accept(MediaType.APPLICATION_JSON)
+				.post(Entity.json(format));
+	}
 }

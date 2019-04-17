@@ -208,6 +208,45 @@ public class Main {
         r.close();
 	}
 	
+	/** Prepare the data to call Operaciones.publicarMensajeMuro
+	 */
+	@SuppressWarnings("resource")
+	private static void publicarMensajeMuroUsuario() {
+		Response r;
+		String valor = "";
+		InterfazOperacionesC ops = new Operaciones(target);
+		System.out.println("Escribe un id.");
+		Scanner in9 = new Scanner(System.in);
+		int idU = in9.nextInt();
+		System.out.println("Escribe el texto del mensaje.");
+		Scanner in = new Scanner(System.in);
+		String msg = in.nextLine();
+		r = ops.publicarMensajeMuro(idU, msg);
+		System.out.println("Estado: " + r.getStatus());
+        valor = r.readEntity(String.class);
+        System.out.println("Entidad: " + valor);
+	}
+	
+	/** Prepare the data to call Operaciones.mensajeMuroUsuario
+	 */
+	@SuppressWarnings("resource")
+	private static void mensajeMuroUsuario() {
+		Response r;
+		String valor = "";
+		InterfazOperacionesC ops = new Operaciones(target);
+		System.out.println("Escribe el id del usuario.");
+		Scanner in9 = new Scanner(System.in);
+		int idU = in9.nextInt();
+		System.out.println("Escribe el id del mensaje.");
+		Scanner in = new Scanner(System.in);
+		int idM = in.nextInt();
+		r = ops.mensajeMuroUsuario(idU, idM);
+		System.out.println("Estado: " + r.getStatus());
+        valor = r.readEntity(String.class);
+        System.out.println("Entidad: " + valor);
+        r.close();
+	}
+	
 	/** Main program (executable).
 	 * The program depends on the option you chose. 
 	 * It can test all the functionalities from our API REST
@@ -236,6 +275,8 @@ public class Main {
 			System.out.println("\t7- Añadir un amigo a un usuario concreto.");
 			System.out.println("\t8- Eliminar un amigo a un usuario concreto.");
 			System.out.println("\t9- Listar los mensajes en el muro de un usuario concreto.");
+			System.out.println("\t10- Publica un nuevo mensaje en el muro de un usuario.");
+			System.out.println("\t11- Obtener un mensaje en el muro concreto de un usuario.");
 			// TODO: Añadir los que falten
 			System.out.println("\t69- Salir.");
 			try {
@@ -270,6 +311,12 @@ public class Main {
 					case 9:
 						mensajesMuroUsuario();
 				        break;
+					case 10:
+						publicarMensajeMuroUsuario();
+						break;
+					case 11:
+						mensajeMuroUsuario();
+						break;
 					// TODO: Continuar
 					case 69:
 						System.out.println("Saliendo.");

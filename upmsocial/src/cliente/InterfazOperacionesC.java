@@ -61,4 +61,19 @@ public interface InterfazOperacionesC {
 	 * @return Response
 	 */
 	public Response mensajesMuroUsuario(int id);
+
+	/** Obtiene un mensaje de muro concreto
+	 * @param idU: id del usuario
+	 * @param idM: id del mensaje
+	 * @return Response
+	 */
+	public Response mensajeMuroUsuario(int idU, int idM);
+	
+	/** Publica un nuevo mensaje en el muro
+	 * @param id: id del usuario
+	 * @param msg: mensaje a publicar
+	 * @return
+	 */
+	public Response publicarMensajeMuro(int id, String msg);
+	
 }
