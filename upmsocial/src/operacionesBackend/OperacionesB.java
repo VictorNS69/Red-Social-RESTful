@@ -336,11 +336,10 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public void editarMensajeMuro(String idM, String cuerpo) throws SQLException {
+	public void editarMensajeMuro(String idU, String idM, String cuerpo) throws SQLException {
 		Conexion conn = new Conexion();
-		
 		// Message exist in the DB
-		String query = "SELECT * FROM Mensajes_muro WHERE ID='" + idM +"';";
+		String query = "SELECT * FROM Mensajes_muro WHERE ID='" + idM +"' AND ID_USUARIO='" + idU +"';";
 		PreparedStatement ps = conn.getConn().prepareStatement(query);
 		ResultSet rs = ps.executeQuery();
 		if (!rs.next())

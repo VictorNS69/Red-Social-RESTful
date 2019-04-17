@@ -31,8 +31,7 @@ public interface OperacionesAPI {
 	
 	/** Edita a un usuario
 	 * @param id: id del usuario
-	 * @param usuario: usuario modificado	public Response responseEditarMensajeMuro(Usuario usuario, MensajeMuro msj);
-
+	 * @param usuario: usuario modificado	
 	 * @return Response
 	 */
 	public Response responseEditarUsuario(String id, Usuario usuario);
@@ -80,13 +79,25 @@ public interface OperacionesAPI {
 	 * @return Response
 	 */
 	public Response responseGetMensajeMuro(String idU, String idM);
-	public Response responseEditarMensajeMuro(String idM, String cuerpo);
+	
+	/** Edita un mensaje de muro existente
+	 * @param idU: id del usuario
+	 * @param idM: id del mensaje
+	 * @param cuerpo: cuerpo del mensaje
+	 * @return
+	 */
+	public Response responseEditarMensajeMuro(String idU, String idM, String cuerpo);
+	
 	public void responseBorrarMensajeMuro(Usuario usuario, MensajeMuro msj);
+	
 	public List<MensajePrivado> responseGetMensajesPrivados(Usuario usuario);
+	
 	public void responseEnviarMensajePrivado(Usuario origen, Usuario destino, 
 			MensajePrivado msj);
+	
 	public MensajePrivado responseGetMensajePrivado(Usuario usuario, 
 			MensajePrivado msj);
+	
 	public void responseBorrarMensajePrivado(Usuario usuario, 
 			MensajePrivado msj);
 	

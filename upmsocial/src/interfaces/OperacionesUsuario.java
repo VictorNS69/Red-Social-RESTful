@@ -97,7 +97,8 @@ public interface OperacionesUsuario {
 	public List<MensajeMuro> getMensajesMuro(String id, String filter) 
 			throws SQLException;
 	
-	public MensajeMuro publicarMensajeMuro(String idU, String cuerpo) throws SQLException, InformacionInvalida;
+	public MensajeMuro publicarMensajeMuro(String idU, String cuerpo) throws 
+			SQLException, InformacionInvalida;
 	
 	/** Obtiene un mensaje de muro concreto
 	 * @param idU: id del usuario
@@ -106,8 +107,13 @@ public interface OperacionesUsuario {
 	 */
 	public MensajeMuro getMensajeMuro(String idU, String idM) throws SQLException;
 	
-	
-	public void editarMensajeMuro(String idU, String idM) throws SQLException;
+	/** Edita un mensaje del muro
+	 * @param idU: id del usuario
+	 * @param idM: id del mensaje
+	 * @param cuerpo: cuerpo del mensaje
+	 * @throws SQLException
+	 */
+	public void editarMensajeMuro(String idU, String idM, String cuerpo) throws SQLException;
 	public void borrarMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public List<MensajePrivado> getMensajesPrivados(Usuario usuario);
 	public void enviarMensajePrivado(Usuario origen, Usuario destino, 

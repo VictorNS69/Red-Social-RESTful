@@ -37,13 +37,13 @@ public class Operaciones implements OperacionesAPI{
 	private static final String NOT_FOUND_ERROR = "404 Not Found";
 	private static final String NOT_ACCEPTABLE_ERROR = "406 Not Acceptable";
 	private static final String OK_MESSAGE = "2OO OK";
-	
+
 	@Context
 	private UriInfo uriInfo;
-	
-    public Operaciones() {}
-    
-    @Path("/usuarios")
+
+	public Operaciones() {}
+
+	@Path("/usuarios")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
@@ -97,7 +97,7 @@ public class Operaciones implements OperacionesAPI{
 				header("Location", location).
 				header("Content-Location", location).build();
 	}
-	
+
 	@GET
 	@Path("/usuarios/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -118,9 +118,9 @@ public class Operaciones implements OperacionesAPI{
 					entity(NOT_FOUND_ERROR).build();
 		else
 			json = new Gson().toJson(thisUsuario);
-			return Response.status(Response.Status.OK).entity(json).build();
+		return Response.status(Response.Status.OK).entity(json).build();
 	}
-	
+
 	@DELETE
 	@Path("/usuarios/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -164,7 +164,7 @@ public class Operaciones implements OperacionesAPI{
 		json = json.replace("}", ", \"location\": \"" + location + "\"}");
 		return Response.status(Response.Status.OK).entity(json).build();
 	}
-	
+
 	@GET
 	@Path("/usuarios/{id}/amigos")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -197,7 +197,7 @@ public class Operaciones implements OperacionesAPI{
 					entity(json.toString()).build();
 		}
 	}
-	
+
 	@POST
 	@Path("/usuarios/{id}/amigos")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -221,9 +221,9 @@ public class Operaciones implements OperacionesAPI{
 		return Response.status(Response.Status.CREATED).entity(location).
 				header("Location", location).
 				header("Content-Location", location).build();
-		
-		}
-	
+
+	}
+
 	@DELETE
 	@Path("/usuarios/{idU}/amigos/{idA}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -240,12 +240,13 @@ public class Operaciones implements OperacionesAPI{
 		}
 		return Response.status(Response.Status.OK).entity(OK_MESSAGE).build();
 	}
-	
+
 	@Path("/usuarios/{id}/muro_personal")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response responseGetMensajesMuro(@QueryParam("filterBy") @DefaultValue("") String filterBy, @PathParam("id") String id) {
+	public Response responseGetMensajesMuro(@QueryParam("filterBy") @DefaultValue("") String filterBy,
+			@PathParam("id") String id) {
 		List <MensajeMuro> lista;
 		OperacionesB ops = new OperacionesB();
 		try {
@@ -270,7 +271,7 @@ public class Operaciones implements OperacionesAPI{
 					entity(json.toString()).build();
 		}
 	}
-	
+
 	@POST
 	@Path("/usuarios/{id}/muro_personal")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -298,8 +299,9 @@ public class Operaciones implements OperacionesAPI{
 		return Response.status(Response.Status.CREATED).entity(location).
 				header("Location", location).
 				header("Content-Location", location).build();
-		
+
 	}
+	
 	@Path("/usuarios/{idU}/muro_personal/{idM}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -320,24 +322,25 @@ public class Operaciones implements OperacionesAPI{
 		return Response.status(Response.Status.OK).
 				entity(json.toString()).build();
 	}
-	
+
 	@PUT
-	@Path("/usuarios/{id}/muro_personal/{idM}")
+	@Path("/usuarios/{idU}/muro_personal/{idM}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response responseEditarMensajeMuro(@PathParam("idM") String idM, String cuerpo) {
+	public Response responseEditarMensajeMuro(@PathParam("idU") String idU, 
+			@PathParam("idM") String idM, String cuerpo) {
 		OperacionesB ops = new OperacionesB();
 		// Removed all JSON stuff we don't want
-				cuerpo = cuerpo.replace("{","").replace("}", "").
-						replace("\"cuerpo\":", "").replaceAll("\t", "")
-						.replaceAll("\b", "");
-				// Remove the first 2 blanks and the double quote (")
-				cuerpo = cuerpo.substring(3, cuerpo.length()-2);
+		cuerpo = cuerpo.replace("{","").replace("}", "").
+				replace("\"cuerpo\":", "").replaceAll("\t", "")
+				.replaceAll("\b", "");
+		// Remove the first 2 blanks and the double quote (")
+		cuerpo = cuerpo.substring(3, cuerpo.length()-2);
+		String format = "{\"cuerpo\":  \""+ cuerpo + "\" }";
 		try {
-			ops.editarMensajeMuro(idM, cuerpo);
+			ops.editarMensajeMuro(idU, idM, cuerpo);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
 		}catch (NotFoundException e) {
@@ -345,15 +348,14 @@ public class Operaciones implements OperacionesAPI{
 					entity(NOT_FOUND_ERROR).build();
 		}
 		String location = uriInfo.getAbsolutePath().toString();
-		String json = (new Gson().toJson(cuerpo));
-		json = json.replace("}", ", \"location\": \"" + location + "\"}");
+		String json = format.replace("}", ", \"location\": \"" + location + "\"}");
 		return Response.status(Response.Status.OK).entity(json).build();		
 	}
 
 	@Override
 	public void responseBorrarMensajeMuro(Usuario usuario, MensajeMuro msj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -366,7 +368,7 @@ public class Operaciones implements OperacionesAPI{
 	public void responseEnviarMensajePrivado(Usuario origen, Usuario destino,
 			MensajePrivado msj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -378,9 +380,9 @@ public class Operaciones implements OperacionesAPI{
 	@Override
 	public void responseBorrarMensajePrivado(Usuario usuario, MensajePrivado msj) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Path("/usuarios/{id}/muro_amigos")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
