@@ -336,9 +336,19 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public void editarMensajeMuro(Usuario usuario, MensajeMuro msj) {
-		// TODO Auto-generated method stub
+	public void editarMensajeMuro(String idM, String cuerpo) throws SQLException {
+		Conexion conn = new Conexion();
 		
+		// Message exist in the DB
+		String query = "SELECT * FROM Mensajes_muro WHERE ID='" + idM +"';";
+		PreparedStatement ps = conn.getConn().prepareStatement(query);
+		ResultSet rs = ps.executeQuery();
+		if (!rs.next())
+			throw new NotFoundException();
+		
+		query = "UPDATE Mensajes_muro SET CUERPO_MENSAJE='"+ cuerpo + "' WHERE ID='" + idM + "';";
+		ps = conn.getConn().prepareStatement(query);
+		ps.executeUpdate();		
 	}
 
 	@Override

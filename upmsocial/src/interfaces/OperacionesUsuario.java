@@ -107,7 +107,7 @@ public interface OperacionesUsuario {
 	public MensajeMuro getMensajeMuro(String idU, String idM) throws SQLException;
 	
 	
-	public void editarMensajeMuro(Usuario usuario, MensajeMuro msj) throws SQLException;
+	public void editarMensajeMuro(String idU, String idM) throws SQLException;
 	public void borrarMensajeMuro(Usuario usuario, MensajeMuro msj);
 	public List<MensajePrivado> getMensajesPrivados(Usuario usuario);
 	public void enviarMensajePrivado(Usuario origen, Usuario destino, 

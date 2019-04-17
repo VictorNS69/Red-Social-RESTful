@@ -320,11 +320,34 @@ public class Operaciones implements OperacionesAPI{
 		return Response.status(Response.Status.OK).
 				entity(json.toString()).build();
 	}
-
+	
+	@PUT
+	@Path("/usuarios/{id}/muro_personal/{idM}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public void responseEditarMensajeMuro(Usuario usuario, MensajeMuro msj) {
-		// TODO Auto-generated method stub
-		
+	public Response responseEditarMensajeMuro(@PathParam("idM") String idM, String cuerpo) {
+		OperacionesB ops = new OperacionesB();
+		// Removed all JSON stuff we don't want
+				cuerpo = cuerpo.replace("{","").replace("}", "").
+						replace("\"cuerpo\":", "").replaceAll("\t", "")
+						.replaceAll("\b", "");
+				// Remove the first 2 blanks and the double quote (")
+				cuerpo = cuerpo.substring(3, cuerpo.length()-2);
+		try {
+			ops.editarMensajeMuro(idM, cuerpo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		}catch (NotFoundException e) {
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		}
+		String location = uriInfo.getAbsolutePath().toString();
+		String json = (new Gson().toJson(cuerpo));
+		json = json.replace("}", ", \"location\": \"" + location + "\"}");
+		return Response.status(Response.Status.OK).entity(json).build();		
 	}
 
 	@Override
