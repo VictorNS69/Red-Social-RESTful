@@ -341,6 +341,7 @@ public class Main {
 						break;
 					case 12:
 						editarMensajeMuro();
+						break;
 					// TODO: Continuar
 					case 69:
 						System.out.println("Saliendo.");
