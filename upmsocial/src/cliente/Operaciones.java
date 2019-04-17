@@ -144,11 +144,21 @@ public class Operaciones implements InterfazOperacionesC{
 
 	@Override
 	public Response publicarMensajeMuro(int id, String msg) {
-		System.out.println(target.path("usuarios/" + id + "/amigos"));
+		System.out.println(target.path("usuarios/" + id + "/muro_personal"));
 		System.out.println(POST);
 		String format = "{\"cuerpo\":  \""+ msg + "\" }";
 		return target.path("usuarios/" + id + "/muro_personal")
 				.request().accept(MediaType.APPLICATION_JSON)
 				.post(Entity.json(format));
+	}
+
+	@Override
+	public Response editarMensajeMuro(int idU, int idM, String msg) {
+		System.out.println(target.path("usuarios/" + idU + "/muro_personal/" + idM));
+		System.out.println(PUT);
+		String format = "{\"cuerpo\":  \""+ msg + "\" }";
+		return target.path("usuarios/" + idU + "/muro_personal/" + idM)
+				.request().accept(MediaType.APPLICATION_JSON)
+				.put(Entity.json(format));
 	}
 }

@@ -247,6 +247,26 @@ public class Main {
         r.close();
 	}
 	
+	/** Prepare the data to call Operaciones.editarMensajeMuro
+	 */
+	@SuppressWarnings("resource")
+	private static void editarMensajeMuro() {
+		Response r;
+		String valor = "";
+		InterfazOperacionesC ops = new Operaciones(target);
+		System.out.println("Escribe el id del usuario.");
+		Scanner in9 = new Scanner(System.in);
+		int idU = in9.nextInt();
+		System.out.println("Escribe el id del mensaje.");
+		int idM = in9.nextInt();
+		System.out.println("Escribe el texto del mensaje.");
+		Scanner in = new Scanner(System.in);
+		String msg = in.nextLine();
+		r = ops.editarMensajeMuro(idU, idM, msg);
+		System.out.println("Estado: " + r.getStatus());
+        valor = r.readEntity(String.class);
+        System.out.println("Entidad: " + valor);
+	}
 	/** Main program (executable).
 	 * The program depends on the option you chose. 
 	 * It can test all the functionalities from our API REST
@@ -277,6 +297,8 @@ public class Main {
 			System.out.println("\t9- Listar los mensajes en el muro de un usuario concreto.");
 			System.out.println("\t10- Publica un nuevo mensaje en el muro de un usuario.");
 			System.out.println("\t11- Obtener un mensaje en el muro concreto de un usuario.");
+			System.out.println("\t12- Editar un mensaje en el muro de un usuario.");
+
 			// TODO: Añadir los que falten
 			System.out.println("\t69- Salir.");
 			try {
@@ -317,6 +339,8 @@ public class Main {
 					case 11:
 						mensajeMuroUsuario();
 						break;
+					case 12:
+						editarMensajeMuro();
 					// TODO: Continuar
 					case 69:
 						System.out.println("Saliendo.");

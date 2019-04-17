@@ -72,8 +72,15 @@ public interface InterfazOperacionesC {
 	/** Publica un nuevo mensaje en el muro
 	 * @param id: id del usuario
 	 * @param msg: mensaje a publicar
-	 * @return
+	 * @return Response
 	 */
 	public Response publicarMensajeMuro(int id, String msg);
 	
+	/** Edita un mensaje de muro
+	 * @param idU: id del usuario
+	 * @param idM: id del mensaje
+	 * @param msg: cuerpo del mensaje editado
+	 * @return Response
+	 */
+	public Response editarMensajeMuro(int idU, int idM, String msg);
 }
