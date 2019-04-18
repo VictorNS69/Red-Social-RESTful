@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mensaje_muro "href=/usuarios/{id}/muro_personal/{id}">
-	<id></id>
-	<cuerpo></cuerpo>
-	<id_usuario></id_usuario>
-	<fecha></fecha>
-</mensaje_muro>
