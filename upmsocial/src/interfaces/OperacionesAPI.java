@@ -2,6 +2,9 @@ package interfaces;
 
 import java.util.List;
 
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.*;
 
 import datos.MensajeMuro;
@@ -71,7 +74,7 @@ public interface OperacionesAPI {
 	public Response responseGetMensajesMuro(String filterBy, String id);
 	
 	
-	public Response responsePublicarMensajeMuro(String id, String cuerpo);
+	public Response responsePublicarMensajeMuro(String id, MensajeMuro msj);
 	
 	/** Devuelve un mensaje de muro concreto
 	 * @param idU: id del usuario
@@ -88,17 +91,13 @@ public interface OperacionesAPI {
 	 */
 	public Response responseEditarMensajeMuro(String idU, String idM, String cuerpo);
 	
-	public void responseBorrarMensajeMuro(Usuario usuario, MensajeMuro msj);
+	public Response responseBorrarMensajeMuro(String idM, String idU);
 	
-	public List<MensajePrivado> responseGetMensajesPrivados(Usuario usuario);
+	public Response responseGetMensajesPrivados(String filterBy, String id);
 	
-	public void responseEnviarMensajePrivado(Usuario origen, Usuario destino, 
-			MensajePrivado msj);
+	public Response responseEnviarMensajePrivado(String origen, MensajePrivado msj);
 	
 	public MensajePrivado responseGetMensajePrivado(Usuario usuario, 
-			MensajePrivado msj);
-	
-	public void responseBorrarMensajePrivado(Usuario usuario, 
 			MensajePrivado msj);
 	
 	/** Devuelve la información de un usuario

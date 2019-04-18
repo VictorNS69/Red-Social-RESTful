@@ -351,22 +351,53 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public void borrarMensajeMuro(Usuario usuario, MensajeMuro msj) {
-		// TODO Auto-generated method stub
-		
+	public boolean borrarMensajeMuro(String idM, String idU) throws SQLException {
+		Conexion conn = new Conexion();
+		String query = "DELETE FROM Mensajes_muro"
+					 + " WHERE ID='" + idM + "' AND ID_USUARIO='" + idU +"';";
+		PreparedStatement ps = conn.getConn().prepareStatement(query);
+		return ps.executeUpdate() == 1;		
 	}
 
 	@Override
-	public List<MensajePrivado> getMensajesPrivados(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MensajePrivado> getMensajesPrivados(String id, String filter) throws SQLException {
+		Conexion conn = new Conexion();
+		String query = "SELECT * FROM Mensajes_privados WHERE ID_ORIGEN = '"+id+"' AND CUERPO_MENSAJE LIKE '%" + filter + "%';";
+		Statement st = conn.getConn().createStatement();
+		ResultSet rs = st.executeQuery(query);
+		List <MensajePrivado> lista = new ArrayList <MensajePrivado>();
+		while(rs.next()) {
+			MensajePrivado msj = new MensajePrivado(rs.getInt("ID"), 
+					rs.getInt("ID_ORIGEN"), rs.getInt("ID_DESTINO"), 
+					rs.getString("CUERPO_MENSAJE"), rs.getDate("FECHA"));
+			lista.add(msj);
+		}
+		return lista;
 	}
 
 	@Override
-	public void enviarMensajePrivado(Usuario origen, Usuario destino, 
-			MensajePrivado msj) {
-		// TODO Auto-generated method stub
-		
+	public MensajePrivado enviarMensajePrivado(String origen, String destino, String cuerpo) throws SQLException {
+		Conexion conn = new Conexion();
+		String query = "SELECT * FROM Usuarios WHERE ID='" + origen +"';";
+		String query2 = "SELECT * FROM Usuarios WHERE ID='" + destino +"';";
+		PreparedStatement ps = conn.getConn().prepareStatement(query);
+		PreparedStatement ps2 = conn.getConn().prepareStatement(query2);
+		ResultSet rs = ps.executeQuery();
+		ResultSet rs2 = ps2.executeQuery();
+		if (!rs.next() || !rs2.next())
+			throw new NotFoundException();
+
+		query = "INSERT INTO Mensajes_privados (ID_ORIGEN, ID_DESTINO, CUERPO_MENSAJE, FECHA) VALUES (?, ?, ?, CURRENT_TIMESTAMP);";	
+		ps = conn.getConn().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+		ps.setInt(1, (int)Integer.valueOf(origen));
+		ps.setInt(2, (int)Integer.valueOf(destino));
+		ps.setString(3, cuerpo);
+		ps.executeUpdate();
+		rs = ps.getGeneratedKeys();
+		MensajePrivado msj = null;
+		if (rs.next()) 
+			msj = new MensajePrivado((int)Integer.valueOf(rs.getString(1)), (int)Integer.valueOf(origen), (int)Integer.valueOf(destino), cuerpo);
+		return msj;		
 	}
 
 	@Override
@@ -374,13 +405,6 @@ public class OperacionesB implements OperacionesUsuario{
 			MensajePrivado msj) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void borrarMensajePrivado(Usuario usuario, 
-			MensajePrivado msj) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

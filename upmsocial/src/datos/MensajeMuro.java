@@ -8,6 +8,12 @@ public class MensajeMuro {
 	private String cuerpo;
 	private Date fecha;
 	
+	public MensajeMuro() {}
+	
+	public MensajeMuro(String cuerpo) {
+		this.cuerpo = cuerpo;
+	}
+	
 	public MensajeMuro(int id, int idUsuario, 
 			String cuerpo, Date fecha) {
 		this.id = id;

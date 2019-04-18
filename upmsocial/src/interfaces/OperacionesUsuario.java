@@ -114,15 +114,11 @@ public interface OperacionesUsuario {
 	 * @throws SQLException
 	 */
 	public void editarMensajeMuro(String idU, String idM, String cuerpo) throws SQLException;
-	public void borrarMensajeMuro(Usuario usuario, MensajeMuro msj);
-	public List<MensajePrivado> getMensajesPrivados(Usuario usuario);
-	public void enviarMensajePrivado(Usuario origen, Usuario destino, 
-			MensajePrivado msj);
+	public boolean borrarMensajeMuro(String idM, String idU) throws SQLException;
+	public List<MensajePrivado> getMensajesPrivados(String id, String filter) throws SQLException;
+	public MensajePrivado enviarMensajePrivado(String origen, String destino, String cuerpo) throws SQLException;
 	public MensajePrivado getMensajePrivado(Usuario usuario, 
 			MensajePrivado msj);
-	public void borrarMensajePrivado(Usuario usuario, 
-			MensajePrivado msj);
-	
 	/** Obtiene una lista de mensajes de los amigos de un usuario
 	 * @param id: id del usuario
 	 * @param filter: filtro opcional para filtrar el cuerpo del

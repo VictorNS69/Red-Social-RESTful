@@ -277,17 +277,11 @@ public class Operaciones implements OperacionesAPI{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response responsePublicarMensajeMuro(@PathParam("id") String id, String cuerpo) {
+	public Response responsePublicarMensajeMuro(@PathParam("id") String id, MensajeMuro msj) {
 		OperacionesB ops = new OperacionesB();
-		// Removed all JSON stuff we don't want
-		cuerpo = cuerpo.replace("{","").replace("}", "").
-				replace("\"cuerpo\":", "").replaceAll("\t", "")
-				.replaceAll("\b", "");
-		// Remove the first 2 blanks and the double quote (")
-		cuerpo = cuerpo.substring(3, cuerpo.length()-2);
 		MensajeMuro thisMsj = null;
 		try {
-			thisMsj = ops.publicarMensajeMuro(id, cuerpo);
+			thisMsj = ops.publicarMensajeMuro(id, msj.getCuerpo());
 		} catch (SQLException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
@@ -299,7 +293,6 @@ public class Operaciones implements OperacionesAPI{
 		return Response.status(Response.Status.CREATED).entity(location).
 				header("Location", location).
 				header("Content-Location", location).build();
-
 	}
 	
 	@Path("/usuarios/{idU}/muro_personal/{idM}")
@@ -351,36 +344,84 @@ public class Operaciones implements OperacionesAPI{
 		String json = format.replace("}", ", \"location\": \"" + location + "\"}");
 		return Response.status(Response.Status.OK).entity(json).build();		
 	}
-
+	
+	@DELETE
+	@Path("/usuarios/{id}/muro_personal/{idM}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
-	public void responseBorrarMensajeMuro(Usuario usuario, MensajeMuro msj) {
-		// TODO Auto-generated method stub
+	public Response responseBorrarMensajeMuro(@PathParam("idM") String idM, @PathParam("id") String idU) {
+		OperacionesB ops = new OperacionesB();
+		try {
+			if (!ops.borrarMensajeMuro(idM, idU))
+				return Response.status(Response.Status.NOT_FOUND).
+						entity(NOT_FOUND_ERROR).build();
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		}
+		return Response.status(Response.Status.OK).entity(OK_MESSAGE).build();
 
 	}
 
+	@Path("/usuarios/{id}/mensajes")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public List<MensajePrivado> responseGetMensajesPrivados(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response responseGetMensajesPrivados(@QueryParam("filterBy") @DefaultValue("") String filterBy,
+			@PathParam("id") String id) {
+		List <MensajePrivado> lista;
+		OperacionesB ops = new OperacionesB();
+		try {
+			lista = ops.getMensajesPrivados(id, filterBy);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		}
+		if (lista.isEmpty()) 
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		else {
+			String aux = "";
+			List <String> json = new ArrayList <String>();
+			for (MensajePrivado msj : lista) {
+				String location = uriInfo.getAbsolutePath() + "/" + msj.getId();
+				aux = (new Gson().toJson(msj).replace("}",
+						", \"location\": \"" + location + "\"}"));
+				json.add(aux);
+			}
+			return Response.status(Response.Status.OK).
+					entity(json.toString()).build();
+		}
 	}
 
+	@POST
+	@Path("/usuarios/{id}/mensajes")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public void responseEnviarMensajePrivado(Usuario origen, Usuario destino,
-			MensajePrivado msj) {
-		// TODO Auto-generated method stub
-
+	public Response responseEnviarMensajePrivado(@PathParam("id") String origen, MensajePrivado msj) {
+		OperacionesB ops = new OperacionesB();
+		MensajePrivado thisMsj = null;
+		try {
+			thisMsj = ops.enviarMensajePrivado(origen, String.valueOf(msj.getIdDestino()), msj.getCuerpo());
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		} catch (NotFoundException e) {
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		}
+		String location = uriInfo.getAbsolutePath() + "/" + thisMsj.getId();
+		return Response.status(Response.Status.CREATED).entity(location).
+				header("Location", location).
+				header("Content-Location", location).build();
 	}
 
 	@Override
 	public MensajePrivado responseGetMensajePrivado(Usuario usuario, MensajePrivado msj) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void responseBorrarMensajePrivado(Usuario usuario, MensajePrivado msj) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Path("/usuarios/{id}/muro_amigos")
