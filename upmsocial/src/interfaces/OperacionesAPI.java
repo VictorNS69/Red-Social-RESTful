@@ -1,10 +1,5 @@
 package interfaces;
 
-import java.util.List;
-
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.*;
 
 import datos.MensajeMuro;
@@ -73,7 +68,11 @@ public interface OperacionesAPI {
 	 */
 	public Response responseGetMensajesMuro(String filterBy, String id);
 	
-	
+	/** Publica un nuevo mensaje en el muro
+	 * @param id: id del usuario
+	 * @param msj: mensaje a publicar
+	 * @return
+	 */
 	public Response responsePublicarMensajeMuro(String id, MensajeMuro msj);
 	
 	/** Devuelve un mensaje de muro concreto
@@ -87,16 +86,37 @@ public interface OperacionesAPI {
 	 * @param idU: id del usuario
 	 * @param idM: id del mensaje
 	 * @param cuerpo: cuerpo del mensaje
-	 * @return
+	 * @return Response
 	 */
 	public Response responseEditarMensajeMuro(String idU, String idM, MensajeMuro msj);
 	
+	/** Borra un mensaje en el muro
+	 * @param idM: id del mensaje
+	 * @param idU: id del usuario
+	 * @return Response
+	 */
 	public Response responseBorrarMensajeMuro(String idM, String idU);
 	
+	/** Lista los mensajes privados
+	 * @param filterBy: filtro opcional para filtrar el cuerpo
+	 * del mensaje
+	 * @param id: id del mensaje
+	 * @return Response
+	 */
 	public Response responseGetMensajesPrivados(String filterBy, String id);
 	
+	/** Envia un mensaje privado
+	 * @param origen: id origen
+	 * @param msj: mensaje a enviar
+	 * @return Response
+	 */
 	public Response responseEnviarMensajePrivado(String origen, MensajePrivado msj);
 	
+	/** Obtiene un mensaje privado concreto
+	 * @param idU: id del usuario
+	 * @param idM: id del mensaje
+	 * @return Response
+	 */
 	public Response responseGetMensajePrivado(String idU, String idM);
 	/** Devuelve la información de un usuario
 	 * @param idU: id del usuario
@@ -112,5 +132,10 @@ public interface OperacionesAPI {
 	 */
 	public Response responseGetMensajesMuroAmigos(String id, String filterBy);
 
+	/** Lista la información de un usuario para un dispositivo
+	 * movil
+	 * @param id: id del usuario
+	 * @return Response
+	 */
 	public Response responseInfoMovil(String id);
 }

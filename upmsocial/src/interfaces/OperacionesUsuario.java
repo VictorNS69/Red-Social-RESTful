@@ -114,11 +114,44 @@ public interface OperacionesUsuario {
 	 * @param cuerpo: cuerpo del mensaje
 	 * @throws SQLException
 	 */
-	public void editarMensajeMuro(String idU, String idM, String cuerpo) throws SQLException;
+	public void editarMensajeMuro(String idU, String idM, String cuerpo) 
+			throws SQLException;
+	
+	/** Borra un mensaje del muro
+	 * @param idM: id del mensaje
+	 * @param idU: id del usuario
+	 * @return boolean: indica si ha habido éxito en la operación
+	 * @throws SQLException
+	 */
 	public boolean borrarMensajeMuro(String idM, String idU) throws SQLException;
-	public List<MensajePrivado> getMensajesPrivados(String id, String filter) throws SQLException;
-	public MensajePrivado enviarMensajePrivado(String origen, String destino, String cuerpo) throws SQLException;
+	
+	/** Obtiene una lista de mensajes privados
+	 * @param id: id del mensaje
+	 * @param filter: filtro opcional
+	 * @return List: lista de mensajes privados
+	 * @throws SQLException
+	 */
+	public List<MensajePrivado> getMensajesPrivados(String id, String filter) 
+			throws SQLException;
+	
+	/** Envia un mensaje privado
+	 * @param origen: id origen
+	 * @param destino: id destino
+	 * @param cuerpo: cuerpo del mensaje
+	 * @return MensajePrivado: el mensaje privado
+	 * @throws SQLException
+	 */
+	public MensajePrivado enviarMensajePrivado(String origen, String destino,
+			String cuerpo) throws SQLException;
+	
+	/** Obtiene un mensaje privado concreto
+	 * @param idU: id del usuario
+	 * @param idM: id del mensaje
+	 * @return MensajePrivado: el mensaje privado
+	 * @throws SQLException
+	 */
 	public MensajePrivado getMensajePrivado(String idU, String idM) throws SQLException;
+	
 	/** Obtiene una lista de mensajes de los amigos de un usuario
 	 * @param id: id del usuario
 	 * @param filter: filtro opcional para filtrar el cuerpo del
@@ -129,5 +162,10 @@ public interface OperacionesUsuario {
 	public List<MensajeMuro> getMensajesMuroAmigos(String id, String filter) 
 			throws SQLException;
 	
+	/** Devuelve la información de un usuario para la aplicación movil
+	 * @param id: id del usuario
+	 * @return InfoMovil: toda la información necesaria
+	 * @throws SQLException
+	 */
 	public InfoMovil infoMovil(String id) throws SQLException;
 }
