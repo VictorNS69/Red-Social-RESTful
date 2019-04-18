@@ -267,6 +267,83 @@ public class Main {
         valor = r.readEntity(String.class);
         System.out.println("Entidad: " + valor);
 	}
+	
+	/** Prepare the data to call Operaciones.borrarMensajeMuro
+	 */
+	@SuppressWarnings("resource")
+	private static void borrarMensajeMuro() {
+		Response r;
+		String valor = "";
+		InterfazOperacionesC ops = new Operaciones(target);
+		System.out.println("Escribe el id del usuario.");
+		Scanner in9 = new Scanner(System.in);
+		int idU = in9.nextInt();
+		System.out.println("Escribe el id del mensaje.");
+		Scanner in = new Scanner(System.in);
+		int idM = in.nextInt();
+		r = ops.borrarMensajeMuro(idU, idM);
+		System.out.println("Estado: " + r.getStatus());
+        valor = r.readEntity(String.class);
+        System.out.println("Entidad: " + valor);
+        r.close();
+	}
+	
+	/** Prepare the data to call Operaciones.mensajesPrivadosUsuario
+	 */
+	@SuppressWarnings("resource")
+	private static void listaMensajes() {
+		Response r;
+		String valor = "";
+		InterfazOperacionesC ops = new Operaciones(target);
+		System.out.println("Escribe un id.");
+		Scanner in9 = new Scanner(System.in);
+		int id = in9.nextInt();
+		r = ops.mensajesPrivadosUsuario(id);
+		System.out.println("Estado: " + r.getStatus());
+        valor = r.readEntity(String.class);
+        System.out.println("Entidad: " + valor);
+        r.close();
+	}
+	
+	/** Prepare the data to call Operaciones.enviarMensaje
+	 */
+	@SuppressWarnings("resource")
+	private static void enviarMensaje() {
+		Response r;
+		String valor = "";
+		InterfazOperacionesC ops = new Operaciones(target);
+		System.out.println("Escribe un id de origen.");
+		Scanner in9 = new Scanner(System.in);
+		int idO = in9.nextInt();
+		System.out.println("Escribe un id de destino.");
+		Scanner in2 = new Scanner(System.in);
+		int idD = in2.nextInt();
+		System.out.println("Escribe el texto del mensaje.");
+		Scanner in = new Scanner(System.in);
+		String msg = in.nextLine();
+		r = ops.enviarMensaje(idO, idD, msg);
+		System.out.println("Estado: " + r.getStatus());
+        valor = r.readEntity(String.class);
+        System.out.println("Entidad: " + valor);
+	}
+	
+	/** Prepare the data to call Operaciones.muroAmigos
+	 */
+	@SuppressWarnings("resource")
+	private static void muroAmigos() {
+		Response r;
+		String valor = "";
+		InterfazOperacionesC ops = new Operaciones(target);
+		System.out.println("Escribe un id.");
+		Scanner in9 = new Scanner(System.in);
+		int id = in9.nextInt();
+		r = ops.muroAmigos(id);
+		System.out.println("Estado: " + r.getStatus());
+        valor = r.readEntity(String.class);
+        System.out.println("Entidad: " + valor);
+        r.close();
+	}
+	
 	/** Main program (executable).
 	 * The program depends on the option you chose. 
 	 * It can test all the functionalities from our API REST
@@ -298,9 +375,13 @@ public class Main {
 			System.out.println("\t10- Publica un nuevo mensaje en el muro de un usuario.");
 			System.out.println("\t11- Obtener un mensaje en el muro concreto de un usuario.");
 			System.out.println("\t12- Editar un mensaje en el muro de un usuario.");
-
-			// TODO: Añadir los que falten
-			System.out.println("\t69- Salir.");
+			System.out.println("\t13- Borrar un mensaje en el muro de un usuario.");
+			System.out.println("\t14- Listar los mensajes privados de un usuario.");
+			System.out.println("\t15- Enviar un mensaje privado.");
+			System.out.println("\t16- Obtener un mensaje privado concreto.");
+			System.out.println("\t17- Ver muro de amigos de un usuario.");
+			// TODO: 20- la función de info para el movil
+			System.out.println("\t19- Salir.");
 			try {
 				Scanner in = new Scanner(System.in);
 				option = in.nextInt();
@@ -342,8 +423,21 @@ public class Main {
 					case 12:
 						editarMensajeMuro();
 						break;
-					// TODO: Continuar
-					case 69:
+					case 13:
+						borrarMensajeMuro();// TODO: test
+						break;
+					case 14:
+						listaMensajes();// TODO: test
+						break;
+					case 15:
+						enviarMensaje();// TODO: test
+						break;
+					// TODO: Continuar con las que faltan (15 y 16)
+					case 17:
+						muroAmigos();
+						break;
+					// TODO: Continuar con las que faltan (18 y 19)
+					case 20:
 						System.out.println("Saliendo.");
 						System.exit(0);
 					default:

@@ -83,4 +83,39 @@ public interface InterfazOperacionesC {
 	 * @return Response
 	 */
 	public Response editarMensajeMuro(int idU, int idM, String msg);
+	
+	/** Borra un mensaje de muro
+	 * @param idU: id del usuario
+	 * @param idM: id del mensaje
+	 * @return Response
+	 */
+	public Response borrarMensajeMuro(int idU, int idM);
+	
+	/** Lista los mensajes privados de un usuario
+	 * @param id
+	 * @return
+	 */
+	public Response mensajesPrivadosUsuario(int id);
+	
+	/** Envia un mensaje privado
+	 * @param idO: id del usuario origen
+	 * @param idD: id del usuario destino
+	 * @param msg: cuerpo del mensaje
+	 * @return
+	 */
+	public Response enviarMensaje(int idO, int idD, String msg);
+	
+	/** Obtiene un mensaje privado concreto
+	 * @param idU: id del usuario
+	 * @param idM: id del mensaje
+	 * @return Response
+	 */
+	public Response mensajePrivado(int idU, int idM);
+	
+	/** Lista los mensajes en el muro de los amigos de
+	 * un usuario
+	 * @param id: id del usuario
+	 * @return Response
+	 */
+	public Response muroAmigos(int id);
 }

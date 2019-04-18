@@ -161,4 +161,53 @@ public class Operaciones implements InterfazOperacionesC{
 				.request().accept(MediaType.APPLICATION_JSON)
 				.put(Entity.json(format));
 	}
+
+	@Override
+	public Response borrarMensajeMuro(int idU, int idM) {
+		System.out.println(target.path("usuarios/" + idU + "/muro_personal/" + idM));
+		System.out.println(DELETE);
+		return target.path("usuarios/" + idU + "/muro_personal/" + idM)
+				.request().accept(MediaType.APPLICATION_JSON)
+				.delete(Response.class);
+	}
+
+	@Override
+	public Response mensajesPrivadosUsuario(int id) {
+		System.out.println("Elige un filtro para el cuerpo del mensaje. \n(Si quieres omitir pulsa <enter>)");
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		String filter = in.nextLine();
+		System.out.println(target.path("usuarios/" + id + "/mensajes"));
+		System.out.println(GET);
+		return target.path("usuarios/" + id + "/mensajes")
+				.queryParam("filterBy", filter)
+				.request().accept(MediaType.APPLICATION_JSON)
+				.get(Response.class);
+	}
+
+	@Override
+	public Response enviarMensaje(int idO, int idD, String msg) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Response mensajePrivado(int idU, int idM) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Response muroAmigos(int id) {
+		System.out.println("Elige un filtro para el cuerpo del mensaje. \n(Si quieres omitir pulsa <enter>)");
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		String filter = in.nextLine();
+		System.out.println(target.path("usuarios/" + id + "/muro_amigos"));
+		System.out.println(GET);
+		return target.path("usuarios/" + id + "/muro_amigos")
+				.queryParam("filterBy", filter)
+				.request().accept(MediaType.APPLICATION_JSON)
+				.get(Response.class);
+	}
 }
