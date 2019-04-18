@@ -140,9 +140,10 @@ public interface OperacionesUsuario {
 	 * @param cuerpo: cuerpo del mensaje
 	 * @return MensajePrivado: el mensaje privado
 	 * @throws SQLException
+	 * @throws InformacionInvalida 
 	 */
 	public MensajePrivado enviarMensajePrivado(String origen, String destino,
-			String cuerpo) throws SQLException;
+			String cuerpo) throws SQLException, InformacionInvalida;
 	
 	/** Obtiene un mensaje privado concreto
 	 * @param idU: id del usuario

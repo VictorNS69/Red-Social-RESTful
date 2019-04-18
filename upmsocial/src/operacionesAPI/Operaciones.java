@@ -111,6 +111,7 @@ public class Operaciones implements OperacionesAPI{
 		try {
 			thisUsuario = ops.infoUsuario(thisId);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
 		}
@@ -408,6 +409,9 @@ public class Operaciones implements OperacionesAPI{
 		} catch (NotFoundException e) {
 			return Response.status(Response.Status.NOT_FOUND).
 					entity(NOT_FOUND_ERROR).build();
+		} catch (InformacionInvalida e) {
+			return Response.status(Response.Status.NOT_ACCEPTABLE).
+					entity(NOT_ACCEPTABLE_ERROR).build();
 		}
 		String location = uriInfo.getAbsolutePath() + "/" + thisMsj.getId();
 		return Response.status(Response.Status.CREATED).entity(location).

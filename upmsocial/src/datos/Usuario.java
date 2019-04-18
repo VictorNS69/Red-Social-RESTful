@@ -9,6 +9,7 @@ public class Usuario {
 	private int telefono;
 	private String pais;
 	private String email;
+	private MensajeMuro ultimoMsj;
 	
 	public Usuario() {}
 	
@@ -34,6 +35,19 @@ public class Usuario {
 		this.pais = pais;
 		this.telefono = telefono;
 	}
+	
+	public Usuario(int id, String nombre, String apellido1, String apellido2, 
+			int telefono, String email, String pais, MensajeMuro msj) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido1 = apellido1;
+		this.apellido2 = apellido2;
+		this.email = email;
+		this.pais = pais;
+		this.telefono = telefono;
+		this.ultimoMsj = msj;
+	}
+	
 	public int getId(){
 		return this.id;
 	}

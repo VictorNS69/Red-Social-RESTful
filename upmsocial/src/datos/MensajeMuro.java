@@ -7,6 +7,7 @@ public class MensajeMuro {
 	private int idUsuario;
 	private String cuerpo;
 	private Date fecha;
+	private String location;
 	
 	public MensajeMuro() {}
 	
@@ -27,6 +28,15 @@ public class MensajeMuro {
 		this.id = id;
 		this.idUsuario = idUsuario;
 		this.cuerpo = cuerpo;
+	}
+	
+	public MensajeMuro(int id, int idUsuario, 
+			String cuerpo, Date fecha, String location) {
+		this.id = id;
+		this.idUsuario = idUsuario;
+		this.cuerpo = cuerpo;
+		this.fecha = fecha;
+		this.location = location;
 	}
 
 	public int getId() {

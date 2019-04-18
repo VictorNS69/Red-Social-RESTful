@@ -86,12 +86,18 @@ public class OperacionesB implements OperacionesUsuario{
 					 + "WHERE ID='" + id + "';"; 
 		Statement st = conn.getConn().createStatement();
 		ResultSet rs = st.executeQuery(query);
+		query = "SELECT * FROM Mensajes_muro WHERE ID_USUARIO='" + id + "' ORDER BY FECHA LIMIT 1;";
+		st = conn.getConn().createStatement();
+		ResultSet rs2 = st.executeQuery(query);
+		MensajeMuro msj = null;
+		if (rs2.next())
+			msj = new MensajeMuro(rs2.getInt("ID"), rs2.getInt("ID_USUARIO"), rs2.getString("CUERPO_MENSAJE"), rs2.getDate("FECHA"));
 		Usuario usuario = null;
 		if (rs.next()) {
 			usuario = new Usuario(rs.getInt("ID"), rs.getString("NOMBRE"), 
 					rs.getString("APELLIDO1"), rs.getString("APELLIDO2"),
-				rs.getInt("TELEFONO"), rs.getString("EMAIL"),
-				rs.getString("PAIS"));
+					rs.getInt("TELEFONO"), rs.getString("EMAIL"),
+					rs.getString("PAIS"), msj);
 		}
 		return usuario;
 	}
@@ -377,8 +383,11 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public MensajePrivado enviarMensajePrivado(String origen, String destino, String cuerpo) throws SQLException {
+	public MensajePrivado enviarMensajePrivado(String origen, String destino, String cuerpo) throws SQLException, InformacionInvalida {
 		Conexion conn = new Conexion();
+		if (origen.equals(destino))
+			throw new InformacionInvalida();
+		
 		String query = "SELECT * FROM Usuarios WHERE ID='" + origen +"';";
 		String query2 = "SELECT * FROM Usuarios WHERE ID='" + destino +"';";
 		PreparedStatement ps = conn.getConn().prepareStatement(query);
@@ -456,10 +465,11 @@ public class OperacionesB implements OperacionesUsuario{
 				"ORDER BY FECHA DESC LIMIT 10;";
 		st = conn.getConn().createStatement();
 		ResultSet infoMensajes = st.executeQuery(queryMensajes);
+		String location = "localhost:8080/upmsocial/usuarios/";
 		while(infoMensajes.next()) {
 			MensajeMuro msj = new MensajeMuro(infoMensajes.getInt("ID"), 
 					infoMensajes.getInt("ID_USUARIO"), infoMensajes.getString("CUERPO_MENSAJE"), 
-					infoMensajes.getDate("FECHA"));
+					infoMensajes.getDate("FECHA"), location + infoMensajes.getInt("ID_USUARIO") + "/muro_personal/" + infoMensajes.getInt("ID"));
 			ultimosMsj.add(msj);
 		}
 		if (infoUsuario.next() && infoAmigos.next()) {
