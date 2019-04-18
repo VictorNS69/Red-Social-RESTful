@@ -81,6 +81,6 @@ Para ejecutar el cliente, desde Eclipse debemos ejecutar el archivo (como aplica
 
 Una vez ejecutado, podemos probar las distintas opciones, añadiendo los datos valores que deseemos.
 ## Memoria del proyecto
-Crear la memoria en pdf y enlazar
+La [memoria](/doc/Memoria-SOS.pdf) incluye capturas de todas las operaciones disponibles, así como el formato de los JSON en las operaciones PUT y POST. Se recomienda echarle un vistazo antes de probar la API en _Postman_.
 ## Licencia
 [Licencia](/LICENSE).
