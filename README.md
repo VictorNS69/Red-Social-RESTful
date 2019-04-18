@@ -56,14 +56,31 @@ $ mysql -u root -p upmsocial < db.sql
 ```sh
 $ mysqldump -u root -p upmsocial > db.sql
 ```
-# \#TODO
 ## Importar proyecto
-Crear .war y explicar como importarlo
-
+Abrir Eclipse JEE. Seleccionar `Importar` y elegir `Importar war` llamando al proyecto como `upmsocial`.
 ## Activar el servidor localhost de Tomcat desde Eclipse
+Desde Eclipse, seleccionar `Servidores` y crear un `Nuevo Servidor Tomcat v9.0` en `localhost`.
 
+Además en `Añadir recursos` hay que añadir el proyecto `upmsocial`.
+
+Una vez esté todo configurado, en el apartado `Servidores` nos aparecerá el servidor de `Tomcat v9.0 Server at localhost`, el cual debemos poner en ejecución.
 ## Ejemplos de uris y operaciones en postman
+Esta API REST se ha probado en _Postman_, ya que es la manera más sencilla de comprobar su funcionamiento.
+
+Una vez en _Postman_, debemos escribir la siguiente URI base:
+```
+http://localhost:8080/upmsocial/
+```
+y desde esta URI escribir cualquiera de las opciones mencionadas en la [memoria](/doc/Memoria-SOS.pdf).
+
+Ten en cuenta que **solo estarán disponibles las URI y los métodos que indicamos en la memoria**.
+### Nota:
+Los JSON que se deseen emplear en las operaciones, tienen que seguir el formato que se muestra en las imágenes de la memoria.
+## Ejecución del cliente
+Para ejecutar el cliente, desde Eclipse debemos ejecutar el archivo (como aplicación de Java) `src/cliente/Main`.
+
+Una vez ejecutado, podemos probar las distintas opciones, añadiendo los datos valores que deseemos.
 ## Memoria del proyecto
-Crear la memoria en pdf y enlazar
+La [memoria](/doc/Memoria-SOS.pdf) incluye capturas de todas las operaciones disponibles, así como el formato de los JSON en las operaciones PUT y POST. Se recomienda echarle un vistazo antes de probar la API en _Postman_.
 ## Licencia
 [Licencia](/LICENSE).
