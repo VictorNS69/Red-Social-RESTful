@@ -89,7 +89,7 @@ public interface OperacionesAPI {
 	 * @param cuerpo: cuerpo del mensaje
 	 * @return
 	 */
-	public Response responseEditarMensajeMuro(String idU, String idM, String cuerpo);
+	public Response responseEditarMensajeMuro(String idU, String idM, MensajeMuro msj);
 	
 	public Response responseBorrarMensajeMuro(String idM, String idU);
 	

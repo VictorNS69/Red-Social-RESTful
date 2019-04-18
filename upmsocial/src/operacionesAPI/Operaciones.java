@@ -322,17 +322,10 @@ public class Operaciones implements OperacionesAPI{
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response responseEditarMensajeMuro(@PathParam("idU") String idU, 
-			@PathParam("idM") String idM, String cuerpo) {
+			@PathParam("idM") String idM, MensajeMuro msj) {
 		OperacionesB ops = new OperacionesB();
-		// Removed all JSON stuff we don't want
-		cuerpo = cuerpo.replace("{","").replace("}", "").
-				replace("\"cuerpo\":", "").replaceAll("\t", "")
-				.replaceAll("\b", "");
-		// Remove the first 2 blanks and the double quote (")
-		cuerpo = cuerpo.substring(3, cuerpo.length()-2);
-		String format = "{\"cuerpo\":  \""+ cuerpo + "\" }";
 		try {
-			ops.editarMensajeMuro(idU, idM, cuerpo);
+			ops.editarMensajeMuro(idU, idM, msj.getCuerpo());
 		} catch (SQLException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
 					entity(INTERNAL_SERVER_ERROR).build();
@@ -341,7 +334,10 @@ public class Operaciones implements OperacionesAPI{
 					entity(NOT_FOUND_ERROR).build();
 		}
 		String location = uriInfo.getAbsolutePath().toString();
-		String json = format.replace("}", ", \"location\": \"" + location + "\"}");
+		msj.setId(Integer.valueOf(idM));
+		msj.setIdUsuario(Integer.valueOf(idU));
+		String json = (new Gson().toJson(msj));
+		json = json.replace("}", ", \"location\": \"" + location + "\"}");
 		return Response.status(Response.Status.OK).entity(json).build();		
 	}
 	
