@@ -17,7 +17,6 @@ import java.util.Scanner;
 
 
 public class Main {
-
 	private static WebTarget target;
 		
 	private static URI getBaseURI() {
@@ -469,13 +468,13 @@ public class Main {
 						enviarMensaje();
 						break;
 					case 16:
-						mensajePrivado();// TODO: test
+						mensajePrivado();
 						break;						
 					case 17:
 						muroAmigos();
 						break;
 					case 18:
-						infoMovil(); //TODO: test
+						infoMovil();
 						break;
 					case 19:
 						System.out.println("Saliendo.");
