@@ -187,14 +187,21 @@ public class Operaciones implements InterfazOperacionesC{
 
 	@Override
 	public Response enviarMensaje(int idO, int idD, String msg) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println(target.path("usuarios/" + idO + "/mensajes"));
+		System.out.println(POST);
+		String format = "{\"idDestino\":" + idD + ", \"cuerpo\":  \""+ msg + "\" }";
+		return target.path("usuarios/" + idO + "/mensajes")
+				.request().accept(MediaType.APPLICATION_JSON)
+				.post(Entity.json(format));
 	}
 
 	@Override
 	public Response mensajePrivado(int idU, int idM) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println(target.path("usuarios/" + idU + "/mensajes/" + idM));
+		System.out.println(GET);
+		return target.path("usuarios/" + idU + "/mensajes/" + idM)
+				.request().accept(MediaType.APPLICATION_JSON)
+				.get(Response.class);
 	}
 
 	@Override
@@ -207,6 +214,15 @@ public class Operaciones implements InterfazOperacionesC{
 		System.out.println(GET);
 		return target.path("usuarios/" + id + "/muro_amigos")
 				.queryParam("filterBy", filter)
+				.request().accept(MediaType.APPLICATION_JSON)
+				.get(Response.class);
+	}
+
+	@Override
+	public Response infoMovil(int id) {
+		System.out.println(target.path("usuarios/" + id + "/info_movil"));
+		System.out.println(GET);
+		return target.path("usuarios/" + id + "/info_movil")
 				.request().accept(MediaType.APPLICATION_JSON)
 				.get(Response.class);
 	}

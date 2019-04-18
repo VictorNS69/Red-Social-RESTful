@@ -118,4 +118,11 @@ public interface InterfazOperacionesC {
 	 * @return Response
 	 */
 	public Response muroAmigos(int id);
+	
+	/** Obtiene la información para una app movil
+	 * de un usuario
+	 * @param id: id del usuario
+	 * @return Response
+	 */
+	public Response infoMovil(int id);
 }

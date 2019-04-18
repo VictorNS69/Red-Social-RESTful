@@ -344,6 +344,43 @@ public class Main {
         r.close();
 	}
 	
+	/** Prepare the data to call Operaciones.mensajePrivado
+	 */
+	@SuppressWarnings("resource")
+	private static void mensajePrivado() {
+		Response r;
+		String valor = "";
+		InterfazOperacionesC ops = new Operaciones(target);
+		System.out.println("Escribe el id del usuario.");
+		Scanner in9 = new Scanner(System.in);
+		int idU = in9.nextInt();
+		System.out.println("Escribe el id del mensaje.");
+		Scanner in = new Scanner(System.in);
+		int idM = in.nextInt();
+		r = ops.mensajePrivado(idU, idM);
+		System.out.println("Estado: " + r.getStatus());
+        valor = r.readEntity(String.class);
+        System.out.println("Entidad: " + valor);
+        r.close();
+	}
+	
+	/** Prepare the data to call Operaciones.infoMovil
+	 */
+	@SuppressWarnings("resource")
+	private static void infoMovil() {
+		Response r;
+		String valor = "";
+		InterfazOperacionesC ops = new Operaciones(target);
+		Scanner in3 = new Scanner(System.in);
+		System.out.println("Escribe un id.");
+		int id = in3.nextInt();
+		r = ops.infoMovil(id);
+		System.out.println("Estado: " + r.getStatus());
+        valor = r.readEntity(String.class);
+        System.out.println("Entidad: " + valor);
+		r.close();
+	}
+	
 	/** Main program (executable).
 	 * The program depends on the option you chose. 
 	 * It can test all the functionalities from our API REST
@@ -380,12 +417,11 @@ public class Main {
 			System.out.println("\t15- Enviar un mensaje privado.");
 			System.out.println("\t16- Obtener un mensaje privado concreto.");
 			System.out.println("\t17- Ver muro de amigos de un usuario.");
-			// TODO: 20- la función de info para el movil
+			System.out.println("\t18- Información para el movil de un usuario.");
 			System.out.println("\t19- Salir.");
 			try {
 				Scanner in = new Scanner(System.in);
 				option = in.nextInt();
-				
 				switch (option) {
 					case 1:
 						listaUsuarios();
@@ -424,20 +460,24 @@ public class Main {
 						editarMensajeMuro();
 						break;
 					case 13:
-						borrarMensajeMuro();// TODO: test
+						borrarMensajeMuro();
 						break;
 					case 14:
-						listaMensajes();// TODO: test
+						listaMensajes();
 						break;
 					case 15:
-						enviarMensaje();// TODO: test
+						enviarMensaje();
 						break;
-					// TODO: Continuar con las que faltan (15 y 16)
+					case 16:
+						mensajePrivado();// TODO: test
+						break;						
 					case 17:
 						muroAmigos();
 						break;
-					// TODO: Continuar con las que faltan (18 y 19)
-					case 20:
+					case 18:
+						infoMovil(); //TODO: test
+						break;
+					case 19:
 						System.out.println("Saliendo.");
 						System.exit(0);
 					default:
@@ -449,6 +489,7 @@ public class Main {
 				System.err.println("Opción introducida no válida.");
 			}
 			catch (Exception e) {
+				e.printStackTrace();
 				System.err.println("No se ha podido conectar al servidor."
 						+ "\nCompruebe el estado del servidor.");
 				System.out.println("Saliendo.");
@@ -456,5 +497,4 @@ public class Main {
 			}		
 		}
 	}
-
 }
