@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import java.util.List;
 
+import datos.InfoMovil;
 import datos.MensajeMuro;
 import datos.MensajePrivado;
 import datos.Usuario;
@@ -117,8 +118,7 @@ public interface OperacionesUsuario {
 	public boolean borrarMensajeMuro(String idM, String idU) throws SQLException;
 	public List<MensajePrivado> getMensajesPrivados(String id, String filter) throws SQLException;
 	public MensajePrivado enviarMensajePrivado(String origen, String destino, String cuerpo) throws SQLException;
-	public MensajePrivado getMensajePrivado(Usuario usuario, 
-			MensajePrivado msj);
+	public MensajePrivado getMensajePrivado(String idU, String idM) throws SQLException;
 	/** Obtiene una lista de mensajes de los amigos de un usuario
 	 * @param id: id del usuario
 	 * @param filter: filtro opcional para filtrar el cuerpo del
@@ -128,4 +128,6 @@ public interface OperacionesUsuario {
 	 */
 	public List<MensajeMuro> getMensajesMuroAmigos(String id, String filter) 
 			throws SQLException;
+	
+	public InfoMovil infoMovil(String id) throws SQLException;
 }

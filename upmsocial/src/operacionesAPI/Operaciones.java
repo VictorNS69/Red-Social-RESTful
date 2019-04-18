@@ -24,6 +24,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.google.gson.Gson;
 
+import datos.InfoMovil;
 import datos.MensajeMuro;
 import datos.MensajePrivado;
 import datos.Usuario;
@@ -414,10 +415,25 @@ public class Operaciones implements OperacionesAPI{
 				header("Content-Location", location).build();
 	}
 
+	@Path("/usuarios/{idU}/mensajes/{idM}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public MensajePrivado responseGetMensajePrivado(Usuario usuario, MensajePrivado msj) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response responseGetMensajePrivado(@PathParam("idU") String idU,@PathParam("idM") String idM) {
+		MensajePrivado msj;
+		OperacionesB ops = new OperacionesB();
+		try {
+			msj = ops.getMensajePrivado(idU, idM);
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		}catch (NotFoundException e) {
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		}
+		String json = new Gson().toJson(msj);
+		return Response.status(Response.Status.OK).
+				entity(json.toString()).build();
 	}
 
 	@Path("/usuarios/{id}/muro_amigos")
@@ -450,5 +466,25 @@ public class Operaciones implements OperacionesAPI{
 			return Response.status(Response.Status.OK).
 					entity(json.toString()).build();
 		}
+	}
+
+	@GET
+	@Path("usuarios/{id}/info_movil")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Override
+	public Response responseInfoMovil(@PathParam("id") String id) {
+		OperacionesB ops = new OperacionesB();
+		InfoMovil info;
+		try {
+			info = ops.infoMovil(id);
+		} catch (NotFoundException e) {
+			return Response.status(Response.Status.NOT_FOUND).
+					entity(NOT_FOUND_ERROR).build();
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+					entity(INTERNAL_SERVER_ERROR).build();
+		}
+		String json = (new Gson().toJson(info));
+		return Response.status(Response.Status.OK).entity(json).build();	
 	}
 }

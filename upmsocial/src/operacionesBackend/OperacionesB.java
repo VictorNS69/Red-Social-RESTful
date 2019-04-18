@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ws.rs.NotFoundException;
 
 import bd.Conexion;
+import datos.InfoMovil;
 import datos.MensajeMuro;
 import datos.MensajePrivado;
 import datos.Usuario;
@@ -401,10 +402,17 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 	@Override
-	public MensajePrivado getMensajePrivado(Usuario usuario, 
-			MensajePrivado msj) {
-		// TODO Auto-generated method stub
-		return null;
+	public MensajePrivado getMensajePrivado(String idU, String idM) throws SQLException {
+		Conexion conn = new Conexion();
+		String query = "SELECT * FROM Mensajes_privados WHERE ID='" + idM + "' AND ID_ORIGEN='" + idU + "';";
+		Statement st = conn.getConn().createStatement();
+		ResultSet rs = st.executeQuery(query);
+		if (!rs.next())
+			throw new NotFoundException();
+		
+		return new MensajePrivado(rs.getInt("ID"), 
+					rs.getInt("ID_ORIGEN"), rs.getInt("ID_DESTINO"), rs.getString("CUERPO_MENSAJE"), 
+					rs.getDate("FECHA"));
 	}
 
 	@Override
@@ -428,4 +436,50 @@ public class OperacionesB implements OperacionesUsuario{
 		return lista;
 	}
 
+	@Override
+	public InfoMovil infoMovil(String id) throws SQLException {
+		Conexion conn = new Conexion();
+		Statement st;
+		InfoMovil info;
+		List <MensajeMuro> ultimosMsj = new ArrayList <MensajeMuro>();
+		String queryUsuario = "SELECT * FROM Usuarios WHERE ID =" + id + ";";
+		st = conn.getConn().createStatement();
+		ResultSet infoUsuario = st.executeQuery(queryUsuario);
+		String queryAmigos = "SELECT COUNT(*) AS 'amigos' FROM Relaciones_amistad WHERE ID_AMIGO1="+ id + " OR ID_AMIGO2=" + id + ";";
+		st = conn.getConn().createStatement();
+		ResultSet infoAmigos = st.executeQuery(queryAmigos);
+		String queryMensajes = "SELECT * FROM Mensajes_muro JOIN Relaciones_amistad\n" + 
+				"ON ((Mensajes_muro.ID_USUARIO=Relaciones_amistad.ID_AMIGO1\n" + 
+				"OR Mensajes_muro.ID_USUARIO=Relaciones_amistad.ID_AMIGO2)\n" + 
+				"AND Mensajes_muro.ID_USUARIO!=6)\n" + 
+				"WHERE ID_AMIGO1=" + id + " OR ID_AMIGO2=" + id + " \n" + 
+				"ORDER BY FECHA DESC LIMIT 10;";
+		st = conn.getConn().createStatement();
+		ResultSet infoMensajes = st.executeQuery(queryMensajes);
+		while(infoMensajes.next()) {
+			MensajeMuro msj = new MensajeMuro(infoMensajes.getInt("ID"), 
+					infoMensajes.getInt("ID_USUARIO"), infoMensajes.getString("CUERPO_MENSAJE"), 
+					infoMensajes.getDate("FECHA"));
+			ultimosMsj.add(msj);
+		}
+		if (infoUsuario.next() && infoAmigos.next()) {
+			info = new InfoMovil(infoUsuario.getString("NOMBRE"), 
+					infoUsuario.getString("APELLIDO1"), infoUsuario.getString("APELLIDO2"),
+					infoUsuario.getInt("TELEFONO"), infoUsuario.getString("EMAIL"),
+					infoUsuario.getString("PAIS"), infoAmigos.getInt("amigos"), ultimosMsj);
+		} else throw new NotFoundException();
+		
+		return info;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+

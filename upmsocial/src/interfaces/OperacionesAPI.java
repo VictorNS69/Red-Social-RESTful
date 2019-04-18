@@ -97,9 +97,7 @@ public interface OperacionesAPI {
 	
 	public Response responseEnviarMensajePrivado(String origen, MensajePrivado msj);
 	
-	public MensajePrivado responseGetMensajePrivado(Usuario usuario, 
-			MensajePrivado msj);
-	
+	public Response responseGetMensajePrivado(String idU, String idM);
 	/** Devuelve la información de un usuario
 	 * @param idU: id del usuario
 	 * @return Response
@@ -114,4 +112,5 @@ public interface OperacionesAPI {
 	 */
 	public Response responseGetMensajesMuroAmigos(String id, String filterBy);
 
+	public Response responseInfoMovil(String id);
 }
