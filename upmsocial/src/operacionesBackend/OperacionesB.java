@@ -483,13 +483,3 @@ public class OperacionesB implements OperacionesUsuario{
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
