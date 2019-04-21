@@ -36,6 +36,8 @@ Herramientas:
 Librerias:
 - Jersey 
 - MySQL
+- Gson
+- Naming common
 
 Todas las librerías usadas en este proyecto se encuentran [aquí](/upmsocial/WebContent/WEB-INF/lib).
 ## Como importar y exportar la base de datos
