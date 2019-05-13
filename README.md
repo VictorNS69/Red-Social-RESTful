@@ -21,7 +21,7 @@ En este servicio los usuarios publican mensajes en su página personal y pueden 
 ## Autores
 [Víctor Nieves Sánchez](https://twitter.com/VictorNS69)
 
-Daniel Morgera Pérez
+[Daniel Morgera Pérez](https://github.com/dmorgera)
 
 ## Enunciado
 Para ver el enunciado de la práctica pincha [aquí](/doc/Practica-RESTful-2019-enunciado.pdf).
